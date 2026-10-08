@@ -31,3 +31,6 @@ tools/.venv/
 test-results/
 playwright-report/
 .lighthouseci/
+
+# per-agent build outputs
+dist-*/
