@@ -1,43 +1,50 @@
-# Astro Starter Kit: Minimal
+# Peco Silencers website (demo)
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Redesign of [pecoindustrial.co.uk](https://pecoindustrial.co.uk) for Peco Silencers Ltd, a UK manufacturer of industrial exhaust, spark arrestor and intake silencers. Built as a static site so every page leads to a quote and product specs are real HTML, not images.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+**Status:** Milestone 1 demo. Product size tables, category grouping and legal text are awaiting client confirmation (see `docs/client-questions.md`). Not yet live.
 
-## 🚀 Project Structure
+## Stack
 
-Inside of your Astro project, you'll see the following folders and files:
+- [Astro 7](https://docs.astro.build) (static output), Tailwind CSS 4, IBM Plex Sans via the Astro Fonts API
+- Content collections: products (JSON), size tables (CSV validated at build), categories, projects, legal pages
+- Hosting target: Cloudflare Pages (`public/_redirects`, generated `dist/_headers`)
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Commands
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+| Command                                     | Action                                                                                          |
+| ------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `npm install`                               | Install dependencies (then `npm approve-scripts workerd` for wrangler)                          |
+| `npm run dev`                               | Dev server at `localhost:4321`                                                                  |
+| `npm run build`                             | Build to `dist/` and write `dist/_headers`                                                      |
+| `npm run preview`                           | Preview the build                                                                               |
+| `npm run check`                             | Astro and TypeScript checks                                                                     |
+| `npm run test`                              | Unit tests (`node --test`)                                                                      |
+| `npm run verify:data`                       | Sanity-check product data and size tables                                                       |
+| `npm run verify:dist`                       | Check built pages (phone link, quote CTA, one H1, alt text, banned strings) and colour contrast |
+| `npm run e2e`                               | Playwright + axe accessibility tests                                                            |
+| `npm run verify`                            | All of the above except e2e                                                                     |
+| `node scripts/check-redirects.mjs --static` | Validate the old-URL redirect map                                                               |
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Builds without `LAUNCH=1` are staging: `noindex` headers and visible `TODO(client)` markers. Set `LAUNCH=1` only in the production environment.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Editing content
 
-## 🧞 Commands
+- Phone, email, address and the quote link: `src/config.yaml`
+- Navigation: `src/navigation.ts`
+- Products: `src/content/products/*.json`
+- Size tables: `src/content/sizes/*.csv`. Edit in a text editor, never save from Excel (it turns fractions into dates; the build will fail).
 
-All commands are run from the root of the project, from a terminal:
+## Docs
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- `docs/handover.md`: original audit and brief
+- `docs/plan.md`: approved implementation plan and ADR
+- `docs/decisions.md`: verified platform facts
+- `docs/client-questions.md`: open questions for Peco
+- `docs/old-urls.csv`: old URL inventory and redirect decisions
 
-## 👀 Want to learn more?
+## Credits
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Component patterns adapted from [AstroWind](https://github.com/onwidget/astrowind) (MIT). Form and cookie patterns follow the [GOV.UK Design System](https://design-system.service.gov.uk/). See `CREDITS.md`.
+
+Product data, copy and images belong to Peco Silencers Ltd.
