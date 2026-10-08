@@ -70,13 +70,14 @@ const updated = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long', timeZone: 
   .legal-prose blockquote {
     @apply border-l-4 border-steel-300 pl-4 text-steel-700;
   }
-  /* Tables scroll inside their own box, never the page. */
+  /* Legal tables are short (2-3 columns), so cells wrap to fit 320px instead
+     of scrolling; a scroll box would need to be keyboard-focusable. */
   .legal-prose table {
-    @apply block max-w-full overflow-x-auto border-collapse text-left text-sm;
+    @apply w-full table-fixed border-collapse text-left text-sm;
   }
   .legal-prose th,
   .legal-prose td {
-    @apply min-w-32 border border-steel-200 px-3 py-2 align-top;
+    @apply border border-steel-200 px-3 py-2 align-top wrap-anywhere;
   }
   .legal-prose th {
     @apply bg-paper-2 font-semibold text-ink;
