@@ -4,6 +4,8 @@
 import { METADATA, SITE } from '../../lib/config';
 import { cleanPath } from '../../navigation';
 
+const DEFAULT_OG_IMAGE = '/og-default.jpg';
+
 export interface MetaProps {
   /** Page title without the site suffix. Omit on the home page to use the default title. */
   title?: string;
@@ -21,7 +23,8 @@ const { title, description = METADATA.description, robots = {}, ogImage, ogType 
 const fullTitle = title ? METADATA.title.template.replace('%s', title) : METADATA.title.default;
 const canonical = new URL(cleanPath(Astro.url.pathname), SITE.site).href;
 const robotsContent = `${robots.index === false ? 'noindex' : 'index'},${robots.follow === false ? 'nofollow' : 'follow'}`;
-const ogImageUrl = ogImage ? new URL(ogImage, SITE.site).href : undefined;
+// Dimensions are only known for the default image (public/og-default.jpg).
+const ogImageUrl = new URL(ogImage ?? DEFAULT_OG_IMAGE, SITE.site).href;
 ---
 
 <title>{fullTitle}</title>
@@ -35,5 +38,10 @@ const ogImageUrl = ogImage ? new URL(ogImage, SITE.site).href : undefined;
 <meta property="og:type" content={ogType} />
 <meta property="og:site_name" content={METADATA.openGraph.site_name} />
 <meta property="og:locale" content={METADATA.openGraph.locale} />
-{ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
-<meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />
+<meta property="og:image" content={ogImageUrl} />
+{!ogImage && <meta property="og:image:width" content="1200" />}
+{!ogImage && <meta property="og:image:height" content="630" />}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />

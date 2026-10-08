@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.pecoindustrial.co.uk/sitemap-index.xml

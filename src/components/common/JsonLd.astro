@@ -1,0 +1,13 @@
+---
+// Renders one <script type="application/ld+json">. "</" is escaped so the
+// JSON cannot break out of the script element.
+import { serializeJsonLd } from '../../lib/jsonld';
+
+export interface Props {
+  data: object | object[];
+}
+
+const { data } = Astro.props;
+---
+
+<script type="application/ld+json" set:html={serializeJsonLd(data)} />

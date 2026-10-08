@@ -5,6 +5,8 @@ import { Font } from 'astro:assets';
 import '../styles/global.css';
 import Metadata from '../components/common/Metadata.astro';
 import type { MetaProps } from '../components/common/Metadata.astro';
+import JsonLd from '../components/common/JsonLd.astro';
+import { localBusinessLd, organizationLd } from '../lib/jsonld';
 
 export interface Props extends MetaProps {}
 
@@ -23,7 +25,8 @@ const props = Astro.props;
     <meta name="theme-color" content="#1a1d21" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="generator" content={Astro.generator} />
-    <!-- JSON-LD and other per-page head content (T5c) -->
+    <JsonLd data={[organizationLd(), localBusinessLd()]} />
+    <!-- Per-page JSON-LD (breadcrumbs, product) and other head content -->
     <slot name="head" />
   </head>
   <body class="bg-paper text-ink antialiased">
