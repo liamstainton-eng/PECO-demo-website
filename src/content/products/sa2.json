@@ -1,0 +1,29 @@
+{
+  "model": "SA2",
+  "name": "SA2 Spark Arrestor Silencer",
+  "category": "spark-arrestors",
+  "datasheetTitle": null,
+  "attenuationDbA": 24,
+  "attenuationSource": "page-copy",
+  "type": "Reactive spark arrestor",
+  "summary": "Spark arrestor silencer for internal combustion engine exhausts in areas of high fire risk.",
+  "description": [
+    "The SA spark arrestor design is also an effective 'industrial grade' silencer suitable for most applications. The silencers are generally used by operators both onshore and offshore as well as for marine installations. The SA range of spark arrestor silencers are based on a two chamber three stage cyclonic/centrifugal design giving optimum spark and attenuation. Both models incorporate a double skinned case construction in the first chamber with preformed end plates for minimum internal resonance. Both models are fitted with a collector box and clean out hand holes. Suitable for use in internal combustion engine exhausts in areas of high fire risk. The silencers can be fitted vertically or horizontally and can be positioned anywhere in the exhaust run. The SA spark arrestor silencer range are of fully welded design, constructed in carbon steel, finished with one coat heat resistant black paint to ensure a long service life. All units are fitted with drain points to remove exhaust condensate."
+  ],
+  "options": [],
+  "columns": null,
+  "tableNotes": [
+    "Options: TODO(client)",
+    "TODO(client): SA2 size table. No SA2 datasheet was published on the old site."
+  ],
+  "sizes": null,
+  "sizesStatus": "none",
+  "verification": null,
+  "related": [
+    "sa1"
+  ],
+  "seo": {
+    "title": "SA2 spark arrestor silencer, 24 dB(A)",
+    "description": "SA2 spark arrestor silencer, 24 dB(A), for engine exhausts in areas of high fire risk, onshore, offshore and marine. Ask Peco for sizes."
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "model": "SEA",
+  "name": "SEA Exhaust Gas Silencer",
+  "category": "residential",
+  "datasheetTitle": "SEA EXHAUST GAS SILENCER",
+  "attenuationDbA": 24,
+  "attenuationSource": "page-copy",
+  "type": "Reactive/absorptive",
+  "summary": "Compact reactive/absorptive exhaust silencer for medium-speed diesel and petrol driven engines.",
+  "description": [
+    "The SEA series silencer is a compact reactive/absorptive design silencer suitable for medium-speed diesel and petrol driven engines. The SEA range of silencers are suitable for dry marine applications as well as for standby generator sets and mobile applications. Based on a triple chamber design with low frequency noise being reduced in the first two chambers and the high frequency noise attenuated in the final absorption section. The SEA reactive absorptive range of silencers are of all welded design, constructed in carbon steel, finished with one coat heat resistant black paint to ensure a long service life."
+  ],
+  "options": [
+    "BS10 Table ‘D’ flanges fitted as standard",
+    "Alternative flange patterns available on request",
+    "B.S.P. connections available on smaller sizes",
+    "Radial / axial inlet",
+    "Radial / axial outlet",
+    "Heat resisting aluminium or black paint",
+    "Shot blast and aluminium metal sprayed",
+    "Stainless steels",
+    "Support feet and brackets",
+    "Lifting lugs",
+    "Drain plugs",
+    "Catalytic converters"
+  ],
+  "drawing": "../../assets/images/legacy/PECO-SEA-.png",
+  "drawingAlt": "SEA exhaust gas silencer datasheet with options list, dimension drawings and size table",
+  "columns": [
+    {
+      "key": "A",
+      "label": "A",
+      "kind": "pair"
+    },
+    {
+      "key": "B",
+      "label": "B",
+      "kind": "pair"
+    },
+    {
+      "key": "C",
+      "label": "C",
+      "kind": "pair"
+    },
+    {
+      "key": "D",
+      "label": "D",
+      "kind": "pair"
+    },
+    {
+      "key": "G",
+      "label": "G",
+      "kind": "pair"
+    },
+    {
+      "key": "Hmin",
+      "label": "H Min",
+      "kind": "pair"
+    },
+    {
+      "key": "Hmax",
+      "label": "H Max",
+      "kind": "pair"
+    },
+    {
+      "key": "M",
+      "label": "M",
+      "kind": "pair"
+    },
+    {
+      "key": "N",
+      "label": "N",
+      "kind": "holes"
+    },
+    {
+      "key": "P",
+      "label": "P",
+      "kind": "pair"
+    },
+    {
+      "key": "R",
+      "label": "R",
+      "kind": "bolt"
+    }
+  ],
+  "figures": {
+    "1": "1–3 in screwed",
+    "2": "3½–8 in flanged"
+  },
+  "tableNotes": [
+    "Side and bottom inlets & outlets available on request.",
+    "TODO(client): confirm what the cells printed as * mean.",
+    "TODO(client): column G on the 1 in and 1¼ in sizes is printed as a fraction with a decimal second value (3/4\" 0.75, 7/8\" 0.88) instead of mm; confirm."
+  ],
+  "sizes": "sea",
+  "sizesStatus": "fixture",
+  "verification": null,
+  "related": [
+    "se30",
+    "se30-abs",
+    "se40"
+  ],
+  "seo": {
+    "title": "SEA exhaust gas silencer, 24 dB(A)",
+    "description": "SEA compact reactive/absorptive exhaust silencer, 24 dB(A), for medium-speed diesel and petrol engines. Sizes, options and quotes from Peco."
+  }
+}

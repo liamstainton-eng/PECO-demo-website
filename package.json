@@ -12,7 +12,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
-    "test": "node --test tests/unit/",
+    "test": "node --test \"tests/unit/*.test.mjs\"",
     "e2e": "playwright test",
     "verify:data": "node scripts/check-products.mjs",
     "verify:dist": "node scripts/check-dist.mjs && node scripts/check-contrast.mjs",

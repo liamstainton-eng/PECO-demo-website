@@ -1,0 +1,31 @@
+{
+  "model": "SE30 ABS",
+  "name": "SE30 ABS Silencer",
+  "category": "residential",
+  "datasheetTitle": null,
+  "attenuationDbA": null,
+  "attenuationSource": "todo",
+  "type": null,
+  "summary": "TODO(client): SE30 ABS summary",
+  "description": [
+    "TODO(client): SE30 ABS product description, attenuation and type"
+  ],
+  "options": [],
+  "columns": null,
+  "tableNotes": [
+    "Options: TODO(client)",
+    "TODO(client): SE30 ABS datasheet and size table. The old site showed the SE30 datasheet on this page."
+  ],
+  "sizes": null,
+  "sizesStatus": "none",
+  "verification": null,
+  "related": [
+    "sea",
+    "se30",
+    "se40"
+  ],
+  "seo": {
+    "title": "SE30 ABS silencer",
+    "description": "SE30 ABS exhaust silencer from Peco Silencers Ltd. Contact Peco for specifications, sizes and a quotation for your installation."
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "model": "SE40",
+  "name": "SE40 Universal Silencer",
+  "category": "residential",
+  "datasheetTitle": "SE40 UNIVERSAL SILENCER",
+  "attenuationDbA": 28,
+  "attenuationSource": "datasheet",
+  "type": null,
+  "summary": "Universal silencer rated 28 dB(A), for exhaust bores from 2 in to 20 in.",
+  "description": [
+    "The SE40 Universal Silencer is rated at 28 dB(A) attenuation and is listed on its datasheet for exhaust bores from 2 in to 20 in (51 mm to 508 mm).",
+    "TODO(client): product description"
+  ],
+  "options": [
+    "BS10 Table ‘D’ flanges fitted as standard",
+    "Alternative flange patterns available on request",
+    "B.S.P. connections available on smaller sizes",
+    "Radial / axial inlet",
+    "Radial / axial outlet",
+    "Heat resisting aluminium or black paint",
+    "Shot blast and aluminium metal sprayed",
+    "Stainless steels",
+    "Support feet and brackets",
+    "Lifting lugs",
+    "Drain plugs",
+    "Catalytic converters"
+  ],
+  "drawing": "../../assets/images/legacy/PECO_SE40-.png",
+  "drawingAlt": "SE40 universal silencer datasheet with options list, dimension drawing and size table",
+  "columns": [
+    {
+      "key": "A",
+      "label": "A",
+      "kind": "pair"
+    },
+    {
+      "key": "B",
+      "label": "B",
+      "kind": "pair"
+    },
+    {
+      "key": "C",
+      "label": "C",
+      "kind": "pair"
+    },
+    {
+      "key": "D",
+      "label": "D",
+      "kind": "pair"
+    },
+    {
+      "key": "E",
+      "label": "E",
+      "kind": "pair"
+    },
+    {
+      "key": "G",
+      "label": "G",
+      "kind": "pair"
+    },
+    {
+      "key": "Hmin",
+      "label": "H Min",
+      "kind": "pair"
+    },
+    {
+      "key": "Hmax",
+      "label": "H Max",
+      "kind": "pair"
+    }
+  ],
+  "tableNotes": [
+    "Side and bottom inlets & outlets available on request.",
+    "TODO(client): confirm what the S marker (2 in to 3 in) and the * marker (10 in to 20 in) next to the bore mean.",
+    "TODO(client): the 3 in bore is listed twice (SE 403 S and SE 403); confirm the difference."
+  ],
+  "sizes": null,
+  "sizesStatus": "pending-transcription",
+  "verification": null,
+  "related": [
+    "sea",
+    "se30",
+    "se30-abs"
+  ],
+  "seo": {
+    "title": "SE40 universal silencer, 28 dB(A)",
+    "description": "SE40 universal silencer rated 28 dB(A) for exhaust bores from 2 to 20 in (51 to 508 mm). Sizes, options and quotes from Peco Silencers."
+  }
+}
