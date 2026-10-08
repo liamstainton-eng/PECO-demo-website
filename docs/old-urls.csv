@@ -1,0 +1,254 @@
+url,action,target,source,note
+/administrator/,gone,,wayback,Joomla system/template/media/admin path
+/administrator/templates/isis/css/template.css,gone,,wayback,Joomla system/template/media/admin path
+/administrator/templates/isis/favicon.ico,gone,,wayback,Joomla system/template/media/admin path
+/administrator/templates/isis/images/joomla.png,gone,,wayback,Joomla system/template/media/admin path
+/bin/,gone,,wayback,Joomla system/template/media/admin path
+/blog,redirect,/projects,synth,synthesised: /index.php/blog without index.php (live site serves these with 200)
+/blog/92-information,redirect,/projects,synth,synthesised: /index.php/blog/92-information without index.php (live site serves these with 200)
+/blog/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,synth,synthesised: /index.php/blog/92-information/87-gdpr-privacy-policy-notice without index.php (live site serves these with 200)
+/blog/92-information/88-terms-and-conditions,redirect,/terms,synth,synthesised: /index.php/blog/92-information/88-terms-and-conditions without index.php (live site serves these with 200)
+/blog/92-information/89-cookie-policy,redirect,/cookies,synth,synthesised: /index.php/blog/92-information/89-cookie-policy without index.php (live site serves these with 200)
+/cache/,gone,,wayback,Joomla system/template/media/admin path
+/cli/,gone,,wayback,Joomla system/template/media/admin path
+/component/content/article/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,synth,synthesised: /index.php/component/content/article/92-information/87-gdpr-privacy-policy-notice without index.php (live site serves these with 200)
+/component/content/article/92-information/88-terms-and-conditions,redirect,/terms,synth,synthesised: /index.php/component/content/article/92-information/88-terms-and-conditions without index.php (live site serves these with 200)
+/component/content/article/92-information/89-cookie-policy,redirect,/cookies,synth,synthesised: /index.php/component/content/article/92-information/89-cookie-policy without index.php (live site serves these with 200)
+/components/,gone,,wayback,Joomla system/template/media/admin path
+/components/com_k2/css/k2.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/exhaust-gas-silencers,redirect,/products,synth,synthesised: menu label only on old site (no page)
+/exhaust-gas-silencers/critical-silencers,redirect,/products/critical,synth,"synthesised: category label (menu label only on old site, no page)"
+/exhaust-gas-silencers/critical-silencers/se50-critical-silencer,redirect,/products/se50,synth,synthesised: /index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer without index.php (live site serves these with 200)
+/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,synth,synthesised: /index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/92-information/87-gdpr-privacy-policy-notice without index.php (live site serves these with 200)
+/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/92-information/88-terms-and-conditions,redirect,/terms,synth,synthesised: /index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/92-information/88-terms-and-conditions without index.php (live site serves these with 200)
+/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/92-information/89-cookie-policy,redirect,/cookies,synth,synthesised: /index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/92-information/89-cookie-policy without index.php (live site serves these with 200)
+/exhaust-gas-silencers/industrial-silencers,redirect,/products/industrial,synth,"synthesised: category label (menu label only on old site, no page)"
+/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer,redirect,/products/se20,synth,synthesised: /index.php/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer without index.php (live site serves these with 200)
+/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,synth,synthesised: /index.php/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/92-information/87-gdpr-privacy-policy-notice without index.php (live site serves these with 200)
+/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/92-information/88-terms-and-conditions,redirect,/terms,synth,synthesised: /index.php/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/92-information/88-terms-and-conditions without index.php (live site serves these with 200)
+/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/92-information/89-cookie-policy,redirect,/cookies,synth,synthesised: /index.php/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/92-information/89-cookie-policy without index.php (live site serves these with 200)
+/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer,redirect,/products/sls,synth,synthesised: /index.php/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer without index.php (live site serves these with 200)
+/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,synth,synthesised: /index.php/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/92-information/87-gdpr-privacy-policy-notice without index.php (live site serves these with 200)
+/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/92-information/88-terms-and-conditions,redirect,/terms,synth,synthesised: /index.php/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/92-information/88-terms-and-conditions without index.php (live site serves these with 200)
+/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/92-information/89-cookie-policy,redirect,/cookies,synth,synthesised: /index.php/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/92-information/89-cookie-policy without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers,redirect,/products/residential,synth,"synthesised: category label (menu label only on old site, no page)"
+/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer,redirect,/products/se30-abs,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/92-information/87-gdpr-privacy-policy-notice without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/92-information/88-terms-and-conditions,redirect,/terms,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/92-information/88-terms-and-conditions without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/92-information/89-cookie-policy,redirect,/cookies,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/92-information/89-cookie-policy without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer,redirect,/products/se30,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/92-information/87-gdpr-privacy-policy-notice without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/92-information/88-terms-and-conditions,redirect,/terms,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/92-information/88-terms-and-conditions without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/92-information/89-cookie-policy,redirect,/cookies,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/92-information/89-cookie-policy without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers/se40-residential-silencer,redirect,/products/se40,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/se40-residential-silencer without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/92-information/87-gdpr-privacy-policy-notice without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/92-information/88-terms-and-conditions,redirect,/terms,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/92-information/88-terms-and-conditions without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/92-information/89-cookie-policy,redirect,/cookies,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/92-information/89-cookie-policy without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer,redirect,/products/sea,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/92-information/87-gdpr-privacy-policy-notice without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/92-information/88-terms-and-conditions,redirect,/terms,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/92-information/88-terms-and-conditions without index.php (live site serves these with 200)
+/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/92-information/89-cookie-policy,redirect,/cookies,synth,synthesised: /index.php/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/92-information/89-cookie-policy without index.php (live site serves these with 200)
+/exhaust-gas-silencers/spark-arrestors,redirect,/products/spark-arrestors,synth,"synthesised: category label (menu label only on old site, no page)"
+/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer,redirect,/products/sa1,synth,synthesised: /index.php/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer without index.php (live site serves these with 200)
+/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,synth,synthesised: /index.php/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/92-information/87-gdpr-privacy-policy-notice without index.php (live site serves these with 200)
+/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/92-information/88-terms-and-conditions,redirect,/terms,synth,synthesised: /index.php/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/92-information/88-terms-and-conditions without index.php (live site serves these with 200)
+/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/92-information/89-cookie-policy,redirect,/cookies,synth,synthesised: /index.php/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/92-information/89-cookie-policy without index.php (live site serves these with 200)
+/images/gallery/37.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/4.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/90.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/91.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/port1.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/port2.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/port3.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/port5.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/port6.jpeg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/port7.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/port8.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/q7.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/s1.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/s2.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/s5.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/silencer4.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/silencer5.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/gallery/silencer7.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/hero1.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/hero2_1.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/hero3.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/peco_blk_.png,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/peco_blk_small.png,gone,,wayback,Other image/media; not carried over
+/images/Peco_SA1_SPARK_ARRESOR.png,redirect,/products/sa1,crawl-asset+wayback,SA1 datasheet image (original filename misspelt)
+/images/PECO-SEA-.png,redirect,/products/sea,crawl-asset+wayback,SEA datasheet image
+/images/PECO%20SE20-.png,redirect,/products/se20,crawl-asset+wayback,SE20 datasheet image
+/images/PECO%20SE30-.png,redirect,/products/se30,crawl-asset+wayback,SE30 datasheet image
+/images/PECO%20SE40-.png,redirect,/products/se40,crawl-asset+wayback,SE40 datasheet image
+/images/PECO%20SE50-.png,redirect,/products/se50,crawl-asset+wayback,SE50 datasheet image
+/images/PECO%20SLS-.png,redirect,/products/sls,crawl-asset+wayback,SLS datasheet image
+/images/silencer000.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/images/slide1122.jpg,gone,,crawl-asset+wayback,Other image/media; not carried over
+/includes/,gone,,wayback,Joomla system/template/media/admin path
+/index.php,redirect,/,crawl+crawl-ref+wayback,index.php homepage alias
+/index.php/,redirect,/,synth,synthesised: trailing-slash twin of /index.php
+/index.php/about,redirect,/about,crawl+crawl-ref+wayback,
+/index.php/about/,redirect,/about,synth,synthesised: trailing-slash twin of /index.php/about
+/index.php/blog,redirect,/projects,crawl+crawl-ref+wayback,Blog was empty; projects is the closest new page
+/index.php/blog?format=feed&type=atom,redirect,/projects,crawl-ref,query ?format=feed&type=atom ignored by _redirects; follows the path rule; Blog was empty; projects is the closest new page
+/index.php/blog?format=feed&type=rss,redirect,/projects,crawl-ref,query ?format=feed&type=rss ignored by _redirects; follows the path rule; Blog was empty; projects is the closest new page
+/index.php/blog/,redirect,/projects,synth,synthesised: trailing-slash twin of /index.php/blog
+/index.php/blog/92-information,redirect,/projects,crawl+crawl-ref,Blog was empty; projects is the closest new page
+/index.php/blog/92-information?format=feed&type=atom,redirect,/projects,crawl-ref,query ?format=feed&type=atom ignored by _redirects; follows the path rule; Blog was empty; projects is the closest new page
+/index.php/blog/92-information?format=feed&type=rss,redirect,/projects,crawl-ref,query ?format=feed&type=rss ignored by _redirects; follows the path rule; Blog was empty; projects is the closest new page
+/index.php/blog/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/blog/92-information/88-terms-and-conditions,redirect,/terms,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/blog/92-information/89-cookie-policy,redirect,/cookies,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/component/content/article/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,crawl-ref+wayback,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/component/content/article/92-information/87-gdpr-privacy-policy-notice?Itemid=437,redirect,/privacy,crawl+wayback,query ?Itemid=437 ignored by _redirects; follows the path rule; Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/component/content/article/92-information/88-terms-and-conditions,redirect,/terms,crawl-ref+wayback,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/component/content/article/92-information/88-terms-and-conditions?Itemid=437,redirect,/terms,crawl+wayback,query ?Itemid=437 ignored by _redirects; follows the path rule; Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/component/content/article/92-information/89-cookie-policy,redirect,/cookies,crawl-ref+wayback,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/component/content/article/92-information/89-cookie-policy?Itemid=437,redirect,/cookies,crawl+wayback,query ?Itemid=437 ignored by _redirects; follows the path rule; Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/component/search/,gone,,wayback,Joomla component/search URL
+/index.php/component/search/?format=opensearch&id=87:gdpr-privacy-policy-notice,gone,,crawl-ref,query ?format=opensearch&id=87:gdpr-privacy-policy-notice ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?format=opensearch&id=88:terms-and-conditions,gone,,crawl-ref,query ?format=opensearch&id=88:terms-and-conditions ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?format=opensearch&id=89:cookie-policy,gone,,crawl-ref,query ?format=opensearch&id=89:cookie-policy ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=278&catid=92&format=opensearch&id=87,gone,,crawl-ref,query ?Itemid=278&catid=92&format=opensearch&id=87 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=278&catid=92&format=opensearch&id=88,gone,,crawl-ref,query ?Itemid=278&catid=92&format=opensearch&id=88 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=278&catid=92&format=opensearch&id=89,gone,,crawl-ref,query ?Itemid=278&catid=92&format=opensearch&id=89 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=278&format=opensearch,gone,,crawl-ref,query ?Itemid=278&format=opensearch ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=278&format=opensearch&id=92,gone,,crawl-ref,query ?Itemid=278&format=opensearch&id=92 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=437&format=opensearch&id=1,gone,,crawl-ref+wayback,query ?Itemid=437&format=opensearch&id=1 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=604&catid=92&format=opensearch&id=87,gone,,crawl-ref,query ?Itemid=604&catid=92&format=opensearch&id=87 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=604&catid=92&format=opensearch&id=88,gone,,crawl-ref,query ?Itemid=604&catid=92&format=opensearch&id=88 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=604&catid=92&format=opensearch&id=89,gone,,crawl-ref,query ?Itemid=604&catid=92&format=opensearch&id=89 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=604&format=opensearch,gone,,crawl-ref,query ?Itemid=604&format=opensearch ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=605&catid=92&format=opensearch&id=87,gone,,crawl-ref,query ?Itemid=605&catid=92&format=opensearch&id=87 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=605&catid=92&format=opensearch&id=88,gone,,crawl-ref,query ?Itemid=605&catid=92&format=opensearch&id=88 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=605&catid=92&format=opensearch&id=89,gone,,crawl-ref,query ?Itemid=605&catid=92&format=opensearch&id=89 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=605&format=opensearch,gone,,crawl-ref,query ?Itemid=605&format=opensearch ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=610&catid=92&format=opensearch&id=87,gone,,crawl-ref,query ?Itemid=610&catid=92&format=opensearch&id=87 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=610&catid=92&format=opensearch&id=88,gone,,crawl-ref,query ?Itemid=610&catid=92&format=opensearch&id=88 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=610&catid=92&format=opensearch&id=89,gone,,crawl-ref,query ?Itemid=610&catid=92&format=opensearch&id=89 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=610&format=opensearch,gone,,crawl-ref,query ?Itemid=610&format=opensearch ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=611&catid=92&format=opensearch&id=87,gone,,crawl-ref,query ?Itemid=611&catid=92&format=opensearch&id=87 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=611&catid=92&format=opensearch&id=88,gone,,crawl-ref,query ?Itemid=611&catid=92&format=opensearch&id=88 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=611&catid=92&format=opensearch&id=89,gone,,crawl-ref,query ?Itemid=611&catid=92&format=opensearch&id=89 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=611&format=opensearch,gone,,crawl-ref,query ?Itemid=611&format=opensearch ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=612&catid=92&format=opensearch&id=87,gone,,crawl-ref,query ?Itemid=612&catid=92&format=opensearch&id=87 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=612&catid=92&format=opensearch&id=88,gone,,crawl-ref,query ?Itemid=612&catid=92&format=opensearch&id=88 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=612&catid=92&format=opensearch&id=89,gone,,crawl-ref,query ?Itemid=612&catid=92&format=opensearch&id=89 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=612&format=opensearch,gone,,crawl-ref,query ?Itemid=612&format=opensearch ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=613&catid=92&format=opensearch&id=87,gone,,crawl-ref,query ?Itemid=613&catid=92&format=opensearch&id=87 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=613&catid=92&format=opensearch&id=88,gone,,crawl-ref,query ?Itemid=613&catid=92&format=opensearch&id=88 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=613&catid=92&format=opensearch&id=89,gone,,crawl-ref,query ?Itemid=613&catid=92&format=opensearch&id=89 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=613&format=opensearch,gone,,crawl-ref,query ?Itemid=613&format=opensearch ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=614&catid=92&format=opensearch&id=87,gone,,crawl-ref,query ?Itemid=614&catid=92&format=opensearch&id=87 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=614&catid=92&format=opensearch&id=88,gone,,crawl-ref,query ?Itemid=614&catid=92&format=opensearch&id=88 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=614&catid=92&format=opensearch&id=89,gone,,crawl-ref,query ?Itemid=614&catid=92&format=opensearch&id=89 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=614&format=opensearch,gone,,crawl-ref,query ?Itemid=614&format=opensearch ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=615&catid=92&format=opensearch&id=87,gone,,crawl-ref,query ?Itemid=615&catid=92&format=opensearch&id=87 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=615&catid=92&format=opensearch&id=88,gone,,crawl-ref,query ?Itemid=615&catid=92&format=opensearch&id=88 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=615&catid=92&format=opensearch&id=89,gone,,crawl-ref,query ?Itemid=615&catid=92&format=opensearch&id=89 ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=615&format=opensearch,gone,,crawl-ref,query ?Itemid=615&format=opensearch ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=620&format=opensearch,gone,,crawl-ref,query ?Itemid=620&format=opensearch ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/component/search/?Itemid=621&format=opensearch,gone,,crawl-ref,query ?Itemid=621&format=opensearch ignored by _redirects; follows the path rule; Joomla component/search URL
+/index.php/contact,redirect,/contact,crawl+crawl-ref+wayback,
+/index.php/contact/,redirect,/contact,synth,synthesised: trailing-slash twin of /index.php/contact
+/index.php/exhaust-gas-silencers,redirect,/products,synth,synthesised: menu label only on old site (no page)
+/index.php/exhaust-gas-silencers/critical-silencers,redirect,/products/critical,synth,"synthesised: category label (menu label only on old site, no page)"
+/index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer,redirect,/products/se50,crawl+crawl-ref+wayback,category-path variant (critical-silencers)
+/index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/,redirect,/products/se50,synth,synthesised: trailing-slash twin of /index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer
+/index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/92-information/88-terms-and-conditions,redirect,/terms,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/92-information/89-cookie-policy,redirect,/cookies,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/industrial-silencers,redirect,/products/industrial,synth,"synthesised: category label (menu label only on old site, no page)"
+/index.php/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer,redirect,/products/se20,crawl+crawl-ref+wayback,category-path variant (industrial-silencers)
+/index.php/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/,redirect,/products/se20,synth,synthesised: trailing-slash twin of /index.php/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer
+/index.php/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/92-information/88-terms-and-conditions,redirect,/terms,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/92-information/89-cookie-policy,redirect,/cookies,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer,redirect,/products/sls,crawl+crawl-ref+wayback,category-path variant (industrial-silencers)
+/index.php/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/,redirect,/products/sls,synth,synthesised: trailing-slash twin of /index.php/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer
+/index.php/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/92-information/88-terms-and-conditions,redirect,/terms,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/92-information/89-cookie-policy,redirect,/cookies,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/residential-silencers,redirect,/products/residential,synth,"synthesised: category label (menu label only on old site, no page)"
+/index.php/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer,redirect,/products/se30-abs,crawl+crawl-ref+wayback,category-path variant (residential-silencers)
+/index.php/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/,redirect,/products/se30-abs,synth,synthesised: trailing-slash twin of /index.php/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer
+/index.php/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/92-information/88-terms-and-conditions,redirect,/terms,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/92-information/89-cookie-policy,redirect,/cookies,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer,redirect,/products/se30,crawl+crawl-ref+wayback,category-path variant (residential-silencers)
+/index.php/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/,redirect,/products/se30,synth,synthesised: trailing-slash twin of /index.php/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer
+/index.php/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/92-information/88-terms-and-conditions,redirect,/terms,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/92-information/89-cookie-policy,redirect,/cookies,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/residential-silencers/se40-residential-silencer,redirect,/products/se40,crawl+crawl-ref+wayback,category-path variant (residential-silencers)
+/index.php/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/,redirect,/products/se40,synth,synthesised: trailing-slash twin of /index.php/exhaust-gas-silencers/residential-silencers/se40-residential-silencer
+/index.php/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/92-information/88-terms-and-conditions,redirect,/terms,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/92-information/89-cookie-policy,redirect,/cookies,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer,redirect,/products/sea,crawl+crawl-ref+wayback,category-path variant (residential-silencers)
+/index.php/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/,redirect,/products/sea,synth,synthesised: trailing-slash twin of /index.php/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer
+/index.php/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/92-information/88-terms-and-conditions,redirect,/terms,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/92-information/89-cookie-policy,redirect,/cookies,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/spark-arrestors,redirect,/products/spark-arrestors,synth,"synthesised: category label (menu label only on old site, no page)"
+/index.php/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer,redirect,/products/sa1,crawl+crawl-ref+wayback,category-path variant (spark-arrestors)
+/index.php/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/,redirect,/products/sa1,synth,synthesised: trailing-slash twin of /index.php/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer
+/index.php/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/92-information/87-gdpr-privacy-policy-notice,redirect,/privacy,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/92-information/88-terms-and-conditions,redirect,/terms,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/index.php/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/92-information/89-cookie-policy,redirect,/cookies,crawl+crawl-ref,Joomla relative-link duplicate of legal page (handover 4.3)
+/language/,gone,,wayback,Joomla system/template/media/admin path
+/layouts/,gone,,wayback,Joomla system/template/media/admin path
+/libraries/,gone,,wayback,Joomla system/template/media/admin path
+/libraries/quix/assets/css/animate.min.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/libraries/quix/assets/css/font-awesome.min.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/libraries/quix/assets/css/magnific-popup.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/libraries/quix/assets/css/quix.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/libraries/quix/assets/css/quixtrap.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/libraries/quix/assets/js/jquery.easing.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/libraries/quix/assets/js/jquery.magnific-popup.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/libraries/quix/assets/js/parallax.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/libraries/quix/assets/js/quix.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/libraries/quix/assets/js/wow.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/logs/,gone,,wayback,Joomla system/template/media/admin path
+/media/com_uniterevolution2/assets/rs-plugin/css/dynamic-captions.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/com_uniterevolution2/assets/rs-plugin/css/settings.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/com_uniterevolution2/assets/rs-plugin/css/static-captions.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/com_uniterevolution2/assets/rs-plugin/js/jquery.themepunch.revolution.min.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/com_uniterevolution2/assets/rs-plugin/js/jquery.themepunch.tools.min.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/jui/js/bootstrap.min.js,gone,,wayback,Joomla system/template/media/admin path
+/media/jui/js/jquery-migrate.min.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/jui/js/jquery-noconflict.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/jui/js/jquery.min.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/k2/assets/js/k2.frontend.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/plg_system_sl_scrolltotop/js/scrolltotop_jq.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/quix/css/page1-va8648112-all.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/quix/css/page2-vfd2f2aa1-all.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/quix/css/page6-vda5f61ee-all.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/quix/js/page6-vda5f61ee-all.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/system/js/caption.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/system/js/core.js,gone,,wayback,Joomla system/template/media/admin path
+/media/system/js/html5fallback.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/media/system/js/keepalive.js,gone,,wayback,Joomla system/template/media/admin path
+/modules/,gone,,wayback,Joomla system/template/media/admin path
+/plugins/,gone,,wayback,Joomla system/template/media/admin path
+/plugins/system/cookiehint/css/bw.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/plugins/system/jce/css/content.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/presets/.css,gone,,crawl-asset,Static file not carried over
+/templates/ltmuseum/css/bootstrap.min.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/templates/ltmuseum/css/default.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/templates/ltmuseum/css/font-awesome.min.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/templates/ltmuseum/css/frontend-edit.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/templates/ltmuseum/css/legacy.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/templates/ltmuseum/css/presets/preset4.css,gone,,wayback,Joomla system/template/media/admin path
+/templates/ltmuseum/css/template.css,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/templates/ltmuseum/images/favicon.ico,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/templates/ltmuseum/js/bootstrap.min.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/templates/ltmuseum/js/custom.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/templates/ltmuseum/js/frontend-edit.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/templates/ltmuseum/js/jquery.easing.min.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/templates/ltmuseum/js/jquery.sticky.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/templates/ltmuseum/js/main.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/templates/ltmuseum/js/scroll.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/templates/ltmuseum/js/wow.min.js,gone,,crawl-asset+wayback,Joomla system/template/media/admin path
+/tmp/,gone,,wayback,Joomla system/template/media/admin path
