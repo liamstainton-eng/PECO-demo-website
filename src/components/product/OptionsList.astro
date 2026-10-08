@@ -1,0 +1,38 @@
+---
+// Options as a checklist, verbatim from the model's datasheet.
+export interface Props {
+  options: string[];
+  headingId?: string;
+}
+
+const { options, headingId = 'options-heading' } = Astro.props;
+---
+
+{
+  options.length > 0 && (
+    <section aria-labelledby={headingId}>
+      <h2 id={headingId} class="text-2xl">
+        Options
+      </h2>
+      <ul class="mt-5 grid gap-x-8 gap-y-2.5 sm:grid-cols-2" role="list">
+        {options.map((o) => (
+          <li class="flex gap-3">
+            <svg
+              class="mt-[0.3em] size-4 shrink-0 text-ink"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <rect x="1" y="1" width="14" height="14" stroke-width="1.25" />
+              <path d="m4.5 8.25 2.5 2.5 4.5-5" stroke-linecap="square" />
+            </svg>
+            <span>{o}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}

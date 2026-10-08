@@ -1,0 +1,22 @@
+---
+// Attenuation rating as a ruled callout, e.g. "24 dB(A)".
+export interface Props {
+  /** A single figure (24) or a label from the data ("24–28 dB(A)"). */
+  value: number | string;
+  size?: 'sm' | 'lg';
+  class?: string;
+}
+
+const { value, size = 'sm', class: className } = Astro.props;
+const figure = typeof value === 'number' ? String(value) : value.replace(/\s*dB\(A\)\s*$/, '');
+---
+
+<span
+  class:list={[
+    'inline-flex items-baseline gap-1 border-2 border-ink bg-paper font-semibold whitespace-nowrap text-ink tabular-nums',
+    size === 'lg' ? 'px-3 py-1.5 text-2xl leading-none' : 'px-2 py-0.5 text-sm leading-tight',
+    className,
+  ]}
+>
+  <span class="sr-only">Attenuation </span>{figure}<span class:list={['font-medium', size === 'lg' ? 'text-base' : 'text-xs']}>dB(A)</span>
+</span>

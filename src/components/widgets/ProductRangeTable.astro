@@ -1,0 +1,109 @@
+---
+// Range comparison table: model, category, dB(A), type, bore range, link.
+// Used on /products (all models) and on category pages (category column hidden).
+// Missing values render as TodoValue ("Ask us").
+import TodoValue from '../ui/TodoValue.astro';
+import type { BoreSummary } from '../product/catalog';
+
+export interface RangeRow {
+  slug: string;
+  model: string;
+  name: string;
+  href: string;
+  category?: { name: string; href: string };
+  attenuationDbA: number | null;
+  type: string | null;
+  bore: BoreSummary | null;
+}
+
+export interface Props {
+  id: string;
+  caption: string;
+  rows: RangeRow[];
+  showCategory?: boolean;
+}
+
+const { id, caption, rows, showCategory = true } = Astro.props;
+const captionId = `${id}-caption`;
+---
+
+<div
+  role="region"
+  aria-labelledby={captionId}
+  tabindex="0"
+  class="range-scroll relative overflow-x-auto border-y-2 border-ink focus-visible:outline-offset-4"
+>
+  <table class="range-table w-full min-w-[40rem] border-collapse text-left text-sm md:text-[0.9375rem]">
+    <caption id={captionId} class="sr-only">{caption}</caption>
+    <thead>
+      <tr class="border-b border-ink">
+        <th scope="col">Model</th>
+        {showCategory && <th scope="col">Category</th>}
+        <th scope="col" class="text-right">dB(A)</th>
+        <th scope="col">Type</th>
+        <th scope="col">Bore range</th>
+        <th scope="col"><span class="sr-only">Details</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((r) => (
+          <tr>
+            <th scope="row" class="font-semibold whitespace-nowrap">
+              {r.model}
+            </th>
+            {showCategory && (
+              <td>{r.category ? <a href={r.category.href} class="link">{r.category.name}</a> : <TodoValue model={r.model} slug={r.slug} context={`about the ${r.model} category`} />}</td>
+            )}
+            <td class="text-right font-semibold tabular-nums">
+              {r.attenuationDbA !== null ? r.attenuationDbA : <TodoValue model={r.model} slug={r.slug} context={`about the ${r.model} rating`} />}
+            </td>
+            <td>{r.type ?? <TodoValue model={r.model} slug={r.slug} context={`about the ${r.model} type`} />}</td>
+            <td class="tabular-nums">
+              {r.bore ? (
+                <>
+                  {r.bore.inches}
+                  {r.bore.mm && <span class="text-steel-600"> ({r.bore.mm})</span>}
+                  {r.bore.fixture && <span class="ml-1 text-xs text-steel-600">(sample rows)</span>}
+                </>
+              ) : (
+                <TodoValue model={r.model} slug={r.slug} context={`about ${r.model} bore sizes`} />
+              )}
+            </td>
+            <td class="text-right whitespace-nowrap">
+              <a href={r.href} class="link font-semibold">
+                View<span class="sr-only"> {r.name}</span>
+              </a>
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .range-table th,
+  .range-table td {
+    padding: 0.625rem 0.75rem;
+    vertical-align: baseline;
+  }
+  .range-table thead th {
+    padding-block: 0.75rem;
+    font-weight: 600;
+    color: var(--color-steel-700);
+    white-space: nowrap;
+  }
+  .range-table tbody tr {
+    border-bottom: 1px solid var(--color-steel-200);
+  }
+  .range-table tbody tr:last-child {
+    border-bottom: 0;
+  }
+  .range-table tbody tr:nth-child(even) {
+    background-color: var(--color-paper-2);
+  }
+  .range-table tbody tr:hover {
+    background-color: var(--color-steel-100);
+  }
+</style>

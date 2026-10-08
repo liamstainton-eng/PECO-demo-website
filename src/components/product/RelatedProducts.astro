@@ -1,0 +1,26 @@
+---
+// Related models (product `related` field) as cards.
+import ProductCard from './ProductCard.astro';
+import type { BoreSummary, Product } from './catalog';
+
+export interface Props {
+  items: { product: Product; bore: BoreSummary | null }[];
+}
+
+const { items } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <section aria-labelledby="related-heading">
+      <h2 id="related-heading" class="text-2xl">
+        Related products
+      </h2>
+      <div class="mt-6 grid border-t border-l border-steel-200 sm:grid-cols-2 lg:grid-cols-3">
+        {items.map(({ product, bore }) => (
+          <ProductCard product={product} bore={bore} />
+        ))}
+      </div>
+    </section>
+  )
+}

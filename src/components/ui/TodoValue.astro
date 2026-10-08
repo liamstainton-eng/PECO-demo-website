@@ -1,0 +1,56 @@
+---
+// Stand-in for a value the client has not supplied yet: an "Ask us" link to the
+// quote target. Staging (LAUNCH unset) adds a dashed outline and a TODO(client)
+// title so gaps are easy to spot; launch output never contains that marker.
+import { LAUNCH, getQuoteHref } from '../../lib/config';
+
+export interface Props {
+  /** Visible text. */
+  label?: string;
+  /** Screen-reader context appended to the link text, e.g. "about the SE20 type". */
+  context?: string;
+  /** Explicit link target; defaults to the quote link for model/slug/size. */
+  href?: string;
+  model?: string;
+  slug?: string;
+  size?: string;
+  class?: string;
+}
+
+const { label = 'Ask us', context, href, model, slug, size, class: className } = Astro.props;
+const target = href ?? getQuoteHref({ model, slug, size });
+---
+
+<a
+  href={target}
+  class:list={['todo-value', { 'todo-value--staging': !LAUNCH }, className]}
+  title={LAUNCH ? undefined : 'TODO(client)'}
+>{label}{context && <span class="sr-only"> {context}</span>}</a>
+
+<style>
+  .todo-value {
+    color: var(--color-steel-700);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-style: dotted;
+    text-underline-offset: 0.2em;
+    white-space: nowrap;
+  }
+  .todo-value:hover {
+    color: var(--color-ink);
+    text-decoration-style: solid;
+  }
+  .todo-value--staging {
+    padding-inline: 0.25em;
+    border-radius: 2px;
+    background-color: #fff1b8;
+    color: var(--color-ink);
+    outline: 1px dashed #8a6100;
+    outline-offset: 1px;
+  }
+  .todo-value--staging:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+</style>

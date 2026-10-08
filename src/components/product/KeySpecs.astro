@@ -1,0 +1,97 @@
+---
+// Key specifications as a ruled title block. Material and finish appear only when
+// the description states them; other gaps render as "Ask us".
+import TodoValue from '../ui/TodoValue.astro';
+import AttenuationBadge from './AttenuationBadge.astro';
+import { materialAndFinish } from './catalog';
+import type { BoreSummary, Product } from './catalog';
+
+export interface Props {
+  product: Product;
+  bore: BoreSummary | null;
+}
+
+const { product, bore } = Astro.props;
+const p = product.data;
+const { material, finish } = materialAndFinish(p.description);
+const ask = (what: string) => ({ model: p.model, slug: product.id, context: `about the ${p.model} ${what}` });
+---
+
+<section aria-labelledby="key-specs-heading">
+  <h2 id="key-specs-heading" class="sr-only">Key specifications</h2>
+  <dl class="grid grid-cols-1 gap-px border border-steel-300 bg-steel-300 sm:grid-cols-2">
+    <div class="spec-cell">
+      <dt>Attenuation</dt>
+      <dd>
+        {p.attenuationDbA !== null ? <AttenuationBadge value={p.attenuationDbA} /> : <TodoValue {...ask('attenuation')} />}
+      </dd>
+    </div>
+    <div class="spec-cell">
+      <dt>Type</dt>
+      <dd>{p.type ?? <TodoValue {...ask('type')} />}</dd>
+    </div>
+    <div class="spec-cell">
+      <dt>Bore range</dt>
+      <dd class="tabular-nums">
+        {
+          bore ? (
+            <>
+              {bore.inches}
+              {bore.mm && <span class="font-normal text-steel-600"> ({bore.mm})</span>}
+              {bore.fixture && <span class="ml-1 text-xs font-normal text-steel-600">(sample rows)</span>}
+            </>
+          ) : (
+            <TodoValue {...ask('bore sizes')} />
+          )
+        }
+      </dd>
+    </div>
+    {
+      p.datasheetTitle && (
+        <div class="spec-cell">
+          <dt>Datasheet</dt>
+          <dd>{p.datasheetTitle}</dd>
+        </div>
+      )
+    }
+    {
+      material && (
+        <div class="spec-cell">
+          <dt>Material</dt>
+          <dd>{material}</dd>
+        </div>
+      )
+    }
+    {
+      finish && (
+        <div class="spec-cell">
+          <dt>Finish</dt>
+          <dd>{finish}</dd>
+        </div>
+      )
+    }
+  </dl>
+</section>
+
+<style>
+  .spec-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.875rem 1rem;
+    background-color: var(--color-paper);
+  }
+  .spec-cell dt {
+    font-size: 0.8125rem;
+    color: var(--color-steel-600);
+  }
+  .spec-cell dd {
+    font-weight: 600;
+  }
+  /* An odd last cell spans the row so the block stays rectangular. */
+  @media (width >= 40rem) {
+    .spec-cell:last-child:nth-child(odd) {
+      grid-column: span 2;
+    }
+  }
+</style>

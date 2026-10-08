@@ -1,0 +1,32 @@
+---
+// Closing call to action for /products and category pages: Get a quote + Call.
+import WidgetWrapper from '../ui/WidgetWrapper.astro';
+import Icon from '../common/Icon.astro';
+import { CONTACT, CTA, getQuoteHref } from '../../lib/config';
+
+export interface Props {
+  title?: string;
+  text?: string;
+}
+
+const {
+  title = 'Not sure which silencer you need?',
+  text = 'Tell us your engine size and noise target and we will recommend a silencer.',
+} = Astro.props;
+---
+
+<WidgetWrapper isDark classes={{ container: 'py-12 md:py-14' }}>
+  <div class="grid gap-6 border-l-4 border-accent pl-5 md:grid-cols-[1fr_auto] md:items-center md:gap-10 md:pl-8">
+    <div>
+      <h2 class="text-2xl text-paper md:text-3xl">{title}</h2>
+      <p class="mt-3 max-w-[60ch] text-steel-300">{text}</p>
+    </div>
+    <div class="flex flex-col gap-3 sm:flex-row">
+      <a href={getQuoteHref()} class="btn btn-primary">{CTA.quoteLabel}</a>
+      <a href={CONTACT.phoneHref} class="btn btn-secondary tabular-nums">
+        <Icon name="phone" class="size-5" />
+        <span><span class="sr-only">Call </span>{CONTACT.phoneDisplay}</span>
+      </a>
+    </div>
+  </div>
+</WidgetWrapper>

@@ -1,0 +1,50 @@
+---
+// "Request a quote for <model>" with Get a quote, Call and Email.
+// variant "aside": sticky side panel, desktop only (mobile uses the site MobileCtaBar).
+// variant "inline": a block placed after the size table, at every width.
+import Icon from '../common/Icon.astro';
+import { CONTACT, CTA, getQuoteHref } from '../../lib/config';
+
+export interface Props {
+  model: string;
+  slug: string;
+  variant?: 'aside' | 'inline';
+}
+
+const { model, slug, variant = 'aside' } = Astro.props;
+const headingId = `quote-${variant}-heading`;
+const quoteHref = getQuoteHref({ model, slug });
+const Tag = variant === 'aside' ? 'aside' : 'section';
+---
+
+<Tag
+  aria-labelledby={headingId}
+  class:list={[
+    'border-2 border-ink bg-paper',
+    variant === 'aside' ? 'sticky top-[calc(var(--header-h)+1.5rem)] p-6' : 'p-6 md:flex md:items-center md:justify-between md:gap-8 md:p-8',
+  ]}
+>
+  <div>
+    <h2 id={headingId} class:list={['font-semibold', variant === 'aside' ? 'text-xl' : 'text-xl md:text-2xl']}>
+      Request a quote for {model}
+    </h2>
+    <p class="mt-2 max-w-[48ch] text-sm text-steel-700">
+      Include the part number or bore size if you know it.
+    </p>
+  </div>
+  <div class:list={['flex flex-col gap-3', variant === 'aside' ? 'mt-5' : 'mt-5 sm:flex-row sm:flex-wrap md:mt-0 md:shrink-0']}>
+    <a href={quoteHref} class="btn btn-primary">{CTA.quoteLabel}</a>
+    <a href={CONTACT.phoneHref} class="btn btn-secondary tabular-nums">
+      <Icon name="phone" class="size-5" />
+      <span><span class="sr-only">Call </span>{CONTACT.phoneDisplay}</span>
+    </a>
+    {
+      variant === 'aside' && (
+        <a href={`mailto:${CONTACT.email}`} class="link mt-1 inline-flex items-center gap-2 self-start text-sm break-all">
+          <Icon name="mail" class="size-4" />
+          <span><span class="sr-only">Email </span>{CONTACT.email}</span>
+        </a>
+      )
+    }
+  </div>
+</Tag>

@@ -1,0 +1,96 @@
+---
+// Category page body (/products/<category>): intro from the Markdown body,
+// comparison table, model cards, CTA band and links to the other categories.
+import Breadcrumbs from '../common/Breadcrumbs.astro';
+import ProductRangeTable from '../widgets/ProductRangeTable.astro';
+import type { RangeRow } from '../widgets/ProductRangeTable.astro';
+import ProductCard from './ProductCard.astro';
+import AttenuationBadge from './AttenuationBadge.astro';
+import CtaBand from './CtaBand.astro';
+import { LAUNCH, getQuoteHref } from '../../lib/config';
+import { applyTodoRuleToHtml, paragraphsToHtml, productHref, TODO_MARK_CLASS, TODO_MARKER } from './catalog';
+import type { BoreSummary, Category, Product } from './catalog';
+
+export interface Props {
+  category: Category;
+  items: { product: Product; bore: BoreSummary | null }[];
+  others: Category[];
+}
+
+const { category, items, others } = Astro.props;
+const c = category.data;
+
+const sourceHtml = category.rendered?.html ?? paragraphsToHtml(category.body ?? '');
+const introHtml = applyTodoRuleToHtml(sourceHtml, getQuoteHref());
+
+const rows: RangeRow[] = items.map(({ product, bore }) => ({
+  slug: product.id,
+  model: product.data.model,
+  name: product.data.name,
+  href: productHref(product.id),
+  attenuationDbA: product.data.attenuationDbA,
+  type: product.data.type,
+  bore,
+}));
+---
+
+<div class="container-peco pt-6 pb-16 md:pt-8 md:pb-20">
+  <Breadcrumbs
+    items={[
+      { name: 'Home', href: '/' },
+      { name: 'Products', href: '/products' },
+      { name: c.name, href: productHref(category.id) },
+    ]}
+  />
+
+  <header class="mt-6 border-b-2 border-ink pb-8 md:mt-8">
+    <div class="flex flex-wrap items-start justify-between gap-x-8 gap-y-4">
+      <h1 class="text-4xl md:text-5xl">{c.name}</h1>
+      {c.attenuationLabel && <AttenuationBadge value={c.attenuationLabel} size="lg" class="mt-1" />}
+    </div>
+    {
+      !c.approved && !LAUNCH && (
+        <p class={`mt-5 inline-block text-sm ${TODO_MARK_CLASS}`} title={TODO_MARKER}>
+          Staging only: this category page is not yet approved by Peco (approved: false).
+        </p>
+      )
+    }
+    <div class="intro mt-5 max-w-[68ch] space-y-4 text-lg text-steel-800" set:html={introHtml} />
+  </header>
+
+  <section aria-labelledby="compare-heading" class="mt-12 md:mt-16">
+    <h2 id="compare-heading" class="text-2xl md:text-3xl">Compare models</h2>
+    <div class="mt-6">
+      <ProductRangeTable id={`${category.id}-compare`} caption={`${c.name}: models compared`} rows={rows} showCategory={false} />
+    </div>
+  </section>
+
+  <section aria-labelledby="models-heading" class="mt-14 md:mt-16">
+    <h2 id="models-heading" class="text-2xl md:text-3xl">Models</h2>
+    <div class="mt-6 grid border-t border-l border-steel-200 sm:grid-cols-2 lg:grid-cols-3">
+      {items.map(({ product, bore }) => <ProductCard product={product} bore={bore} />)}
+    </div>
+  </section>
+</div>
+
+<CtaBand />
+
+{
+  others.length > 0 && (
+    <nav aria-labelledby="other-categories-heading" class="container-peco py-12 md:py-16">
+      <h2 id="other-categories-heading" class="text-2xl">
+        Other categories
+      </h2>
+      <ul class="mt-6 grid gap-px border border-steel-200 bg-steel-200 sm:grid-cols-3">
+        {others.map((o) => (
+          <li class="bg-paper">
+            <a href={productHref(o.id)} class="group flex h-full min-h-11 flex-col gap-1 p-5 hover:bg-paper-2">
+              <span class="font-semibold group-hover:underline group-hover:underline-offset-4">{o.data.name}</span>
+              {o.data.attenuationLabel && <span class="text-sm text-steel-600 tabular-nums">{o.data.attenuationLabel}</span>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}

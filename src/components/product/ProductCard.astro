@@ -1,0 +1,73 @@
+---
+// One model as a ruled cell: drawing thumbnail, name (the link), rating, type, bore range.
+// Missing values are omitted here; the comparison tables show them as "Ask us".
+import { Image } from 'astro:assets';
+import AttenuationBadge from './AttenuationBadge.astro';
+import { capWidths } from '../../lib/images';
+import { cropAlt, drawingCrop, productHref } from './catalog';
+import type { BoreSummary, Product } from './catalog';
+
+export interface Props {
+  product: Product;
+  bore: BoreSummary | null;
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { product, bore, headingLevel = 'h3' } = Astro.props;
+const p = product.data;
+const Heading = headingLevel;
+const crop = drawingCrop(product.id);
+---
+
+<article class="group relative flex flex-col border-r border-b border-steel-200 bg-paper p-5 transition-colors hover:bg-paper-2 md:p-6">
+  <div class="mb-5 flex aspect-[2/1] items-center justify-center overflow-hidden border border-steel-200 bg-paper p-3">
+    {
+      crop ? (
+        <Image
+          src={crop}
+          alt={cropAlt(product)}
+          widths={capWidths(crop, [320, 480, 640])}
+          sizes="(min-width: 64rem) 22rem, (min-width: 40rem) 45vw, 90vw"
+          class="h-full w-auto max-w-full object-contain mix-blend-multiply"
+        />
+      ) : (
+        <span class="text-4xl font-semibold tracking-tight text-steel-600" aria-hidden="true">{p.model}</span>
+      )
+    }
+  </div>
+  <Heading class="text-lg font-semibold">
+    <a href={productHref(product.id)} class="after:absolute after:inset-0 group-hover:underline group-hover:decoration-1 group-hover:underline-offset-4">
+      {p.name}
+    </a>
+  </Heading>
+  <dl class="mt-3 grid grid-cols-[auto_1fr] items-baseline gap-x-4 gap-y-1.5 text-sm">
+    {
+      p.attenuationDbA !== null && (
+        <>
+          <dt class="text-steel-600">Attenuation</dt>
+          <dd><AttenuationBadge value={p.attenuationDbA} /></dd>
+        </>
+      )
+    }
+    {
+      p.type && (
+        <>
+          <dt class="text-steel-600">Type</dt>
+          <dd>{p.type}</dd>
+        </>
+      )
+    }
+    {
+      bore && (
+        <>
+          <dt class="text-steel-600">Bore</dt>
+          <dd class="tabular-nums">
+            {bore.inches}
+            {bore.mm && <span class="text-steel-600"> ({bore.mm})</span>}
+            {bore.fixture && <span class="ml-1 text-xs text-steel-600">(sample rows)</span>}
+          </dd>
+        </>
+      )
+    }
+  </dl>
+</article>

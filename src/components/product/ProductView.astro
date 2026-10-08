@@ -1,0 +1,229 @@
+---
+// Product page body (/products/<model>). Data only from the products and sizes collections.
+import { Image } from 'astro:assets';
+import Breadcrumbs from '../common/Breadcrumbs.astro';
+import TodoValue from '../ui/TodoValue.astro';
+import AttenuationBadge from './AttenuationBadge.astro';
+import KeySpecs from './KeySpecs.astro';
+import OptionsList from './OptionsList.astro';
+import SpecTable from './SpecTable.astro';
+import QuoteAside from './QuoteAside.astro';
+import RelatedProducts from './RelatedProducts.astro';
+import TodoText from './TodoText.astro';
+import { LAUNCH, getQuoteHref } from '../../lib/config';
+import { capWidths } from '../../lib/images';
+import type { SizeRow } from '../../lib/csv';
+import { cropAlt, drawingCrop, hasTodo, productHref, TODO_MARK_CLASS, TODO_MARKER } from './catalog';
+import type { BoreSummary, Category, Product } from './catalog';
+
+export interface Props {
+  product: Product;
+  category: Category;
+  rows: SizeRow[] | null;
+  bore: BoreSummary | null;
+  related: { product: Product; bore: BoreSummary | null }[];
+}
+
+const { product, category, rows, bore, related } = Astro.props;
+const p = product.data;
+const slug = product.id;
+const quoteHref = getQuoteHref({ model: p.model, slug });
+
+const crop = drawingCrop(slug);
+const drawing = crop ?? p.drawing;
+const drawingAlt = crop ? cropAlt(product) : (p.drawingAlt ?? cropAlt(product));
+const figures = Object.entries(p.figures ?? {});
+
+const status = p.sizesStatus;
+const showTable = (status === 'verified' || status === 'fixture') && rows !== null && p.columns !== null;
+// The full datasheet image stands in for the table until it is transcribed.
+const datasheetImage = status === 'pending-transcription' ? p.drawing : undefined;
+
+// Notes: plain notes as written; TODO(client) notes highlighted in staging,
+// collapsed into one "Details to follow" line in launch mode.
+const plainNotes = p.tableNotes.filter((n) => !hasTodo(n));
+const todoNotes = p.tableNotes.filter(hasTodo);
+const showNotes = plainNotes.length > 0 || todoNotes.length > 0;
+---
+
+<div class="container-peco pt-6 pb-16 md:pt-8 md:pb-24">
+  <Breadcrumbs
+    items={[
+      { name: 'Home', href: '/' },
+      { name: 'Products', href: '/products' },
+      { name: category.data.name, href: productHref(category.id) },
+      { name: p.name, href: productHref(slug) },
+    ]}
+  />
+
+  <!-- Title block -->
+  <header class="mt-6 border-b-2 border-ink pb-8 md:mt-8">
+    <div class="flex flex-wrap items-start justify-between gap-x-8 gap-y-4">
+      <h1 class="max-w-[22ch] text-4xl md:text-5xl">{p.name}</h1>
+      {p.attenuationDbA !== null && <AttenuationBadge value={p.attenuationDbA} size="lg" class="mt-1" />}
+    </div>
+    <TodoText text={p.summary} class="mt-4 max-w-[62ch] text-lg text-steel-700 md:text-xl" model={p.model} slug={slug} />
+  </header>
+
+  <div class="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_22rem]">
+    <div class="min-w-0 space-y-14">
+      <KeySpecs product={product} bore={bore} />
+
+      <section aria-labelledby="description-heading">
+        <h2 id="description-heading" class="text-2xl">Description</h2>
+        <div class="mt-4 max-w-[68ch] space-y-4 text-steel-900">
+          {p.description.map((para) => <TodoText text={para} model={p.model} slug={slug} />)}
+        </div>
+      </section>
+
+      <OptionsList options={p.options} />
+
+      {
+        drawing && (
+          <section aria-labelledby="drawing-heading">
+            <h2 id="drawing-heading" class="text-2xl">
+              Dimension drawing
+            </h2>
+            <figure class="mt-5">
+              <div class="border border-steel-300 bg-paper p-3 md:p-5">
+                <Image
+                  src={drawing}
+                  alt={drawingAlt}
+                  widths={capWidths(drawing, [480, 640, 960, 1280])}
+                  sizes="(min-width: 80rem) 50rem, (min-width: 64rem) 60vw, 100vw"
+                  class="mx-auto h-auto w-full"
+                  style={`max-width: ${drawing.width}px`}
+                />
+              </div>
+              {figures.length > 0 && (
+                <figcaption class="mt-3">
+                  <dl class="flex flex-wrap gap-x-8 gap-y-1 text-sm">
+                    {figures.map(([n, text]) => (
+                      <div class="flex gap-2">
+                        <dt class="font-semibold">Fig {n}:</dt>
+                        <dd class="text-steel-700">{text}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </figcaption>
+              )}
+            </figure>
+          </section>
+        )
+      }
+    </div>
+
+    <div class="hidden lg:block">
+      <QuoteAside model={p.model} slug={slug} />
+    </div>
+  </div>
+
+  <!-- Sizes: full width, the table needs the room -->
+  <section aria-labelledby="sizes-heading" class="mt-16 md:mt-20">
+    <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+      <h2 id="sizes-heading" class="text-2xl md:text-3xl">Sizes and dimensions</h2>
+      {
+        status === 'fixture' && !LAUNCH && (
+          <p class={`text-sm ${TODO_MARK_CLASS}`} title={TODO_MARKER}>
+            Staging only: sample rows (fixture). The full table is pending transcription.
+          </p>
+        )
+      }
+    </div>
+
+    <div class="mt-6">
+      {
+        showTable && rows && p.columns && (
+          <>
+            <SpecTable model={p.model} slug={slug} columns={p.columns} rows={rows} />
+            {status === 'fixture' && LAUNCH && (
+              <p class="mt-3 text-sm text-steel-700">
+                Full size range: <TodoValue label="ask us" model={p.model} slug={slug} context={`for the full ${p.model} size range`} />
+              </p>
+            )}
+          </>
+        )
+      }
+
+      {
+        status === 'pending-transcription' && (
+          <div class="space-y-6">
+            <p class="border-l-4 border-ink bg-paper-2 px-5 py-4">
+              Full size table coming soon.{' '}
+              <a href={quoteHref} class="link font-semibold">
+                Ask us for dimensions<span class="sr-only"> for the {p.model}</span>
+              </a>
+            </p>
+            {datasheetImage && (
+              <figure>
+                <div class="border border-steel-300 bg-paper p-3 md:p-5">
+                  <Image
+                    src={datasheetImage}
+                    alt={p.drawingAlt ?? `${p.model} datasheet`}
+                    widths={capWidths(datasheetImage, [480, 640, 960, 1280])}
+                    sizes="(min-width: 80rem) 72rem, 100vw"
+                    class="mx-auto h-auto w-full"
+                    style={`max-width: ${datasheetImage.width}px`}
+                  />
+                </div>
+                <figcaption class="mt-3 text-sm text-steel-700">
+                  {p.datasheetTitle ?? p.name} datasheet, as published.
+                </figcaption>
+              </figure>
+            )}
+          </div>
+        )
+      }
+
+      {
+        status === 'none' && (
+          <p class="border-l-4 border-ink bg-paper-2 px-5 py-4">
+            Specifications on request.{' '}
+            <a href={quoteHref} class="link font-semibold">
+              Ask us about the {p.model}
+            </a>
+          </p>
+        )
+      }
+    </div>
+
+    {
+      showNotes && (
+        <div class="mt-8 max-w-[75ch]">
+          <h3 class="text-lg">Notes</h3>
+          <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-steel-800 marker:text-steel-400">
+            {plainNotes.map((n) => (
+              <li>{n}</li>
+            ))}
+            {LAUNCH
+              ? todoNotes.length > 0 && (
+                  <li>
+                    <span class="text-steel-600">Details to follow. </span>
+                    <TodoValue model={p.model} slug={slug} context={`about the ${p.model}`} />
+                  </li>
+                )
+              : todoNotes.map((n) => <TodoText as="li" text={n} model={p.model} slug={slug} />)}
+          </ul>
+        </div>
+      )
+    }
+
+    {
+      status !== 'none' && (
+        <p class="mt-6 text-sm font-semibold text-ink">Dimensions are for guidance. Confirm with Peco before ordering.</p>
+      )
+    }
+
+    <div class="mt-10">
+      <QuoteAside model={p.model} slug={slug} variant="inline" />
+    </div>
+  </section>
+
+  {
+    related.length > 0 && (
+      <div class="mt-16 md:mt-20">
+        <RelatedProducts items={related} />
+      </div>
+    )
+  }
+</div>

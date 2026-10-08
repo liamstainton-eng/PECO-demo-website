@@ -1,0 +1,146 @@
+---
+// /products/<slug>: serves both the category pages and the product pages.
+// Category and product slugs share this URL space, so a collision fails the build.
+import { getImage } from 'astro:assets';
+import PageLayout from '../../layouts/PageLayout.astro';
+import JsonLd from '../../components/common/JsonLd.astro';
+import CategoryView from '../../components/product/CategoryView.astro';
+import ProductView from '../../components/product/ProductView.astro';
+import { breadcrumbLd, productLd } from '../../lib/jsonld';
+import {
+  drawingCrop,
+  getCategories,
+  getProducts,
+  getSizeRows,
+  productHref,
+  productsIn,
+  summariseBore,
+} from '../../components/product/catalog';
+import type { Category, Product } from '../../components/product/catalog';
+
+type Props = { kind: 'category'; category: Category } | { kind: 'product'; product: Product };
+
+export async function getStaticPaths() {
+  const categories = await getCategories();
+  const products = await getProducts(categories);
+
+  const categoryIds = new Set(categories.map((c) => c.id));
+  const clashes = products.filter((p) => categoryIds.has(p.id)).map((p) => p.id);
+  if (clashes.length > 0) {
+    throw new Error(
+      `products/[slug]: slug collision between category and product: ${clashes.join(', ')}. ` +
+        'Category and product slugs share /products/<slug> and must be unique.',
+    );
+  }
+
+  return [
+    ...categories.map((category) => ({
+      params: { slug: category.id },
+      props: { kind: 'category' as const, category },
+    })),
+    ...products.map((product) => ({
+      params: { slug: product.id },
+      props: { kind: 'product' as const, product },
+    })),
+  ];
+}
+
+const props = Astro.props as Props;
+const categories = await getCategories();
+const products = await getProducts(categories);
+
+const withBore = async (product: Product) => ({ product, bore: summariseBore(product, await getSizeRows(product)) });
+
+let title: string;
+let description: string;
+let jsonLd: object[];
+let view:
+  | { kind: 'category'; category: Category; items: Awaited<ReturnType<typeof withBore>>[]; others: Category[] }
+  | {
+      kind: 'product';
+      product: Product;
+      category: Category;
+      rows: Awaited<ReturnType<typeof getSizeRows>>;
+      bore: ReturnType<typeof summariseBore>;
+      related: Awaited<ReturnType<typeof withBore>>[];
+    };
+
+if (props.kind === 'category') {
+  const { category } = props;
+  const path = productHref(category.id);
+  title = category.data.seo.title;
+  description = category.data.seo.description;
+  jsonLd = [
+    breadcrumbLd([
+      { name: 'Home', path: '/' },
+      { name: 'Products', path: '/products' },
+      { name: category.data.name, path },
+    ]),
+  ];
+  view = {
+    kind: 'category',
+    category,
+    items: await Promise.all(productsIn(category, products).map(withBore)),
+    others: categories.filter((c) => c.id !== category.id),
+  };
+} else {
+  const { product } = props;
+  const p = product.data;
+  const category = categories.find((c) => c.id === p.category.id);
+  if (!category) throw new Error(`products/${product.id}: unknown category "${p.category.id}"`);
+  const path = productHref(product.id);
+  const rows = await getSizeRows(product);
+  const relatedProducts = p.related
+    .map((ref) => products.find((x) => x.id === ref.id))
+    .filter((x): x is Product => x !== undefined);
+
+  const picture = drawingCrop(product.id) ?? p.drawing;
+  const image = picture ? (await getImage({ src: picture, width: Math.min(picture.width, 1200) })).src : undefined;
+
+  title = p.seo.title;
+  description = p.seo.description;
+  jsonLd = [
+    breadcrumbLd([
+      { name: 'Home', path: '/' },
+      { name: 'Products', path: '/products' },
+      { name: category.data.name, path: productHref(category.id) },
+      { name: p.name, path },
+    ]),
+    productLd({
+      name: p.name,
+      model: p.model,
+      // seo.description is reviewed copy; summary/description may still hold TODO(client) markers.
+      description: p.seo.description,
+      path,
+      image,
+      category: category.data.name,
+      attenuationDbA: p.attenuationDbA,
+    }),
+  ];
+  view = {
+    kind: 'product',
+    product,
+    category,
+    rows,
+    bore: summariseBore(product, rows),
+    related: await Promise.all(relatedProducts.map(withBore)),
+  };
+}
+---
+
+<PageLayout title={title} description={description}>
+  <Fragment slot="head"><JsonLd data={jsonLd} /></Fragment>
+  {
+    view.kind === 'category' ? (
+      <CategoryView category={view.category} items={view.items} others={view.others} />
+    ) : (
+      <ProductView
+        product={view.product}
+        category={view.category}
+        rows={view.rows}
+        bore={view.bore}
+        related={view.related}
+      />
+    )
+  }
+</PageLayout>

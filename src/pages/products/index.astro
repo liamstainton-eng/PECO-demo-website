@@ -1,0 +1,113 @@
+---
+// /products: every model grouped by category, then the range comparison table.
+import PageLayout from '../../layouts/PageLayout.astro';
+import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
+import ProductRangeTable from '../../components/widgets/ProductRangeTable.astro';
+import type { RangeRow } from '../../components/widgets/ProductRangeTable.astro';
+import ProductCard from '../../components/product/ProductCard.astro';
+import AttenuationBadge from '../../components/product/AttenuationBadge.astro';
+import CtaBand from '../../components/product/CtaBand.astro';
+import {
+  getCategories,
+  getProducts,
+  getSizeRows,
+  productHref,
+  productsIn,
+  summariseBore,
+} from '../../components/product/catalog';
+
+const categories = await getCategories();
+const products = await getProducts(categories);
+const bores = new Map(
+  await Promise.all(products.map(async (p) => [p.id, summariseBore(p, await getSizeRows(p))] as const)),
+);
+
+const groups = categories.map((category) => ({
+  category,
+  products: productsIn(category, products),
+}));
+
+const rows: RangeRow[] = products.map((p) => {
+  const category = categories.find((c) => c.id === p.data.category.id);
+  return {
+    slug: p.id,
+    model: p.data.model,
+    name: p.data.name,
+    href: productHref(p.id),
+    category: category ? { name: category.data.name, href: productHref(category.id) } : undefined,
+    attenuationDbA: p.data.attenuationDbA,
+    type: p.data.type,
+    bore: bores.get(p.id) ?? null,
+  };
+});
+
+// Handover 3.2 intro copy (spelling anglicised).
+const intro =
+  'Peco Silencers Ltd has a wide range of exhaust silencers that covers all applications and engine sizes and specialises in the design of custom made exhaust silencers based upon specific project specifications.';
+---
+
+<PageLayout
+  title="Exhaust silencers and spark arrestors"
+  description="Peco exhaust gas silencers and spark arrestors: compare attenuation, type and sizes across the SEA, SE20 to SE50, SLS and SA ranges, then request a quote."
+>
+  <div class="container-peco pt-6 pb-12 md:pt-8 md:pb-16">
+    <Breadcrumbs
+      items={[
+        { name: 'Home', href: '/' },
+        { name: 'Products', href: '/products' },
+      ]}
+    />
+    <header class="mt-6 border-b-2 border-ink pb-8 md:mt-8">
+      <h1 class="text-4xl md:text-5xl lg:text-display">Products</h1>
+      <p class="mt-4 max-w-[62ch] text-lg text-steel-700 md:text-xl">{intro}</p>
+      <nav aria-label="Categories on this page" class="mt-6">
+        <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+          {
+            groups.map(({ category }) => (
+              <li>
+                <a href={`#cat-${category.id}`} class="link inline-flex min-h-6 items-center font-semibold">
+                  {category.data.name}
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a href="#compare" class="link inline-flex min-h-6 items-center font-semibold">Compare the range</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    {
+      groups.map(({ category, products: models }) => (
+        <section id={`cat-${category.id}`} aria-labelledby={`cat-${category.id}-heading`} class="mt-12 md:mt-16">
+          <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3 border-b border-steel-300 pb-4">
+            <div>
+              <h2 id={`cat-${category.id}-heading`} class="text-2xl md:text-3xl">
+                <a href={productHref(category.id)} class="hover:underline hover:decoration-2 hover:underline-offset-4">
+                  {category.data.name}
+                </a>
+              </h2>
+              <p class="mt-2 max-w-[62ch] text-steel-700">{category.data.summary}</p>
+            </div>
+            {category.data.attenuationLabel && <AttenuationBadge value={category.data.attenuationLabel} />}
+          </div>
+          <div class="mt-6 grid border-t border-l border-steel-200 sm:grid-cols-2 lg:grid-cols-3">
+            {models.map((product) => (
+              <ProductCard product={product} bore={bores.get(product.id) ?? null} />
+            ))}
+          </div>
+        </section>
+      ))
+    }
+
+    <section id="compare" aria-labelledby="compare-heading" class="mt-16 md:mt-20">
+      <h2 id="compare-heading" class="text-2xl md:text-3xl">Compare the range</h2>
+      <div class="mt-6">
+        <ProductRangeTable id="range" caption="All models: attenuation, type and bore range" rows={rows} />
+      </div>
+    </section>
+  </div>
+
+  <CtaBand />
+</PageLayout>

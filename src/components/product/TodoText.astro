@@ -1,0 +1,35 @@
+---
+// Prose that may contain a TODO(client) marker.
+// Staging: text before the marker, then the marker and the rest highlighted.
+// Launch: text before the marker, then a subtle "Details to follow. Ask us" quote link.
+import TodoValue from '../ui/TodoValue.astro';
+import { LAUNCH } from '../../lib/config';
+import { splitTodo, TODO_MARK_CLASS, TODO_MARKER } from './catalog';
+
+export interface Props {
+  text: string;
+  as?: 'p' | 'span' | 'li';
+  class?: string;
+  model?: string;
+  slug?: string;
+}
+
+const { text, as = 'p', class: className, model, slug } = Astro.props;
+const Tag = as;
+const { before, todo } = splitTodo(text);
+---
+
+<Tag class={className}>
+  {before}{before && todo ? ' ' : ''}{
+    todo &&
+      (LAUNCH ? (
+        <span class="text-steel-600">
+          Details to follow. <TodoValue model={model} slug={slug} context={model ? `about the ${model}` : undefined} />
+        </span>
+      ) : (
+        <mark class={TODO_MARK_CLASS} title={TODO_MARKER}>
+          {todo}
+        </mark>
+      ))
+  }
+</Tag>
