@@ -1,0 +1,67 @@
+---
+/*
+ * Ported from AstroWind src/components/ui/Button.astro
+ * https://github.com/onwidget/astrowind/blob/14e1a691f80548dcc36370847b1a02c0d0b12821/src/components/ui/Button.astro
+ * MIT License, Copyright (c) 2023 onWidget. See CREDITS.md.
+ *
+ * Changes: inline SVG Icon instead of astro-icon, plain class join instead of
+ * twMerge, renders <a> when href is set and <button> otherwise, text rendered as
+ * text (not set:html), variants primary / secondary / link.
+ */
+import type { HTMLAttributes } from 'astro/types';
+import Icon from '../common/Icon.astro';
+import type { IconName } from '../common/Icon.astro';
+
+type Variant = 'primary' | 'secondary' | 'link';
+
+export interface Props {
+  variant?: Variant;
+  href?: string;
+  text?: string;
+  icon?: IconName;
+  /** Icon placement relative to the text. */
+  iconPosition?: 'start' | 'end';
+  target?: string;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  variant = 'secondary',
+  href,
+  text,
+  icon,
+  iconPosition = 'end',
+  target,
+  type = 'button',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const variants: Record<Variant, string> = {
+  primary: 'btn btn-primary',
+  secondary: 'btn btn-secondary',
+  link: 'btn-link inline-flex items-center gap-2',
+};
+
+const classes = [variants[variant], className].filter(Boolean).join(' ');
+const external = target === '_blank' ? { target, rel: 'noopener noreferrer' } : target ? { target } : {};
+const attrs = rest as HTMLAttributes<'a'> & HTMLAttributes<'button'>;
+---
+
+{
+  href ? (
+    <a href={href} class={classes} {...external} {...attrs}>
+      {icon && iconPosition === 'start' && <Icon name={icon} class="size-5" />}
+      {text ?? <slot />}
+      {icon && iconPosition === 'end' && <Icon name={icon} class="size-5" />}
+    </a>
+  ) : (
+    <button type={type} class={classes} {...attrs}>
+      {icon && iconPosition === 'start' && <Icon name={icon} class="size-5" />}
+      {text ?? <slot />}
+      {icon && iconPosition === 'end' && <Icon name={icon} class="size-5" />}
+    </button>
+  )
+}

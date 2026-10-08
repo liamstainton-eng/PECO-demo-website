@@ -1,0 +1,46 @@
+---
+/*
+ * Ported from AstroWind src/components/ui/Headline.astro
+ * https://github.com/onwidget/astrowind/blob/14e1a691f80548dcc36370847b1a02c0d0b12821/src/components/ui/Headline.astro
+ * MIT License, Copyright (c) 2023 onWidget. See CREDITS.md.
+ *
+ * Changes: plain class join instead of twMerge, text props rendered as text
+ * (not set:html), left-aligned by default, `as` prop so a page can use it for its h1.
+ */
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  tagline?: string;
+  as?: 'h1' | 'h2' | 'h3';
+  classes?: { container?: string; title?: string; subtitle?: string };
+}
+
+const { title, subtitle, tagline, as = 'h2', classes = {} } = Astro.props;
+
+const {
+  container: containerClass = 'max-w-3xl',
+  title: titleClass = 'text-3xl md:text-4xl',
+  subtitle: subtitleClass = 'text-lg',
+} = classes;
+
+const Heading = as;
+const cx = (...c: Array<string | undefined>) => c.filter(Boolean).join(' ');
+const hasTitleSlot = Astro.slots.has('title');
+const hasSubtitleSlot = Astro.slots.has('subtitle');
+---
+
+{
+  (title || subtitle || tagline || hasTitleSlot || hasSubtitleSlot) && (
+    <div class={cx('mb-8 md:mb-12', containerClass)}>
+      {tagline && <p class="mb-3 border-l-[3px] border-accent pl-3 text-sm font-semibold text-steel-700 headline-tag">{tagline}</p>}
+      {(title || hasTitleSlot) && (
+        <Heading class={cx('font-semibold tracking-tight text-current', titleClass)}>
+          {title ?? <slot name="title" />}
+        </Heading>
+      )}
+      {(subtitle || hasSubtitleSlot) && (
+        <p class={cx('headline-sub mt-4 max-w-[65ch] text-steel-600', subtitleClass)}>{subtitle ?? <slot name="subtitle" />}</p>
+      )}
+    </div>
+  )
+}

@@ -1,0 +1,24 @@
+---
+// Fixed Call | Get a quote bar on small screens only (handover 8.1).
+// body padding-bottom and html scroll-padding-bottom (global.css) keep content
+// and focused elements clear of it (WCAG 2.4.11).
+import Icon from '../common/Icon.astro';
+import { CONTACT, CTA, getQuoteHref } from '../../lib/config';
+---
+
+<nav
+  aria-label="Quick contact"
+  class="on-dark fixed inset-x-0 bottom-0 z-40 grid h-(--mobile-bar-h) grid-cols-2 border-t border-steel-800 bg-ink md:hidden"
+>
+  <a
+    href={CONTACT.phoneHref}
+    class="flex items-center justify-center focus-visible:outline-paper focus-visible:outline-offset-[-5px] gap-2 font-semibold text-paper"
+    aria-label={`Call ${CONTACT.phoneDisplay}`}
+  >
+    <Icon name="phone" class="size-5" />
+    Call
+  </a>
+  <a href={getQuoteHref()} class="flex items-center justify-center focus-visible:outline-paper focus-visible:outline-offset-[-5px] bg-accent font-semibold text-paper hover:bg-accent-hover">
+    {CTA.quoteLabel}
+  </a>
+</nav>

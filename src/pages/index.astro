@@ -1,7 +1,23 @@
 ---
-import Layout from '../layouts/Layout.astro';
+// Placeholder home page (T1). Replaced by the full home page in T3a.
+import PageLayout from '../layouts/PageLayout.astro';
+import WidgetWrapper from '../components/ui/WidgetWrapper.astro';
+import Headline from '../components/ui/Headline.astro';
+import Button from '../components/ui/Button.astro';
+import { CTA, getQuoteHref } from '../lib/config';
 ---
 
-<Layout title="Peco Silencers">
-  <h1>Peco Silencers</h1>
-</Layout>
+<PageLayout>
+  <WidgetWrapper classes={{ container: 'py-16 md:py-24 lg:py-32' }}>
+    <Headline
+      as="h1"
+      title="Industrial exhaust silencers and spark arrestors"
+      subtitle="Peco Silencers Ltd has a wide range of exhaust silencers covering all applications and engine sizes, and specialises in custom-made exhaust silencers designed to your project specification."
+      classes={{ title: 'text-4xl md:text-5xl lg:text-display', subtitle: 'text-lg md:text-xl' }}
+    />
+    <div class="flex flex-wrap gap-3">
+      <Button variant="primary" href={getQuoteHref()} text={CTA.quoteLabel} />
+      <Button variant="secondary" href="/products" text="View products" />
+    </div>
+  </WidgetWrapper>
+</PageLayout>

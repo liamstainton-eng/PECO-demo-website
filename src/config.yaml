@@ -1,0 +1,43 @@
+# Site configuration. Shape adapted from AstroWind src/config.yaml
+# (onwidget/astrowind@14e1a691f80548dcc36370847b1a02c0d0b12821, MIT).
+# Validated by src/lib/config.ts. LAUNCH mode comes from the environment, not here.
+
+site:
+  name: "Peco Silencers Ltd"
+  site: "https://www.pecoindustrial.co.uk"
+
+metadata:
+  title:
+    default: "Peco Silencers | Industrial exhaust silencers and spark arrestors"
+    template: "%s | Peco Silencers"
+  description: "Peco Silencers Ltd designs and manufactures exhaust gas silencers, spark arrestors and custom silencers for generators and industrial plant. Based in Bromborough, Wirral."
+  openGraph:
+    site_name: "Peco Silencers"
+    type: "website"
+    locale: "en_GB"
+
+contact:
+  phoneDisplay: "0151 343 0330"
+  phoneHref: "tel:01513430330"
+  email: "sales@pecoindustrial.co.uk"
+  address:
+    - "Peco Silencers Ltd"
+    - "Unit 8, Wrynose Road"
+    - "The Old Hall Estate"
+    - "Bromborough"
+    - "Wirral"
+    - "CH62 3QD"
+  mapUrl: "https://www.google.com/maps/search/?api=1&query=Peco+Silencers+Ltd%2C+Unit+8%2C+Wrynose+Road%2C+The+Old+Hall+Estate%2C+Bromborough%2C+Wirral+CH62+3QD"
+
+# M1: mailto. M2 switch-over: set quoteHref to '/quote'.
+cta:
+  quoteLabel: "Get a quote"
+  quoteHref: "mailto:sales@pecoindustrial.co.uk"
+
+analytics:
+  provider: "cloudflare"
+  requiresConsent: false
+  token: ""
+
+turnstile:
+  siteKey: ""

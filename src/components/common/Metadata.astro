@@ -1,0 +1,39 @@
+---
+// Title, description, canonical, robots and Open Graph basics.
+// Replaces AstroWind's @astrolib/seo usage with plain tags.
+import { METADATA, SITE } from '../../lib/config';
+import { cleanPath } from '../../navigation';
+
+export interface MetaProps {
+  /** Page title without the site suffix. Omit on the home page to use the default title. */
+  title?: string;
+  description?: string;
+  /** Defaults to index, follow. */
+  robots?: { index?: boolean; follow?: boolean };
+  /** Absolute or site-relative image URL for og:image. */
+  ogImage?: string;
+  ogType?: string;
+}
+
+const { title, description = METADATA.description, robots = {}, ogImage, ogType = METADATA.openGraph.type } =
+  Astro.props as MetaProps;
+
+const fullTitle = title ? METADATA.title.template.replace('%s', title) : METADATA.title.default;
+const canonical = new URL(cleanPath(Astro.url.pathname), SITE.site).href;
+const robotsContent = `${robots.index === false ? 'noindex' : 'index'},${robots.follow === false ? 'nofollow' : 'follow'}`;
+const ogImageUrl = ogImage ? new URL(ogImage, SITE.site).href : undefined;
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta name="robots" content={robotsContent} />
+
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content={METADATA.openGraph.site_name} />
+<meta property="og:locale" content={METADATA.openGraph.locale} />
+{ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+<meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />

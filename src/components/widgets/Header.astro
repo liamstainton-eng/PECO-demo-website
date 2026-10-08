@@ -1,0 +1,328 @@
+---
+// Sticky site header (handover 8.1). Products uses the disclosure pattern
+// (button[aria-expanded] + region), not ARIA menu roles.
+import { Image } from 'astro:assets';
+import logo from '../../assets/images/legacy/peco_blk_.png';
+import Icon from '../common/Icon.astro';
+import { headerData, cleanPath } from '../../navigation';
+import { CONTACT, CTA, getQuoteHref } from '../../lib/config';
+
+const current = cleanPath(Astro.url.pathname);
+const isCurrent = (href: string) => cleanPath(href) === current;
+const products = headerData.links.find((l) => l.links);
+const others = headerData.links.filter((l) => !l.links);
+const inProducts = current === '/products' || current.startsWith('/products/');
+const quoteHref = getQuoteHref();
+---
+
+<header id="site-header" class="sticky top-0 z-50 border-b border-steel-200 bg-paper">
+  <div class="container-peco flex h-16 items-center justify-between gap-2 lg:h-18 lg:gap-6">
+    <a href="/" class="flex shrink-0 items-center gap-3" aria-current={current === '/' ? 'page' : undefined}>
+      <Image
+        src={logo}
+        alt="Peco Silencers"
+        width={176}
+        loading="eager"
+        class="h-9 w-[72px] object-cover object-top lg:h-11 lg:w-[88px]"
+      />
+      <span
+        class="hidden border-l border-steel-300 pl-3 text-xs leading-tight font-semibold tracking-wide text-steel-700 sm:block"
+        aria-hidden="true">Silencers<br />Ltd</span
+      >
+    </a>
+
+    <!-- Desktop navigation -->
+    <nav aria-label="Main" class="hidden flex-1 lg:block">
+      <ul class="flex items-center gap-1">
+        {
+          products && products.links && (
+            <li data-disclosure>
+              <button
+                type="button"
+                class:list={[
+                  'nav-item inline-flex items-center gap-1',
+                  { 'nav-item-active': inProducts },
+                ]}
+                aria-expanded="false"
+                aria-controls="products-panel"
+              >
+                {products.text}
+                <Icon name="chevron" class="size-4 transition-transform" />
+              </button>
+              <div
+                id="products-panel"
+                hidden
+                class="absolute inset-x-0 top-full border-b border-steel-200 bg-paper shadow-[0_12px_24px_-12px_rgb(26_29_33/0.25)]"
+              >
+                <div class="container-peco grid grid-cols-[1fr_3fr] gap-10 py-8">
+                  <div class="border-r border-steel-200 pr-8">
+                    <p class="text-lg font-semibold">Exhaust gas silencers and spark arrestors</p>
+                    <p class="mt-2 text-sm text-steel-600">
+                      Compare models, attenuation and sizes across the full range.
+                    </p>
+                    <a
+                      href={products.href}
+                      class="link mt-4 inline-flex items-center gap-2 font-semibold"
+                      aria-current={isCurrent(products.href) ? 'page' : undefined}
+                    >
+                      All products
+                      <Icon name="arrow-right" class="size-4" />
+                    </a>
+                  </div>
+                  <ul class="grid grid-cols-4 gap-8">
+                    {products.links.map((cat) => (
+                      <li>
+                        <a
+                          href={cat.href}
+                          class="mega-cat"
+                          aria-current={isCurrent(cat.href) ? 'page' : undefined}
+                        >
+                          {cat.text}
+                        </a>
+                        {cat.links && (
+                          <ul class="mt-3 space-y-1">
+                            {cat.links.map((m) => (
+                              <li>
+                                <a
+                                  href={m.href}
+                                  class="mega-model"
+                                  aria-current={isCurrent(m.href) ? 'page' : undefined}
+                                >
+                                  {m.text}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </li>
+          )
+        }
+        {
+          others.map((l) => (
+            <li>
+              <a href={l.href} class="nav-item" aria-current={isCurrent(l.href) ? 'page' : undefined}>
+                {l.text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-1 lg:gap-5">
+      <a
+        href={CONTACT.phoneHref}
+        class="hidden items-center gap-2 font-semibold tabular-nums hover:underline lg:inline-flex"
+        aria-label={`Call ${CONTACT.phoneDisplay}`}
+      >
+        <Icon name="phone" class="size-5 text-accent" />
+        {CONTACT.phoneDisplay}
+      </a>
+      <a
+        href={CONTACT.phoneHref}
+        class="inline-flex size-11 items-center justify-center lg:hidden"
+        aria-label={`Call ${CONTACT.phoneDisplay}`}
+      >
+        <Icon name="phone" class="size-5" />
+      </a>
+      <a href={quoteHref} class="btn btn-primary px-3 text-sm sm:px-5 sm:text-base">{CTA.quoteLabel}</a>
+      <button
+        type="button"
+        id="mobile-menu-button"
+        class="inline-flex size-11 items-center justify-center lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+      >
+        <span class="sr-only">Menu</span>
+        <Icon name="menu" class="size-6 menu-open-icon" />
+        <Icon name="close" class="hidden size-6 menu-close-icon" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile navigation panel -->
+  <nav
+    id="mobile-nav"
+    aria-label="Main menu"
+    hidden
+    class="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto border-t border-steel-200 bg-paper lg:hidden"
+  >
+    <div class="container-peco py-6">
+      {
+        products && products.links && (
+          <section aria-labelledby="mobile-products-heading" class="border-b border-steel-200 pb-6">
+            <h2 id="mobile-products-heading" class="text-sm font-semibold text-steel-600">
+              {products.text}
+            </h2>
+            <a
+              href={products.href}
+              class="mt-2 flex min-h-11 items-center text-lg font-semibold"
+              aria-current={isCurrent(products.href) ? 'page' : undefined}
+            >
+              All products
+            </a>
+            <ul class="mt-2 grid gap-4 sm:grid-cols-2">
+              {products.links.map((cat) => (
+                <li>
+                  <a
+                    href={cat.href}
+                    class="flex min-h-11 items-center font-semibold"
+                    aria-current={isCurrent(cat.href) ? 'page' : undefined}
+                  >
+                    {cat.text}
+                  </a>
+                  {cat.links && (
+                    <ul class="flex flex-wrap gap-2">
+                      {cat.links.map((m) => (
+                        <li>
+                          <a
+                            href={m.href}
+                            class="model-chip"
+                            aria-current={isCurrent(m.href) ? 'page' : undefined}
+                          >
+                            {m.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+      <ul class="border-b border-steel-200 py-4">
+        {
+          others.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                class="flex min-h-12 items-center text-lg font-semibold"
+                aria-current={isCurrent(l.href) ? 'page' : undefined}
+              >
+                {l.text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="flex flex-col gap-3 pt-6 sm:flex-row">
+        <a href={CONTACT.phoneHref} class="btn btn-secondary">
+          <Icon name="phone" class="size-5" />
+          Call {CONTACT.phoneDisplay}
+        </a>
+        <a href={quoteHref} class="btn btn-primary">{CTA.quoteLabel}</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<style>
+  @reference "../../styles/global.css";
+
+  .nav-item {
+    @apply relative flex min-h-11 items-center px-3 font-medium text-ink;
+  }
+  .nav-item::after {
+    content: '';
+    @apply absolute inset-x-3 bottom-1 h-0.5 scale-x-0 bg-ink transition-transform;
+  }
+  .nav-item:hover::after,
+  .nav-item[aria-expanded='true']::after {
+    @apply scale-x-100;
+  }
+  .nav-item[aria-current='page']::after,
+  .nav-item-active::after {
+    @apply scale-x-100 bg-accent;
+  }
+  .nav-item[aria-expanded='true'] :global(svg) {
+    @apply rotate-180;
+  }
+
+  .mega-cat {
+    @apply block border-b-2 border-ink pb-2 font-semibold hover:text-accent;
+  }
+  .mega-model {
+    @apply flex min-h-9 items-center text-steel-700 tabular-nums hover:text-ink hover:underline;
+  }
+  .mega-cat[aria-current='page'],
+  .mega-model[aria-current='page'] {
+    @apply text-accent;
+  }
+
+  .model-chip {
+    @apply inline-flex min-h-11 min-w-16 items-center justify-center border border-steel-300 px-3 font-medium tabular-nums;
+  }
+  .model-chip[aria-current='page'] {
+    @apply border-ink bg-ink text-paper;
+  }
+  #mobile-nav a[aria-current='page']:not(.model-chip) {
+    @apply text-accent underline underline-offset-4;
+  }
+</style>
+
+<script>
+  // Products disclosure: Enter/Space toggles (native button), Escape closes and
+  // returns focus, closes when focus or a click leaves it.
+  const disclosure = document.querySelector<HTMLElement>('[data-disclosure]');
+  const productsButton = disclosure?.querySelector<HTMLButtonElement>('button[aria-controls]');
+  const productsPanel = document.getElementById('products-panel');
+
+  function setProducts(open: boolean, returnFocus = false) {
+    if (!productsButton || !productsPanel) return;
+    productsButton.setAttribute('aria-expanded', String(open));
+    productsPanel.hidden = !open;
+    if (!open && returnFocus) productsButton.focus();
+  }
+
+  if (disclosure && productsButton && productsPanel) {
+    productsButton.addEventListener('click', () => {
+      setProducts(productsButton.getAttribute('aria-expanded') !== 'true');
+    });
+    disclosure.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !productsPanel.hidden) {
+        e.preventDefault();
+        setProducts(false, true);
+      }
+    });
+    disclosure.addEventListener('focusout', (e) => {
+      const next = e.relatedTarget as Node | null;
+      if (next && !disclosure.contains(next)) setProducts(false);
+    });
+    document.addEventListener('click', (e) => {
+      if (!productsPanel.hidden && !disclosure.contains(e.target as Node)) setProducts(false);
+    });
+  }
+
+  // Mobile menu
+  const menuButton = document.getElementById('mobile-menu-button');
+  const mobileNav = document.getElementById('mobile-nav');
+
+  function setMenu(open: boolean, returnFocus = false) {
+    if (!menuButton || !mobileNav) return;
+    menuButton.setAttribute('aria-expanded', String(open));
+    mobileNav.hidden = !open;
+    menuButton.querySelector('.menu-open-icon')?.classList.toggle('hidden', open);
+    menuButton.querySelector('.menu-close-icon')?.classList.toggle('hidden', !open);
+    document.documentElement.classList.toggle('overflow-hidden', open);
+    if (!open && returnFocus) menuButton.focus();
+  }
+
+  if (menuButton && mobileNav) {
+    menuButton.addEventListener('click', () => {
+      setMenu(menuButton.getAttribute('aria-expanded') !== 'true');
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !mobileNav.hidden) setMenu(false, true);
+    });
+    window.matchMedia('(width >= 64rem)').addEventListener('change', (e) => {
+      if (e.matches) setMenu(false);
+    });
+  }
+</script>

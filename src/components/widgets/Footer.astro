@@ -1,0 +1,150 @@
+---
+// Site footer. Laid out like a drawing title block: ruled cells on charcoal.
+// Copy from handover 3.1 (wording fixes only, no new claims).
+import { Image } from 'astro:assets';
+import logo from '../../assets/images/legacy/peco_blk_.png';
+import Icon from '../common/Icon.astro';
+import { footerData } from '../../navigation';
+import { CONTACT, SITE } from '../../lib/config';
+
+const year = new Date().getFullYear();
+
+const applications = [
+  'Ventilation intakes and discharges',
+  'Ducted ventilation and air conditioning systems',
+  'Gas turbine and power generation plant intakes and discharges',
+  'Diesel engine exhaust systems',
+  'Cooling plant intakes and discharges',
+  'Boiler flues, furnace plant, crematoria and incinerators',
+  'Industrial process plant',
+];
+---
+
+<footer class="on-dark bg-ink text-steel-300">
+  <div class="container-peco py-12 md:py-16">
+    <div class="grid border border-steel-800 md:grid-cols-2 lg:grid-cols-12">
+      <!-- About -->
+      <section aria-labelledby="footer-about" class="cell lg:col-span-5">
+        <Image
+          src={logo}
+          alt="Peco Silencers Ltd"
+          width={320}
+          class="h-auto w-40"
+        />
+        <h2 id="footer-about" class="cell-title mt-6">About Peco</h2>
+        <p class="max-w-[52ch]">
+          Peco manufactures exhaust, steam vent and spark arrestor silencers. We can provide a solution for a wide
+          range of industrial applications, including customised solutions to minimise specific or unusual noise and
+          emission levels.
+        </p>
+      </section>
+
+      <!-- Applications -->
+      <section aria-labelledby="footer-applications" class="cell lg:col-span-4">
+        <h2 id="footer-applications" class="cell-title">Silencer applications</h2>
+        <ul class="space-y-1.5">
+          {applications.map((a) => <li class="flex gap-3"><span class="mt-[0.7em] h-px w-3 shrink-0 bg-steel-400" aria-hidden="true" />{a}</li>)}
+        </ul>
+      </section>
+
+      <!-- Contact -->
+      <section aria-labelledby="footer-contact" class="cell md:col-span-2 lg:col-span-3">
+        <h2 id="footer-contact" class="cell-title">Get in touch</h2>
+        <address class="not-italic">
+          {CONTACT.address.map((line) => <span class="block">{line}</span>)}
+        </address>
+        <a href={CONTACT.mapUrl} class="footer-link mt-3 inline-flex items-center gap-2" rel="noopener noreferrer">
+          <Icon name="map-pin" class="size-4" />
+          Open in Google Maps
+        </a>
+        <ul class="mt-5 space-y-2">
+          <li>
+            <a href={CONTACT.phoneHref} class="footer-link inline-flex items-center gap-2 tabular-nums">
+              <Icon name="phone" class="size-4" />
+              <span><span class="sr-only">Telephone: </span>{CONTACT.phoneDisplay}</span>
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${CONTACT.email}`} class="footer-link inline-flex items-center gap-2 break-all">
+              <Icon name="mail" class="size-4" />
+              <span><span class="sr-only">Email: </span>{CONTACT.email}</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Quick links -->
+      {
+        footerData.links.map((col, i) => (
+          <nav aria-labelledby={`footer-col-${i}`} class="cell lg:col-span-6">
+            <h2 id={`footer-col-${i}`} class="cell-title">
+              {col.title}
+            </h2>
+            <ul class="grid gap-x-6 gap-y-1 sm:grid-cols-2">
+              {col.links.map((l) => (
+                <li>
+                  <a href={l.href} class="footer-link inline-flex min-h-8 items-center">
+                    {l.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+    </div>
+
+    <div class="mt-6 flex flex-col gap-4 text-sm md:flex-row md:items-center md:justify-between">
+      <p>
+        &copy; {year} {SITE.name}. {footerData.footNote}
+      </p>
+      <nav aria-label="Legal">
+        <ul class="flex flex-wrap gap-x-6 gap-y-2">
+          {
+            footerData.secondaryLinks.map((l) => (
+              <li>
+                <a href={l.href} class="footer-link inline-flex min-h-6 items-center">
+                  {l.text}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<style>
+  @reference "../../styles/global.css";
+
+  .cell {
+    @apply border-steel-800 p-6 md:p-8;
+    border-bottom-width: 1px;
+  }
+  .cell:last-child {
+    border-bottom-width: 0;
+  }
+  /* md: [about | applications] [contact] [products | company] */
+  @media (width >= 48rem) {
+    .cell:nth-child(1),
+    .cell:nth-child(4) {
+      border-right-width: 1px;
+    }
+    .cell:nth-child(4) {
+      border-bottom-width: 0;
+    }
+  }
+  /* lg: [about | applications | contact] [products | company] */
+  @media (width >= 64rem) {
+    .cell:nth-child(2) {
+      border-right-width: 1px;
+    }
+  }
+  .cell-title {
+    @apply mb-4 text-base font-semibold tracking-normal text-paper;
+  }
+  .footer-link {
+    @apply text-paper underline decoration-steel-400 decoration-1 underline-offset-4 hover:decoration-paper hover:decoration-2;
+  }
+</style>

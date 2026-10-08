@@ -1,23 +1,33 @@
 ---
+// Base document: head (metadata, font, favicon, JSON-LD slot) and skip link.
+// Layout split adapted from AstroWind src/layouts/Layout.astro (MIT, see CREDITS.md).
+import { Font } from 'astro:assets';
 import '../styles/global.css';
+import Metadata from '../components/common/Metadata.astro';
+import type { MetaProps } from '../components/common/Metadata.astro';
 
-interface Props {
-  title: string;
-}
+export interface Props extends MetaProps {}
 
-const { title } = Astro.props;
+const props = Astro.props;
 ---
 
+<!doctype html>
 <html lang="en-GB">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Font cssVariable="--font-sans-plex" preload />
+    <Metadata {...props} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <meta name="theme-color" content="#1a1d21" />
+    <meta name="format-detection" content="telephone=no" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <!-- JSON-LD and other per-page head content (T5c) -->
+    <slot name="head" />
   </head>
-  <body>
+  <body class="bg-paper text-ink antialiased">
+    <a href="#main" class="skip-link">Skip to main content</a>
     <slot />
   </body>
 </html>

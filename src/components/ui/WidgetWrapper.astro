@@ -1,0 +1,46 @@
+---
+/*
+ * Ported from AstroWind src/components/ui/WidgetWrapper.astro
+ * https://github.com/onwidget/astrowind/blob/14e1a691f80548dcc36370847b1a02c0d0b12821/src/components/ui/WidgetWrapper.astro
+ * MIT License, Copyright (c) 2023 onWidget. See CREDITS.md.
+ *
+ * Changes: Tailwind 4 @theme tokens instead of AstroWind CSS vars, plain class
+ * join instead of twMerge, no intersect animations, `classes.container` prop.
+ */
+import type { HTMLTag } from 'astro/types';
+
+export interface WidgetProps {
+  id?: string;
+  isDark?: boolean;
+  /** Raw HTML for a custom background layer. */
+  bg?: string;
+  classes?: { container?: string };
+}
+
+export interface Props extends WidgetProps {
+  as?: HTMLTag;
+}
+
+const { id, isDark = false, bg, classes = {}, as = 'section' } = Astro.props;
+
+const WrapperTag = as;
+const cx = (...c: Array<string | false | undefined>) => c.filter(Boolean).join(' ');
+---
+
+<WrapperTag
+  class={cx('relative', isDark ? 'on-dark bg-ink text-paper' : 'text-ink')}
+  {...id ? { id } : {}}
+>
+  {
+    (bg || Astro.slots.has('bg')) && (
+      <div class="pointer-events-none absolute inset-0 -z-[1]" aria-hidden="true">
+        <slot name="bg">
+          <Fragment set:html={bg} />
+        </slot>
+      </div>
+    )
+  }
+  <div class={cx('container-peco relative py-12 md:py-16 lg:py-20', classes.container)}>
+    <slot />
+  </div>
+</WrapperTag>

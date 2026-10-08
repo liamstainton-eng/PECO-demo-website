@@ -1,0 +1,55 @@
+---
+// Helpful 404: no search, clear next steps (plan T1, T5d "gone" URLs land here).
+import PageLayout from '../layouts/PageLayout.astro';
+import WidgetWrapper from '../components/ui/WidgetWrapper.astro';
+import Headline from '../components/ui/Headline.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/common/Icon.astro';
+import { CONTACT, CTA, getQuoteHref } from '../lib/config';
+
+const destinations = [
+  { text: 'Products', href: '/products', note: 'Exhaust gas silencers and spark arrestors, with sizes' },
+  { text: 'Contact', href: '/contact', note: 'Address, phone and email' },
+  { text: 'Home', href: '/', note: 'Start again from the home page' },
+];
+---
+
+<PageLayout
+  title="Page not found"
+  description="The page you were looking for is not on this site. Find Peco silencers, contact details or get a quote."
+  robots={{ index: false, follow: true }}
+>
+  <WidgetWrapper classes={{ container: 'py-16 md:py-24' }}>
+    <Headline
+      as="h1"
+      title="Page not found"
+      subtitle="The page may have moved when this site was rebuilt. These links will get you back on track."
+      classes={{ title: 'text-4xl md:text-5xl' }}
+    />
+
+    <ul class="grid max-w-4xl border-t border-steel-200 md:grid-cols-3 md:border-t-0">
+      {
+        destinations.map((d) => (
+          <li class="border-b border-steel-200 md:border-t-2 md:border-b-0 md:border-t-ink md:pr-6">
+            <a href={d.href} class="group flex items-start justify-between gap-4 py-5">
+              <span>
+                <span class="block text-xl font-semibold group-hover:underline">{d.text}</span>
+                <span class="mt-1 block text-steel-600">{d.note}</span>
+              </span>
+              <Icon name="arrow-right" class="mt-1.5 size-5 text-accent" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-12 max-w-4xl bg-paper-2 p-6 md:p-8">
+      <h2 class="text-2xl">Looking for a particular silencer?</h2>
+      <p class="mt-2 max-w-[60ch] text-steel-600">Call us or send a quote request and we will help you find it.</p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <Button variant="primary" href={getQuoteHref()} text={CTA.quoteLabel} />
+        <Button variant="secondary" href={CONTACT.phoneHref} icon="phone" iconPosition="start" text={`Call ${CONTACT.phoneDisplay}`} />
+      </div>
+    </div>
+  </WidgetWrapper>
+</PageLayout>

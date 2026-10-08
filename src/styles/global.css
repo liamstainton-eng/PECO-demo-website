@@ -1,1 +1,211 @@
 @import "tailwindcss";
+
+/*
+ * Peco design tokens. Hex only so scripts/check-contrast.mjs can read them.
+ * Restrained palette: charcoal ink, cool steel greys, white paper.
+ * Red is reserved for calls to action and small brand accents.
+ */
+@theme {
+  /* Brand red sampled from the PECO logo on the SEA datasheet (#fe0000).
+     Too light for white text (4.0:1), so CTAs use the darker --color-accent. */
+  --color-brand-red: #fe0000;
+  --color-accent: #d00000;
+  --color-accent-hover: #a50000;
+
+  --color-ink: #1a1d21;
+  --color-steel-900: #2a2f35;
+  --color-steel-800: #363c43;
+  --color-steel-700: #444b53;
+  --color-steel-600: #565e67;
+  --color-steel-400: #8b929a;
+  --color-steel-300: #b6bcc3;
+  --color-steel-200: #d5d9dd;
+  --color-steel-100: #e9ebee;
+  --color-paper: #ffffff;
+  --color-paper-2: #f3f4f6;
+
+  --color-focus: #1f5fd6;
+  --color-focus-on-dark: #8fb4ff;
+
+  --font-sans: var(--font-sans-plex), "IBM Plex Sans", Arial, sans-serif;
+
+  /* Type scale: major third (1.25) from a 16px base. */
+  --text-display: 3.052rem;
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: -0.02em;
+
+  --header-h: 4.5rem;
+  --mobile-bar-h: 4rem;
+}
+
+@layer base {
+  html {
+    color: var(--color-ink);
+    background-color: var(--color-paper);
+    -webkit-text-size-adjust: 100%;
+    /* Sticky header must never cover a focused or anchored element (WCAG 2.4.11). */
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+    scroll-padding-bottom: 1rem;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-feature-settings: "kern";
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media (width < 48rem) {
+    html {
+      /* Fixed mobile CTA bar sits at the bottom of the viewport. */
+      scroll-padding-bottom: calc(var(--mobile-bar-h) + 1rem);
+    }
+    body {
+      padding-bottom: var(--mobile-bar-h);
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .on-dark :focus-visible {
+    outline-color: var(--color-focus-on-dark);
+  }
+
+  ::selection {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+}
+
+@layer components {
+  .container-peco {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 80rem;
+    padding-inline: 1rem;
+  }
+  @media (width >= 48rem) {
+    .container-peco {
+      padding-inline: 2rem;
+    }
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: 0.5rem;
+    z-index: 100;
+    padding: 0.75rem 1rem;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-weight: 600;
+    transform: translateY(-200%);
+  }
+  .skip-link:focus {
+    transform: none;
+    outline-color: var(--color-focus-on-dark);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.625rem 1.25rem;
+    border: 2px solid transparent;
+    border-radius: 2px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color 120ms ease,
+      border-color 120ms ease,
+      color 120ms ease;
+  }
+  .btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-paper);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-accent-hover);
+  }
+  .btn-secondary {
+    border-color: currentColor;
+    color: var(--color-ink);
+    background-color: transparent;
+  }
+  .btn-secondary:hover {
+    background-color: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+  .on-dark .btn-secondary {
+    color: var(--color-paper);
+  }
+  .on-dark .btn-secondary:hover {
+    background-color: var(--color-paper);
+    border-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+  .btn-link {
+    padding: 0;
+    min-height: 0;
+    border: 0;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+  .btn-link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  .link {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+  .link:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
+/* Unlayered so they win over utilities inside dark sections. */
+.on-dark .headline-sub {
+  color: var(--color-steel-300);
+}
+.on-dark .headline-tag {
+  color: var(--color-steel-200);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
