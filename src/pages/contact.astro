@@ -1,0 +1,93 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import WidgetWrapper from '../components/ui/WidgetWrapper.astro';
+import Headline from '../components/ui/Headline.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/common/Icon.astro';
+import { CONTACT, CTA, LAUNCH, getQuoteHref } from '../lib/config';
+
+const checklist = [
+  'Engine make, model and power (kW)',
+  'Exhaust bore or connection size',
+  'Noise target in dB(A), and the distance it applies at',
+  'Application (for example generator, ventilation, boiler flue)',
+  'Orientation (horizontal or vertical) and any space limits',
+  'Quantity required',
+  'Drawings or photos attached, if you have them',
+];
+---
+
+<PageLayout
+  title="Contact"
+  description="Contact Peco Silencers Ltd in Bromborough, Wirral by phone or email, find our address, and see what to include in your silencer enquiry."
+>
+  <WidgetWrapper>
+    <Headline
+      as="h1"
+      title="Contact Peco Silencers"
+      subtitle="Call or email us with your requirements and we will help you choose or design the right silencer."
+      classes={{ title: 'text-4xl md:text-5xl' }}
+    />
+
+    <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
+      <div class="space-y-8">
+        <dl class="border-t border-steel-200">
+          <div class="border-b border-steel-200 py-5">
+            <dt class="text-sm font-semibold text-steel-700">Phone number</dt>
+            <dd class="mt-1">
+              <a href={CONTACT.phoneHref} class="link inline-flex min-h-11 items-center gap-2 text-2xl font-semibold tabular-nums">
+                <Icon name="phone" class="size-5" />
+                {CONTACT.phoneDisplay}
+              </a>
+            </dd>
+          </div>
+          <div class="border-b border-steel-200 py-5">
+            <dt class="text-sm font-semibold text-steel-700">Email address</dt>
+            <dd class="mt-1">
+              <a href={`mailto:${CONTACT.email}`} class="link inline-flex min-h-11 items-center gap-2 break-all text-xl font-semibold">
+                <Icon name="mail" class="size-5" />
+                {CONTACT.email}
+              </a>
+            </dd>
+          </div>
+          <div class="border-b border-steel-200 py-5">
+            <dt class="text-sm font-semibold text-steel-700">Office address</dt>
+            <dd class="mt-1">
+              <address class="not-italic">
+                {CONTACT.address.map((line) => <span class="block">{line}</span>)}
+              </address>
+              <a
+                href={CONTACT.mapUrl}
+                target="_blank"
+                rel="noopener"
+                class="link mt-3 inline-flex min-h-11 items-center gap-2 font-semibold"
+              >
+                <Icon name="map-pin" class="size-4" />
+                Open in Google Maps<span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            </dd>
+          </div>
+        </dl>
+        {!LAUNCH && <p class="-mt-4">Opening hours: TODO(client)</p>}
+
+        <Button variant="primary" href={getQuoteHref()} text={CTA.quoteLabel} icon="arrow-right" />
+      </div>
+
+      <section aria-labelledby="enquiry-heading" class="self-start border border-steel-200 bg-paper-2 p-6 md:p-8">
+        <h2 id="enquiry-heading" class="text-xl font-semibold">What to include in your enquiry</h2>
+        <p class="mt-3 text-steel-700">If you email us, these details help us give you a useful reply sooner.</p>
+        <ul class="mt-5 space-y-3">
+          {
+            checklist.map((c) => (
+              <li class="flex gap-3">
+                <span class="mt-[0.7em] h-px w-4 shrink-0 bg-accent" aria-hidden="true" />
+                {c}
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+    <!-- M2: short contact form here -->
+  </WidgetWrapper>
+</PageLayout>

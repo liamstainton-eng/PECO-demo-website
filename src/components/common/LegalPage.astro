@@ -1,0 +1,84 @@
+---
+// Renders one entry of the `legal` collection. Used by /privacy, /terms and /cookies.
+import { getEntry, render } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import WidgetWrapper from '../ui/WidgetWrapper.astro';
+import Headline from '../ui/Headline.astro';
+
+export interface Props {
+  /** Id of the entry in src/content/legal (the file name without .md). */
+  slug: 'privacy' | 'terms' | 'cookies';
+}
+
+const { slug } = Astro.props;
+const entry = await getEntry('legal', slug);
+if (!entry) throw new Error(`legal entry "${slug}" not found`);
+const { Content } = await render(entry);
+const { title, description, approved, lastUpdated } = entry.data;
+const updated = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long', timeZone: 'UTC' }).format(lastUpdated);
+---
+
+<PageLayout title={title} description={description} robots={approved ? {} : { index: false, follow: true }}>
+  <WidgetWrapper>
+    <Headline as="h1" title={title} classes={{ title: 'text-4xl md:text-5xl', container: 'mb-6 max-w-3xl md:mb-8' }} />
+    {
+      !approved && (
+        <p class="mb-6 max-w-3xl border-l-4 border-accent bg-paper-2 px-4 py-3 font-semibold" role="note">
+          Draft – awaiting approval by Peco Silencers Ltd.
+        </p>
+      )
+    }
+    <p class="mb-8 text-sm text-steel-700">
+      Last updated: <time datetime={lastUpdated.toISOString().slice(0, 10)}>{updated}</time>
+    </p>
+    <div class="legal-prose max-w-3xl">
+      <Content />
+    </div>
+  </WidgetWrapper>
+</PageLayout>
+
+<style is:global>
+  @reference "../../styles/global.css";
+
+  .legal-prose {
+    @apply text-base leading-relaxed text-steel-900;
+  }
+  .legal-prose > * + * {
+    @apply mt-4;
+  }
+  .legal-prose h2 {
+    @apply mt-10 text-2xl font-semibold text-ink;
+  }
+  .legal-prose h3 {
+    @apply mt-8 text-xl font-semibold text-ink;
+  }
+  .legal-prose ul {
+    @apply list-disc space-y-1.5 pl-6;
+  }
+  .legal-prose ol {
+    @apply list-decimal space-y-1.5 pl-6;
+  }
+  .legal-prose a {
+    @apply text-ink underline decoration-1 underline-offset-4 hover:decoration-2;
+  }
+  .legal-prose strong {
+    @apply font-semibold text-ink;
+  }
+  .legal-prose code {
+    @apply bg-paper-2 px-1 py-0.5 text-[0.9em];
+  }
+  .legal-prose blockquote {
+    @apply border-l-4 border-steel-300 pl-4 text-steel-700;
+  }
+  /* Tables scroll inside their own box, never the page. */
+  .legal-prose table {
+    @apply block max-w-full overflow-x-auto border-collapse text-left text-sm;
+  }
+  .legal-prose th,
+  .legal-prose td {
+    @apply min-w-32 border border-steel-200 px-3 py-2 align-top;
+  }
+  .legal-prose th {
+    @apply bg-paper-2 font-semibold text-ink;
+  }
+</style>

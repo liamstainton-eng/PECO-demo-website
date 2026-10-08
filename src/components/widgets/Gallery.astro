@@ -1,0 +1,184 @@
+---
+// Photo grid with a native <dialog> lightbox.
+// Without JS each thumbnail is a plain link to the larger image file; the script
+// swaps each link for a <button> that opens the dialog.
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { capWidths } from '../../lib/images';
+import Icon from '../common/Icon.astro';
+
+export interface GalleryItem {
+  id: string;
+  image: ImageMetadata;
+  alt: string;
+  caption?: string | null;
+}
+
+export interface Props {
+  items: GalleryItem[];
+}
+
+const { items } = Astro.props;
+
+const FULL_WIDTH = 1600;
+const entries = await Promise.all(
+  items.map(async (item) => {
+    // capWidths never exceeds the intrinsic width, so the large view is never upscaled.
+    const full = await getImage({ src: item.image, width: capWidths(item.image, [FULL_WIDTH]).at(-1) });
+    return { ...item, full: full.src };
+  }),
+);
+---
+
+<ul class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4" data-gallery>
+  {
+    entries.map((item, i) => (
+      <li>
+        <a
+          href={item.full}
+          class="gallery-thumb group block overflow-hidden bg-paper-2"
+          data-gallery-item
+          data-index={i}
+          data-full={item.full}
+          data-alt={item.alt}
+        >
+          <Image
+            src={item.image}
+            alt={item.alt}
+            widths={capWidths(item.image, [320, 480, 640])}
+            sizes="(min-width: 64rem) 20rem, (min-width: 48rem) 30vw, 46vw"
+            loading="lazy"
+            decoding="async"
+            class="aspect-[4/3] h-auto w-full object-cover transition-opacity group-hover:opacity-90"
+          />
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<dialog class="gallery-dialog" aria-label="Project photo viewer" data-gallery-dialog>
+  <div class="gallery-panel">
+    <div class="gallery-stage">
+      <img src="" alt="" class="gallery-img" data-gallery-img />
+    </div>
+    <p class="gallery-caption" data-gallery-caption></p>
+    <div class="gallery-controls">
+      <button type="button" class="gallery-btn" data-gallery-prev aria-label="Previous photo">
+        <Icon name="arrow-right" class="size-5 rotate-180" />
+      </button>
+      <p class="gallery-count tabular-nums" data-gallery-count aria-live="polite"></p>
+      <button type="button" class="gallery-btn" data-gallery-next aria-label="Next photo">
+        <Icon name="arrow-right" class="size-5" />
+      </button>
+      <button type="button" class="gallery-btn gallery-close" data-gallery-close aria-label="Close photo viewer">
+        <Icon name="close" class="size-5" />
+      </button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const grid = document.querySelector<HTMLElement>('[data-gallery]');
+  const dialog = document.querySelector<HTMLDialogElement>('[data-gallery-dialog]');
+  if (grid && dialog && typeof dialog.showModal === 'function') {
+    const img = dialog.querySelector<HTMLImageElement>('[data-gallery-img]')!;
+    const caption = dialog.querySelector<HTMLElement>('[data-gallery-caption]')!;
+    const count = dialog.querySelector<HTMLElement>('[data-gallery-count]')!;
+    const thumbs: HTMLButtonElement[] = [];
+    let current = 0;
+    let opener: HTMLElement | null = null;
+
+    const show = (i: number) => {
+      current = (i + thumbs.length) % thumbs.length;
+      const t = thumbs[current];
+      img.src = t.dataset.full ?? '';
+      caption.textContent = t.dataset.alt ?? '';
+      count.textContent = `${current + 1} of ${thumbs.length}`;
+    };
+
+    // Swap each fallback link for a button that carries the same content.
+    grid.querySelectorAll<HTMLAnchorElement>('[data-gallery-item]').forEach((a, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = a.className;
+      b.dataset.full = a.dataset.full;
+      b.dataset.alt = a.dataset.alt;
+      b.setAttribute('aria-haspopup', 'dialog');
+      b.append(...Array.from(a.childNodes));
+      b.addEventListener('click', () => {
+        opener = b;
+        show(i);
+        dialog.showModal();
+      });
+      a.replaceWith(b);
+      thumbs.push(b);
+    });
+
+    dialog.querySelector('[data-gallery-prev]')!.addEventListener('click', () => show(current - 1));
+    dialog.querySelector('[data-gallery-next]')!.addEventListener('click', () => show(current + 1));
+    dialog.querySelector('[data-gallery-close]')!.addEventListener('click', () => dialog.close());
+    // A click on the backdrop (the dialog element itself) closes.
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(current - 1);
+      else if (e.key === 'ArrowRight') show(current + 1);
+    });
+    dialog.addEventListener('close', () => {
+      (opener ?? thumbs[current])?.focus();
+    });
+  }
+</script>
+
+<style is:global>
+  @reference "../../styles/global.css";
+
+  .gallery-thumb {
+    @apply cursor-pointer border-0 p-0 text-left;
+  }
+  body:has(dialog.gallery-dialog[open]) {
+    overflow: hidden;
+  }
+  .gallery-dialog {
+    @apply m-auto max-h-[100dvh] w-full border-0 bg-ink p-0 text-paper;
+    max-width: min(64rem, 100vw);
+  }
+  .gallery-dialog::backdrop {
+    background-color: rgb(26 29 33 / 0.85);
+  }
+  .gallery-panel {
+    @apply flex max-h-[100dvh] flex-col gap-3 p-3 md:p-5;
+  }
+  .gallery-stage {
+    @apply flex min-h-0 flex-1 items-center justify-center;
+  }
+  /* Natural size only: auto width/height with max limits, so the photo is never upscaled. */
+  .gallery-img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(100dvh - 11rem);
+    object-fit: contain;
+  }
+  .gallery-caption {
+    @apply text-sm text-steel-200;
+    max-width: 70ch;
+  }
+  .gallery-controls {
+    @apply flex items-center gap-2;
+  }
+  .gallery-count {
+    @apply text-sm text-steel-300;
+  }
+  .gallery-btn {
+    @apply inline-flex size-11 cursor-pointer items-center justify-center border-2 border-steel-400 bg-transparent text-paper hover:border-paper hover:bg-paper hover:text-ink;
+  }
+  .gallery-close {
+    @apply ml-auto;
+  }
+  .gallery-dialog :focus-visible {
+    outline-color: var(--color-focus-on-dark);
+  }
+</style>

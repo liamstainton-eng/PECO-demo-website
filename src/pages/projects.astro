@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import WidgetWrapper from '../components/ui/WidgetWrapper.astro';
+import Headline from '../components/ui/Headline.astro';
+import Button from '../components/ui/Button.astro';
+import Gallery from '../components/widgets/Gallery.astro';
+import { CONTACT, CTA, getQuoteHref } from '../lib/config';
+
+const projects = await getCollection('projects');
+const items = projects.map((p) => ({
+  id: p.data.id,
+  image: p.data.image,
+  alt: p.data.alt,
+  caption: p.data.caption,
+}));
+---
+
+<PageLayout
+  title="Project photos"
+  description="A selection of silencers designed and manufactured by Peco Silencers Ltd, shown in the workshop and installed on site."
+>
+  <WidgetWrapper>
+    <Headline
+      as="h1"
+      title="Project photos"
+      subtitle="A selection of silencers designed and manufactured by Peco."
+      classes={{ title: 'text-4xl md:text-5xl' }}
+    />
+    <Gallery items={items} />
+  </WidgetWrapper>
+
+  <WidgetWrapper isDark>
+    <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+      <div class="max-w-2xl">
+        <h2 class="text-2xl font-semibold md:text-3xl">Need something similar?</h2>
+        <p class="mt-3 text-steel-300">Tell us about your application and we will help you choose or design a silencer.</p>
+      </div>
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <Button variant="primary" href={getQuoteHref()} text={CTA.quoteLabel} icon="mail" iconPosition="start" />
+        <Button variant="secondary" href={CONTACT.phoneHref} icon="phone" iconPosition="start">
+          <span class="sr-only">Call </span>{CONTACT.phoneDisplay}
+        </Button>
+      </div>
+    </div>
+  </WidgetWrapper>
+</PageLayout>
