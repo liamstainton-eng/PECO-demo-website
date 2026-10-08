@@ -1,0 +1,40 @@
+{
+  "name": "peco-site",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "postbuild": "node scripts/write-headers.mjs",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check",
+    "test": "node --test tests/unit/",
+    "e2e": "playwright test",
+    "verify:data": "node scripts/check-products.mjs",
+    "verify:dist": "node scripts/check-dist.mjs && node scripts/check-contrast.mjs",
+    "verify": "npm run check && npm run test && npm run verify:data && npm run build && npm run verify:dist"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.8",
+    "tailwindcss": "^4.3.3",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.64.0",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.149.0"
+  },
+  "private": true,
+  "allowScripts": {
+    "workerd@1.20261006.1": true
+  }
+}
