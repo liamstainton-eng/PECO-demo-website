@@ -1,6 +1,7 @@
 ---
 // Category page body (/products/<category>): intro from the Markdown body,
-// comparison table, model cards, CTA band and links to the other categories.
+// comparison table, model cards, CTA band (with See pricing when PRICING_LIVE) and
+// links to the other categories.
 import Breadcrumbs from '../common/Breadcrumbs.astro';
 import ProductRangeTable from '../widgets/ProductRangeTable.astro';
 import type { RangeRow } from '../widgets/ProductRangeTable.astro';
@@ -8,6 +9,7 @@ import ProductCard from './ProductCard.astro';
 import AttenuationBadge from './AttenuationBadge.astro';
 import CtaBand from './CtaBand.astro';
 import { LAUNCH, getQuoteHref } from '../../lib/config';
+import { PRICING_LIVE } from '../../lib/pricing';
 import { applyTodoRuleToHtml, paragraphsToHtml, productHref, TODO_MARK_CLASS, TODO_MARKER } from './catalog';
 import type { BoreSummary, Category, Product } from './catalog';
 
@@ -73,7 +75,10 @@ const rows: RangeRow[] = items.map(({ product, bore }) => ({
   </section>
 </div>
 
-<CtaBand />
+<CtaBand
+  pricingHref={PRICING_LIVE ? `/pricing#${category.id}` : undefined}
+  pricingContext={`for ${c.name.toLowerCase()}`}
+/>
 
 {
   others.length > 0 && (

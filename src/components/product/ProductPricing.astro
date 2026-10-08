@@ -1,0 +1,62 @@
+---
+// Indicative pricing on a product page (#pricing): the model's size-band tiers,
+// then "Get a quote for <model>". Rendered only when PRICING_LIVE (ProductView).
+// Models with no size bands (SA2, SE30 ABS) show "Pricing on request".
+import PriceValue from './PriceValue.astro';
+import TodoText from './TodoText.astro';
+import { LAUNCH, getQuoteHref } from '../../lib/config';
+import { PRICING, productTiers } from '../../lib/pricing';
+import { hasTodo } from './catalog';
+
+export interface Props {
+  model: string;
+  slug: string;
+}
+
+const { model, slug } = Astro.props;
+const tiers = productTiers(slug);
+const quoteHref = getQuoteHref({ model, slug });
+const showBasis = PRICING.basis.trim() !== '' && (!LAUNCH || !hasTodo(PRICING.basis));
+const cols: Record<number, string> = { 1: 'sm:grid-cols-1', 2: 'sm:grid-cols-2', 3: 'sm:grid-cols-3' };
+---
+
+<section id="pricing" aria-labelledby="pricing-heading">
+  <h2 id="pricing-heading" class="text-2xl md:text-3xl">Indicative pricing</h2>
+  {
+    tiers.length > 0 ? (
+      <>
+        <p class="mt-3 max-w-[62ch] text-steel-700">
+          Guide prices by bore size. Every {model} is quoted to your specification.
+        </p>
+        {showBasis && <TodoText text={PRICING.basis} class="mt-2 max-w-[68ch] text-sm text-steel-700" model={model} slug={slug} />}
+        <dl class:list={['mt-6 grid gap-px border border-steel-300 bg-steel-300', cols[tiers.length] ?? 'sm:grid-cols-3']}>
+          {tiers.map((tier) => (
+            <div class="flex items-center justify-between gap-4 bg-paper px-5 py-4 sm:flex-col sm:items-start sm:justify-start sm:gap-1">
+              <dt>
+                <span class="font-semibold">{tier.label}</span>
+                <span class="block text-sm text-steel-600 tabular-nums">{tier.detail} bore</span>
+              </dt>
+              <dd class="text-lg sm:mt-1 sm:text-xl">
+                <PriceValue
+                  price={tier.price}
+                  fallback="ask"
+                  model={model}
+                  slug={slug}
+                  context={`about ${model} ${tier.id} size pricing`}
+                />
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </>
+    ) : (
+      <p class="mt-5 max-w-[62ch] border-l-4 border-ink bg-paper-2 px-5 py-4">
+        <span class="font-semibold">Pricing on request.</span> Every {model} is quoted to your specification.
+      </p>
+    )
+  }
+  <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+    <a href={quoteHref} class="btn btn-primary">Get a quote for {model}</a>
+    <a href="/pricing" class="link inline-flex min-h-6 items-center font-semibold">Compare pricing across the range</a>
+  </div>
+</section>

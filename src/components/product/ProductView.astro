@@ -10,8 +10,10 @@ import SpecTable from './SpecTable.astro';
 import QuoteAside from './QuoteAside.astro';
 import RelatedProducts from './RelatedProducts.astro';
 import TodoText from './TodoText.astro';
+import ProductPricing from './ProductPricing.astro';
 import { LAUNCH, getQuoteHref } from '../../lib/config';
 import { capWidths } from '../../lib/images';
+import { PRICING_LIVE } from '../../lib/pricing';
 import type { SizeRow } from '../../lib/csv';
 import { cropAlt, drawingCrop, hasTodo, productHref, TODO_MARK_CLASS, TODO_MARKER } from './catalog';
 import type { BoreSummary, Category, Product } from './catalog';
@@ -218,6 +220,14 @@ const showNotes = plainNotes.length > 0 || todoNotes.length > 0;
       <QuoteAside model={p.model} slug={slug} variant="inline" />
     </div>
   </section>
+
+  {
+    PRICING_LIVE && (
+      <div class="mt-16 md:mt-20">
+        <ProductPricing model={p.model} slug={slug} />
+      </div>
+    )
+  }
 
   {
     related.length > 0 && (

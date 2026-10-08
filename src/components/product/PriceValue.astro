@@ -1,0 +1,36 @@
+---
+// One indicative price: "From £1,250" when the client has supplied a figure.
+// A missing figure shows "From £ TODO(client)" in staging; in launch it becomes
+// "Price on request" (fallback="text") or an "Ask us" quote link (fallback="ask").
+import TodoValue from '../ui/TodoValue.astro';
+import { LAUNCH } from '../../lib/config';
+import { formatFrom } from '../../lib/pricing';
+import { TODO_MARK_CLASS, TODO_MARKER } from './catalog';
+
+export interface Props {
+  price: number | null;
+  fallback?: 'text' | 'ask';
+  /** Screen-reader context for the "Ask us" link, e.g. "about SE40 small size pricing". */
+  context?: string;
+  model?: string;
+  slug?: string;
+  class?: string;
+}
+
+const { price, fallback = 'text', context, model, slug, class: className } = Astro.props;
+const text = formatFrom(price);
+---
+
+{
+  text ? (
+    <span class:list={['font-semibold whitespace-nowrap text-ink tabular-nums', className]}>{text}</span>
+  ) : !LAUNCH ? (
+    <span class:list={['whitespace-nowrap', className]}>
+      From £ <mark class={TODO_MARK_CLASS} title={TODO_MARKER}>{TODO_MARKER}</mark>
+    </span>
+  ) : fallback === 'ask' ? (
+    <TodoValue model={model} slug={slug} context={context} class={className} />
+  ) : (
+    <span class:list={['text-steel-700', className]}>Price on request</span>
+  )
+}

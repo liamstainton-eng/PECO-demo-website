@@ -1,17 +1,20 @@
 #!/usr/bin/env node
-// Post-build checks over every HTML page in dist/. No dependencies.
+// Post-build checks over every HTML page in a dist dir (default dist/). No dependencies.
 //
-//   node scripts/check-dist.mjs [--skip-links]
+//   node scripts/check-dist.mjs [--dir <path>] [--skip-links]
 //
 // Per page: tel link, "Get a quote" link (M1 mailto or M2 /quote), exactly one
-// <h1>, alt on every <img>, banned strings absent, <title> present and unique,
-// meta description present. Then internal href existence (unless --skip-links).
+// <h1>, alt on every <img> (a bare `alt` counts: Astro renders alt="" that way),
+// banned strings absent, <title> present and unique, meta description present.
+// Then internal href existence (unless --skip-links).
 // LAUNCH=1: any "TODO(client)" fails. Otherwise TODO(client) counts are reported.
 import { readdirSync, readFileSync, existsSync, statSync } from "node:fs";
-import { join, relative, sep } from "node:path";
+import { join, relative, resolve, sep } from "node:path";
 
-const DIST = join(process.cwd(), "dist");
-const SKIP_LINKS = process.argv.includes("--skip-links");
+const args = process.argv.slice(2);
+const dirIdx = args.indexOf("--dir");
+const DIST = resolve(dirIdx >= 0 ? args[dirIdx + 1] : "dist");
+const SKIP_LINKS = args.includes("--skip-links");
 const LAUNCH = process.env.LAUNCH === "1";
 
 const TEL_HREF = 'href="tel:01513430330"';
@@ -29,7 +32,7 @@ const BANNED = [
 ];
 
 if (!existsSync(DIST)) {
-  console.error("check-dist: dist/ not found, run `npm run build` first");
+  console.error(`check-dist: ${DIST} not found, run a build first`);
   process.exit(1);
 }
 
@@ -59,6 +62,13 @@ const attr = (attrs, name) => {
   );
   return m ? decode(m[1] ?? m[2] ?? m[3] ?? "") : undefined;
 };
+
+/** Attribute present at all, valued or bare. Quoted values are blanked first so
+ *  text inside another attribute (e.g. title="... alt ...") cannot match. */
+const hasAttr = (attrs, name) =>
+  new RegExp(`(^|\\s)${name}(?=\\s*=|[\\s/]|$)`, "i").test(
+    attrs.replace(/"[^"]*"|'[^']*'/g, '""'),
+  );
 
 const files = walk(DIST).filter((f) => f.endsWith(".html"));
 const pageOf = (f) => "/" + relative(DIST, f).split(sep).join("/");
@@ -99,7 +109,7 @@ for (const file of files) {
   if (h1s !== 1) fail(page, `expected exactly one <h1>, found ${h1s}`);
 
   for (const m of content.matchAll(/<img\b([^>]*)>/gi)) {
-    if (attr(m[1], "alt") === undefined)
+    if (!hasAttr(m[1], "alt"))
       fail(page, `<img> without alt: ${m[0].slice(0, 120)}`);
   }
 

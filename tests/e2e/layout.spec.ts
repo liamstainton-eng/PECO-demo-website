@@ -163,3 +163,32 @@ test.describe("header interactions", () => {
     ).toBeTruthy();
   });
 });
+
+test.describe("pricing", () => {
+  test("/pricing has one h1, a grade card per category and a focusable table region", async ({
+    page,
+  }) => {
+    await page.goto("/pricing");
+    await expect(page.locator("h1")).toHaveCount(1);
+    for (const id of ["residential", "critical", "industrial", "spark-arrestors"]) {
+      await expect(page.locator(`article#${id}`)).toHaveCount(1);
+    }
+    const region = page.locator('[role="region"][aria-labelledby="size-prices-caption"]');
+    await expect(region).toHaveAttribute("tabindex", "0");
+    await expect(region.locator("caption")).toHaveCount(1);
+    await expect(region.locator('th[scope="row"]')).toHaveCount(9);
+  });
+
+  test("product page See pricing jumps to #pricing, which ends with a quote button", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/products/se40");
+    const section = page.locator("section#pricing");
+    await expect(section).toHaveAttribute("aria-labelledby", "pricing-heading");
+    await page.getByRole("link", { name: "See pricing for the SE40" }).click();
+    await expect(page).toHaveURL(/#pricing$/);
+    await expect(section.getByRole("heading", { name: "Indicative pricing" })).toBeInViewport();
+    await expect(section.getByRole("link", { name: "Get a quote for SE40" })).toBeVisible();
+  });
+});

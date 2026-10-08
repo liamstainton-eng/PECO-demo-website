@@ -1,9 +1,10 @@
 ---
-// "Request a quote for <model>" with Get a quote, Call and Email.
+// "Request a quote for <model>" with Get a quote, See pricing (when PRICING_LIVE), Call and Email.
 // variant "aside": sticky side panel, desktop only (mobile uses the site MobileCtaBar).
 // variant "inline": a block placed after the size table, at every width.
 import Icon from '../common/Icon.astro';
 import { CONTACT, CTA, getQuoteHref } from '../../lib/config';
+import { PRICING_LIVE } from '../../lib/pricing';
 
 export interface Props {
   model: string;
@@ -34,6 +35,13 @@ const Tag = variant === 'aside' ? 'aside' : 'section';
   </div>
   <div class:list={['flex flex-col gap-3', variant === 'aside' ? 'mt-5' : 'mt-5 sm:flex-row sm:flex-wrap md:mt-0 md:shrink-0']}>
     <a href={quoteHref} class="btn btn-primary">{CTA.quoteLabel}</a>
+    {
+      PRICING_LIVE && (
+        <a href="#pricing" class="btn btn-secondary">
+          See pricing<span class="sr-only"> for the {model}</span>
+        </a>
+      )
+    }
     <a href={CONTACT.phoneHref} class="btn btn-secondary tabular-nums">
       <Icon name="phone" class="size-5" />
       <span><span class="sr-only">Call </span>{CONTACT.phoneDisplay}</span>

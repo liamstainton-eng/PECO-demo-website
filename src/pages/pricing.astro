@@ -1,0 +1,322 @@
+---
+// /pricing: indicative ("round about") prices, by silencer grade and by size band.
+// Every figure comes from src/data/pricing.json (client-supplied); nothing is invented.
+// Launch build with no prices yet: the page still builds but shows "Pricing on request".
+// No Offer or price schema in the JSON-LD (entity-only, see ADR).
+import PageLayout from '../layouts/PageLayout.astro';
+import Breadcrumbs from '../components/common/Breadcrumbs.astro';
+import JsonLd from '../components/common/JsonLd.astro';
+import TodoValue from '../components/ui/TodoValue.astro';
+import AttenuationBadge from '../components/product/AttenuationBadge.astro';
+import CtaBand from '../components/product/CtaBand.astro';
+import PriceValue from '../components/product/PriceValue.astro';
+import TodoText from '../components/product/TodoText.astro';
+import { getCategories, getProducts, hasTodo, productHref, productsIn } from '../components/product/catalog';
+import { LAUNCH } from '../lib/config';
+import { breadcrumbLd } from '../lib/jsonld';
+import { attenuationRange, bandCells, gradeTiers, PRICING, PRICING_LIVE } from '../lib/pricing';
+
+const categories = await getCategories();
+const products = await getProducts(categories);
+const grades = gradeTiers();
+
+const gradeCards = categories.map((category) => {
+  const models = productsIn(category, products);
+  const grade = grades.find((g) => g.id === category.id);
+  return {
+    category,
+    label: grade?.label ?? category.data.name,
+    price: grade?.price ?? null,
+    range: attenuationRange(models.map((m) => m.data.attenuationDbA)),
+    models,
+  };
+});
+
+const tableRows = products.map((product) => ({
+  product,
+  grade: gradeCards.find((g) => g.category.id === product.data.category.id)?.label,
+  cells: bandCells(product.id),
+}));
+
+// The basis note is TODO(client) until Peco confirms it: staging only until then.
+const showBasis = PRICING.basis.trim() !== '' && (!LAUNCH || !hasTodo(PRICING.basis));
+const captionId = 'size-prices-caption';
+
+const title = 'Indicative pricing';
+const description = PRICING_LIVE
+  ? 'Indicative prices for Peco exhaust silencers and spark arrestors, by silencer grade and by size band. Every silencer is quoted to your specification.'
+  : 'Pricing for Peco exhaust silencers and spark arrestors is on request. Every silencer is quoted to your engine size and noise target.';
+---
+
+<PageLayout title={title} description={description}>
+  <Fragment slot="head">
+    <JsonLd
+      data={[
+        breadcrumbLd([
+          { name: 'Home', path: '/' },
+          { name: 'Pricing', path: '/pricing' },
+        ]),
+      ]}
+    />
+  </Fragment>
+
+  <div class="container-peco pt-6 pb-16 md:pt-8 md:pb-20">
+    <Breadcrumbs
+      items={[
+        { name: 'Home', href: '/' },
+        { name: 'Pricing', href: '/pricing' },
+      ]}
+    />
+
+    <header class="mt-6 border-b-2 border-ink pb-8 md:mt-8">
+      <h1 class="text-4xl md:text-5xl lg:text-display">Indicative pricing</h1>
+      <p class="mt-4 max-w-[62ch] text-lg text-steel-700 md:text-xl">
+        {PRICING_LIVE ? 'Guide prices to help you budget. ' : ''}Every silencer is quoted to your specification.
+      </p>
+      {PRICING_LIVE && showBasis && <TodoText text={PRICING.basis} class="mt-4 max-w-[68ch] text-sm text-steel-700" />}
+      {
+        PRICING_LIVE && (
+          <nav aria-label="On this page" class="mt-6">
+            <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+              <li>
+                <a href="#by-grade" class="link inline-flex min-h-6 items-center font-semibold">
+                  By silencer grade
+                </a>
+              </li>
+              <li>
+                <a href="#by-size" class="link inline-flex min-h-6 items-center font-semibold">
+                  By size
+                </a>
+              </li>
+            </ul>
+          </nav>
+        )
+      }
+    </header>
+
+    {
+      PRICING_LIVE ? (
+        <>
+          <section id="by-grade" aria-labelledby="by-grade-heading" class="mt-12 md:mt-16">
+            <h2 id="by-grade-heading" class="text-2xl md:text-3xl">
+              By silencer grade
+            </h2>
+            <p class="mt-2 max-w-[62ch] text-steel-700">The lowest guide price in each grade, across its models and sizes.</p>
+            <div class="mt-6 grid border-t border-l border-steel-200 sm:grid-cols-2 lg:grid-cols-4">
+              {gradeCards.map(({ category, label, price, range, models }) => (
+                <article
+                  id={category.id}
+                  aria-labelledby={`${category.id}-grade-heading`}
+                  class="flex flex-col border-r border-b border-steel-200 bg-paper p-5 md:p-6"
+                >
+                  <div class="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+                    <h3 id={`${category.id}-grade-heading`} class="text-lg font-semibold">
+                      {label}
+                    </h3>
+                    {range && <AttenuationBadge value={range} />}
+                  </div>
+                  <p class="mt-4 text-sm text-steel-600">
+                    {models.length === 1 ? 'Model' : 'Models'}
+                  </p>
+                  <ul class="mt-2 flex flex-wrap gap-2" role="list">
+                    {models.map((m) => (
+                      <li>
+                        <a href={productHref(m.id)} class="model-chip">
+                          {m.data.model}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                  <div class="mt-auto pt-6">
+                    <div class="border-t-2 border-ink pt-3">
+                      <p class="text-sm text-steel-600">Guide price</p>
+                      <p class="mt-1 text-xl">
+                        <PriceValue price={price} />
+                      </p>
+                    </div>
+                    <a href={productHref(category.id)} class="link mt-3 inline-flex min-h-6 items-center text-sm">
+                      About {category.data.name.toLowerCase()}
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section id="by-size" aria-labelledby="by-size-heading" class="mt-16 md:mt-20">
+            <h2 id="by-size-heading" class="text-2xl md:text-3xl">
+              By size
+            </h2>
+            <p class="mt-2 max-w-[62ch] text-steel-700">
+              Each model is priced by bore size, in up to three size bands.
+            </p>
+            <dl class="mt-6 grid gap-px border border-steel-300 bg-steel-300 sm:grid-cols-3">
+              {PRICING.bands.map((band) => (
+                <div class="flex flex-col gap-1 bg-paper px-4 py-3.5">
+                  <dt class="font-semibold">{band.label}</dt>
+                  <dd class="text-sm text-steel-700 tabular-nums">{band.boreRange} bore</dd>
+                </div>
+              ))}
+            </dl>
+
+            <p class="mt-8 mb-2 text-sm text-steel-600 md:hidden">Scroll the table sideways to see every size band.</p>
+            <div role="region" aria-labelledby={captionId} tabindex="0" class="price-scroll md:mt-8">
+              <table class="price-table">
+                <caption id={captionId}>Indicative prices by model and size band</caption>
+                <thead>
+                  <tr>
+                    <th scope="col" class="model-col">
+                      Model
+                    </th>
+                    {PRICING.bands.map((band) => (
+                      <th scope="col">
+                        {band.label}
+                        <span class="band-range">{band.boreRange}</span>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {tableRows.map(({ product, grade, cells }) => (
+                    <tr>
+                      <th scope="row" class="model-col">
+                        <a href={productHref(product.id)} class="link font-semibold">
+                          {product.data.model}
+                        </a>
+                        {grade && <span class="row-grade">{grade}</span>}
+                      </th>
+                      {cells === null ? (
+                        <td colspan={PRICING.bands.length} class="on-request">
+                          <TodoValue
+                            model={product.data.model}
+                            slug={product.id}
+                            context={`about ${product.data.model} pricing`}
+                          />
+                        </td>
+                      ) : (
+                        cells.map((cell) => (
+                          <td>
+                            {cell.available ? (
+                              <PriceValue
+                                price={cell.price}
+                                fallback="ask"
+                                model={product.data.model}
+                                slug={product.id}
+                                context={`about ${product.data.model} ${cell.id} size pricing`}
+                              />
+                            ) : (
+                              <>
+                                <span aria-hidden="true" class="text-steel-400">
+                                  –
+                                </span>
+                                <span class="sr-only">not available in this size</span>
+                              </>
+                            )}
+                          </td>
+                        ))
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-3 text-sm text-steel-700">
+              <span aria-hidden="true" class="font-semibold text-ink">–</span> Not available in this size band.
+            </p>
+          </section>
+        </>
+      ) : (
+        <section aria-labelledby="on-request-heading" class="mt-10 max-w-[62ch] border-l-4 border-ink bg-paper-2 px-5 py-4 md:mt-12">
+          <h2 id="on-request-heading" class="text-xl font-semibold md:text-2xl">
+            Pricing on request
+          </h2>
+          <p class="mt-2 text-steel-700">Tell us your engine size and noise target and we will quote for the silencer you need.</p>
+        </section>
+      )
+    }
+  </div>
+
+  <CtaBand
+    title={PRICING_LIVE ? 'Prices are a guide' : 'Get a price for your silencer'}
+    text={PRICING_LIVE
+      ? 'Get an exact quote for your engine and noise target.'
+      : 'Tell us your engine size and noise target and we will recommend a silencer.'}
+  />
+</PageLayout>
+
+<style>
+  @reference "../styles/global.css";
+
+  .model-chip {
+    @apply inline-flex min-h-9 min-w-14 items-center justify-center border border-steel-300 px-3 text-sm font-medium tabular-nums hover:border-ink hover:bg-ink hover:text-paper;
+  }
+
+  .price-scroll {
+    /* Containing block for the sr-only spans in cells; without it they escape the
+       scroll box and widen the page. */
+    position: relative;
+    overflow-x: auto;
+    border-top: 2px solid var(--color-ink);
+    border-bottom: 2px solid var(--color-ink);
+    overscroll-behavior-x: contain;
+  }
+  .price-scroll:focus-visible {
+    outline-offset: 3px;
+  }
+  .price-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    line-height: 1.35;
+    font-variant-numeric: tabular-nums;
+  }
+  @media (width >= 48rem) {
+    .price-table {
+      font-size: 0.9375rem;
+    }
+  }
+  caption {
+    padding: 0.75rem 0.75rem 0.625rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+  th,
+  td {
+    padding: 0.625rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+    white-space: nowrap;
+  }
+  thead th {
+    font-weight: 600;
+    border-top: 1px solid var(--color-steel-300);
+    border-bottom: 1px solid var(--color-ink);
+  }
+  thead th:not(.model-col),
+  tbody td {
+    border-left: 1px solid var(--color-steel-200);
+  }
+  .band-range,
+  .row-grade {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--color-steel-600);
+  }
+  .model-col {
+    min-width: 7rem;
+  }
+  tbody tr > * {
+    border-bottom: 1px solid var(--color-steel-200);
+  }
+  tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+  tbody tr:nth-child(even) > * {
+    background-color: var(--color-paper-2);
+  }
+  .on-request {
+    color: var(--color-steel-700);
+  }
+</style>

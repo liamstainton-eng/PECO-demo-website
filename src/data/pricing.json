@@ -1,0 +1,73 @@
+{
+  "currency": "GBP",
+  "basis": "TODO(client): confirm what indicative prices include (e.g. ex VAT, carbon steel, standard BS10 Table D flanges, delivery extra).",
+  "bands": [
+    {
+      "id": "small",
+      "label": "Small",
+      "boreRange": "up to 3 in",
+      "minIn": 0,
+      "maxIn": 3
+    },
+    {
+      "id": "medium",
+      "label": "Medium",
+      "boreRange": "3½ in to 8 in",
+      "minIn": 3.5,
+      "maxIn": 8
+    },
+    {
+      "id": "large",
+      "label": "Large",
+      "boreRange": "10 in to 20 in",
+      "minIn": 10,
+      "maxIn": 20
+    }
+  ],
+  "grades": [
+    { "category": "industrial", "label": "Industrial", "fromPrice": null },
+    {
+      "category": "residential",
+      "label": "Residential and semi-residential",
+      "fromPrice": null
+    },
+    { "category": "critical", "label": "Critical", "fromPrice": null },
+    {
+      "category": "spark-arrestors",
+      "label": "Spark arrestors",
+      "fromPrice": null
+    }
+  ],
+  "products": {
+    "sea": {
+      "bands": ["small", "medium"],
+      "prices": { "small": null, "medium": null }
+    },
+    "se20": {
+      "bands": ["medium", "large"],
+      "prices": { "medium": null, "large": null }
+    },
+    "se30": {
+      "bands": ["small", "medium", "large"],
+      "prices": { "small": null, "medium": null, "large": null }
+    },
+    "se30-abs": { "bands": [], "prices": {} },
+    "se40": {
+      "bands": ["small", "medium", "large"],
+      "prices": { "small": null, "medium": null, "large": null }
+    },
+    "se50": {
+      "bands": ["small", "medium", "large"],
+      "prices": { "small": null, "medium": null, "large": null }
+    },
+    "sls": {
+      "bands": ["small", "medium", "large"],
+      "prices": { "small": null, "medium": null, "large": null }
+    },
+    "sa1": {
+      "bands": ["small", "medium", "large"],
+      "prices": { "small": null, "medium": null, "large": null }
+    },
+    "sa2": { "bands": [], "prices": {} }
+  }
+}

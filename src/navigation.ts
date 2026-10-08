@@ -5,8 +5,14 @@
  *
  * Shapes kept: headerData { links, actions }, footerData { links, secondaryLinks, footNote }.
  * Routes below are FROZEN (plan T1). Category mapping is provisional until the client confirms.
+ * /pricing (US-017) is linked only when PRICING_LIVE (always in staging; in launch once prices exist).
  */
-import { CONTACT, CTA, getQuoteHref } from "./lib/config";
+import { CONTACT, CTA, LAUNCH, getQuoteHref } from "./lib/config";
+import { PRICING_LIVE } from "./lib/pricing";
+
+const pricingLink: NavLink[] = PRICING_LIVE
+  ? [{ text: "Pricing", href: "/pricing" }]
+  : [];
 
 export interface NavLink {
   text: string;
@@ -75,6 +81,7 @@ export const productCategories: NavLink[] = [
 export const headerData: { links: NavLink[]; actions: NavAction[] } = {
   links: [
     { text: "Products", href: "/products", links: productCategories },
+    ...pricingLink,
     { text: "Projects", href: "/projects" },
     { text: "About", href: "/about" },
     { text: "Contact", href: "/contact" },
@@ -102,6 +109,7 @@ export const footerData: {
       links: [
         { text: "All products", href: "/products" },
         ...productCategories.map(({ text, href }) => ({ text, href })),
+        ...pricingLink,
       ],
     },
     {
@@ -119,5 +127,6 @@ export const footerData: {
     { text: "Terms and conditions", href: "/terms" },
     { text: "Cookie policy", href: "/cookies" },
   ],
-  footNote: "Company no. TODO(client)",
+  // Staging only until Peco supplies the company number; launch omits it.
+  footNote: LAUNCH ? "" : "Company no. TODO(client)",
 };
