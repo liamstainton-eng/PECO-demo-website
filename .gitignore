@@ -34,3 +34,6 @@ playwright-report/
 
 # per-agent build outputs
 dist-*/
+
+# raw Lighthouse runs (summary.json is kept)
+docs/qa/lighthouse/*-run*.json
