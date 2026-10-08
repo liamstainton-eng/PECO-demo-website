@@ -1,23 +1,149 @@
 ---
-// Placeholder home page (T1). Replaced by the full home page in T3a.
+// Home (plan T3a, handover 8.2). Copy sources: handover 3.1 (applications,
+// address), 3.2 (hero subline), 3.3 (survey and installation), 8.2 (structure).
+// No year claims (handover 4.2 #2, client question Q1), no SLA (Q8).
+import { getCollection } from 'astro:content';
+import type { ImageMetadata } from 'astro';
 import PageLayout from '../layouts/PageLayout.astro';
 import WidgetWrapper from '../components/ui/WidgetWrapper.astro';
 import Headline from '../components/ui/Headline.astro';
-import Button from '../components/ui/Button.astro';
+import Hero from '../components/widgets/Hero.astro';
+import TrustStrip from '../components/widgets/TrustStrip.astro';
+import CategoryCards from '../components/widgets/CategoryCards.astro';
+import GalleryTeaser from '../components/widgets/GalleryTeaser.astro';
+import Steps from '../components/widgets/Steps.astro';
+import CallToAction from '../components/widgets/CallToAction.astro';
 import { CTA, getQuoteHref } from '../lib/config';
+
+import heroImage from '../assets/images/legacy/slide1122.jpg';
+import renderChambered from '../assets/images/legacy/hero3.jpg';
+import renderAngled from '../assets/images/legacy/hero2_1.jpg';
+import renderStraight from '../assets/images/legacy/hero1.jpg';
+import sa1Drawing from '../assets/images/products/sa1-drawing.png';
+
+const categoryImages: Record<string, { image: ImageMetadata; imageAlt: string }> = {
+  residential: {
+    image: renderChambered,
+    imageAlt: 'Cutaway render of a multi-chamber exhaust silencer with an absorptive final section',
+  },
+  critical: {
+    image: renderAngled,
+    imageAlt: 'Cutaway render of a chambered exhaust silencer with angled internal tubes and an absorptive final section',
+  },
+  industrial: {
+    image: renderStraight,
+    imageAlt: 'Cutaway render of a straight-through absorptive silencer with a perforated inner tube',
+  },
+  'spark-arrestors': {
+    image: sa1Drawing,
+    imageAlt: 'Outline drawing of the SA1 spark arrestor silencer in end, side and plan views',
+  },
+};
+
+const categories = (await getCollection('categories'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((c) => {
+    const visual = categoryImages[c.id];
+    if (!visual) throw new Error(`index.astro: no card image for category "${c.id}"`);
+    return { name: c.data.name, summary: c.data.summary, href: `/products/${c.id}`, ...visual };
+  });
+
+const galleryIds = ['s1', '91', 'silencer000', '4', 's2', 'silencer4'];
+const projects = await getCollection('projects');
+const gallery = galleryIds.map((pid) => {
+  const p = projects.find((x) => x.id === pid);
+  if (!p) throw new Error(`index.astro: project "${pid}" not found`);
+  return { image: p.data.image, alt: p.data.alt };
+});
+
+// Handover 8.2 application areas, described with footer 3.1 and product copy wording.
+const applications = [
+  { name: 'Generators', detail: 'Standby generator sets and diesel engine exhaust systems' },
+  { name: 'Gas turbines', detail: 'Gas turbine and power generation plant intakes and discharges' },
+  { name: 'Marine and offshore', detail: 'Dry marine applications and onshore and offshore installations' },
+  { name: 'HVAC', detail: 'Ventilation, air conditioning and cooling plant intakes and discharges' },
+  { name: 'Boilers', detail: 'Boiler flues, furnace plant, crematoria and incinerators' },
+  { name: 'Process plant', detail: 'Industrial process plant, fan blowers and centrifugal compressors' },
+];
 ---
 
-<PageLayout>
-  <WidgetWrapper classes={{ container: 'py-16 md:py-24 lg:py-32' }}>
+<PageLayout
+  description="Peco Silencers Ltd designs and manufactures industrial exhaust silencers and spark arrestors in Bromborough, Wirral, including bespoke silencers built to your project specification."
+>
+  <Hero
+    title="Industrial exhaust silencers, designed and manufactured in the UK"
+    subtitle="A wide range of exhaust silencers for all applications and engine sizes, plus custom silencers designed to your project specification."
+    image={heroImage}
+    imageAlt="Large silver-finished cylindrical silencer on support legs in a workshop"
+    location="Bromborough, Wirral, UK"
+    actions={[
+      { text: CTA.quoteLabel, href: getQuoteHref(), variant: 'primary' },
+      { text: 'View products', href: '/products', variant: 'secondary' },
+    ]}
+  />
+
+  <TrustStrip
+    label="Peco at a glance"
+    items={[
+      'UK manufacturer, Bromborough, Wirral',
+      'Bespoke designs to your project specification',
+      'Exhaust, spark arrestor, intake and steam vent silencers',
+      'Site survey and installation service',
+    ]}
+  />
+
+  <CategoryCards
+    id="ranges"
+    title="Silencer ranges"
+    subtitle="Exhaust gas silencers and spark arrestors. Compare models, attenuation and sizes in each range."
+    items={categories}
+  />
+
+  <CallToAction
+    tone="light"
+    title="Not sure what you need?"
+    subtitle="Tell us your engine, exhaust bore and noise target and we'll recommend a silencer."
+    quoteHref={getQuoteHref({
+      body: 'Engine (make, model, power):\nExhaust bore:\nNoise target:\nAnything else:',
+    })}
+  />
+
+  <WidgetWrapper id="applications">
     <Headline
-      as="h1"
-      title="Industrial exhaust silencers and spark arrestors"
-      subtitle="Peco Silencers Ltd has a wide range of exhaust silencers covering all applications and engine sizes, and specialises in custom-made exhaust silencers designed to your project specification."
-      classes={{ title: 'text-4xl md:text-5xl lg:text-display', subtitle: 'text-lg md:text-xl' }}
+      title="Silencer applications"
+      subtitle="Standard and bespoke silencers for a wide range of industrial applications."
     />
-    <div class="flex flex-wrap gap-3">
-      <Button variant="primary" href={getQuoteHref()} text={CTA.quoteLabel} />
-      <Button variant="secondary" href="/products" text="View products" />
-    </div>
+    <ul class="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        applications.map((a) => (
+          <li class="border-t-2 border-ink pt-4">
+            <h3 class="text-lg font-semibold">{a.name}</h3>
+            <p class="mt-1 text-steel-600">{a.detail}</p>
+          </li>
+        ))
+      }
+    </ul>
   </WidgetWrapper>
+
+  <GalleryTeaser
+    id="projects"
+    title="Completed projects"
+    items={gallery}
+    link={{ text: 'See project photos', href: '/projects' }}
+    classes={{ container: 'pt-0 md:pt-0 lg:pt-0' }}
+  />
+
+  <div class="border-t border-steel-200 bg-paper-2">
+    <Steps
+      id="how-it-works"
+      title="How it works"
+      items={[
+        { title: 'Tell us about your engine or plant and your noise target.' },
+        { title: 'We recommend a standard model or design a bespoke silencer.' },
+        { title: 'We quote and manufacture.' },
+      ]}
+    />
+  </div>
+
+  <CallToAction title="Tell us your engine size and noise target." />
 </PageLayout>

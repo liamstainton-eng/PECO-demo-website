@@ -1,0 +1,169 @@
+---
+/*
+ * Ported from AstroWind src/components/widgets/Hero.astro
+ * https://github.com/onwidget/astrowind/blob/14e1a691f80548dcc36370847b1a02c0d0b12821/src/components/widgets/Hero.astro
+ * MIT License, Copyright (c) 2023 onWidget. See CREDITS.md.
+ *
+ * Changes: background photo with a dark overlay instead of an image below the
+ * text, left-aligned, text props rendered as text (not set:html), no intersect
+ * animations, a drawing-sheet frame (zone references on the border) and a small
+ * title-block panel for the phone line. The photo box is capped at the image's
+ * intrinsic width so it is never upscaled.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Button from '../ui/Button.astro';
+import Icon from '../common/Icon.astro';
+import { capWidths } from '../../lib/images';
+import { CONTACT } from '../../lib/config';
+
+export interface Props {
+  id?: string;
+  title: string;
+  subtitle?: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  actions?: Array<{ text: string; href: string; variant?: 'primary' | 'secondary' }>;
+  /** Location line shown in the title-block panel. */
+  location?: string;
+}
+
+const { id, title, subtitle, image, imageAlt, actions = [], location } = Astro.props;
+
+const zones = ['1', '2', '3', '4', '5', '6'];
+const rows = ['A', 'B', 'C'];
+---
+
+<section class="on-dark relative overflow-hidden bg-ink text-paper" {...id ? { id } : {}}>
+  <div class="relative mx-auto" style={`max-width: ${image.width}px`}>
+    <Image
+      src={image}
+      alt={imageAlt}
+      widths={capWidths(image, [640, 960, 1280, 1600])}
+      sizes={`(min-width: ${image.width}px) ${image.width}px, 100vw`}
+      loading="eager"
+      fetchpriority="high"
+      class="absolute inset-0 h-full w-full object-cover object-[70%_center]"
+    />
+    <!-- Overlay: the photo is already dark (max channel 185), so >= 60% ink behind the text column keeps white copy above 6:1 and steel-200 copy above 4.5:1. -->
+    <div
+      class="absolute inset-0 bg-ink/60 md:bg-transparent md:bg-[linear-gradient(90deg,rgb(26_29_33/0.72)_0%,rgb(26_29_33/0.62)_46%,rgb(26_29_33/0.2)_74%,rgb(26_29_33/0.1)_100%)]"
+      aria-hidden="true"
+    >
+    </div>
+
+    <!-- Drawing-sheet frame with zone references, as on a general-arrangement drawing. -->
+    <div class="sheet-frame pointer-events-none absolute inset-3 hidden md:block lg:inset-5" aria-hidden="true">
+      <ol class="sheet-zones sheet-zones-top">
+        {zones.map((z) => <li>{z}</li>)}
+      </ol>
+      <ol class="sheet-zones sheet-zones-bottom">
+        {zones.map((z) => <li>{z}</li>)}
+      </ol>
+      <ol class="sheet-rows sheet-rows-left">
+        {rows.map((r) => <li>{r}</li>)}
+      </ol>
+      <ol class="sheet-rows sheet-rows-right">
+        {rows.map((r) => <li>{r}</li>)}
+      </ol>
+    </div>
+
+    <div class="container-peco relative py-16 sm:py-20 md:px-14 md:py-24 lg:px-16 lg:py-28">
+      <div class="max-w-[40rem]">
+        <h1 class="text-[2.25rem] leading-[1.08] font-semibold tracking-[-0.02em] sm:text-5xl lg:text-display">
+          {title}
+        </h1>
+        {subtitle && <p class="mt-6 max-w-[34rem] text-lg text-steel-200 md:text-xl">{subtitle}</p>}
+        {
+          actions.length > 0 && (
+            <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+              {actions.map((a) => (
+                <Button variant={a.variant ?? 'secondary'} href={a.href} text={a.text} class="sm:min-w-40" />
+              ))}
+            </div>
+          )
+        }
+      </div>
+
+      <dl class="title-block mt-12 grid max-w-md grid-cols-[auto_1fr] text-sm md:mt-16">
+        <dt>Telephone</dt>
+        <dd>
+          <a href={CONTACT.phoneHref} class="inline-flex items-center gap-2 text-base font-semibold text-paper tabular-nums underline decoration-steel-400 underline-offset-4 hover:decoration-paper">
+            <Icon name="phone" class="size-4" />
+            {CONTACT.phoneDisplay}
+          </a>
+        </dd>
+        {
+          location && (
+            <>
+              <dt>Manufactured in</dt>
+              <dd class="text-paper">{location}</dd>
+            </>
+          )
+        }
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  @reference "../../styles/global.css";
+
+  .sheet-frame {
+    border: 1px solid rgb(182 188 195 / 0.35);
+  }
+  .sheet-zones,
+  .sheet-rows {
+    @apply absolute flex text-[0.6875rem] leading-none text-steel-400;
+  }
+  .sheet-zones {
+    @apply inset-x-0 h-4;
+  }
+  .sheet-zones-top {
+    top: 0;
+    border-bottom: 1px solid rgb(182 188 195 / 0.25);
+  }
+  .sheet-zones-bottom {
+    bottom: 0;
+    border-top: 1px solid rgb(182 188 195 / 0.25);
+  }
+  .sheet-zones li {
+    @apply flex flex-1 items-center justify-center;
+  }
+  .sheet-zones li + li {
+    border-left: 1px solid rgb(182 188 195 / 0.25);
+  }
+  .sheet-rows {
+    @apply inset-y-4 w-4 flex-col;
+  }
+  .sheet-rows-left {
+    left: 0;
+    border-right: 1px solid rgb(182 188 195 / 0.25);
+  }
+  .sheet-rows-right {
+    right: 0;
+    border-left: 1px solid rgb(182 188 195 / 0.25);
+  }
+  .sheet-rows li {
+    @apply flex flex-1 items-center justify-center;
+  }
+  .sheet-rows li + li {
+    border-top: 1px solid rgb(182 188 195 / 0.25);
+  }
+
+  .title-block {
+    border: 1px solid var(--color-steel-600);
+    background-color: rgb(26 29 33 / 0.7);
+  }
+  .title-block dt,
+  .title-block dd {
+    @apply flex min-h-11 items-center px-4 py-2;
+  }
+  .title-block dt {
+    @apply border-r border-steel-600 text-steel-300;
+  }
+  .title-block dt:not(:first-of-type),
+  .title-block dd:not(:first-of-type) {
+    border-top: 1px solid var(--color-steel-600);
+  }
+</style>

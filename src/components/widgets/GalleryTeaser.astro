@@ -1,0 +1,45 @@
+---
+// Six project photos with their alt text and a link to /projects.
+// No captions or claims: projects have no confirmed captions yet (handover 4.2).
+// Follows the WidgetWrapper props pattern ({ id, isDark, bg, classes }).
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import WidgetWrapper from '../ui/WidgetWrapper.astro';
+import type { WidgetProps } from '../ui/WidgetWrapper.astro';
+import Headline from '../ui/Headline.astro';
+import Icon from '../common/Icon.astro';
+import { capWidths } from '../../lib/images';
+
+export interface Props extends WidgetProps {
+  title?: string;
+  items: Array<{ image: ImageMetadata; alt: string }>;
+  link: { text: string; href: string };
+}
+
+const { title, items, link, id, isDark, bg, classes } = Astro.props;
+---
+
+<WidgetWrapper id={id} isDark={isDark} bg={bg} classes={classes}>
+  <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between md:mb-10">
+    <Headline title={title} classes={{ container: 'max-w-2xl mb-0! md:mb-0!' }} />
+    <a href={link.href} class="link inline-flex min-h-11 items-center gap-2 font-semibold">
+      {link.text}
+      <Icon name="arrow-right" class="size-4" />
+    </a>
+  </div>
+  <ul class="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3">
+    {
+      items.map((item) => (
+        <li class="aspect-[4/3] overflow-hidden bg-steel-100">
+          <Image
+            src={item.image}
+            alt={item.alt}
+            widths={capWidths(item.image, [240, 400, 640])}
+            sizes="(min-width: 80rem) 395px, (min-width: 48rem) 31vw, 46vw"
+            class="h-full w-full object-cover"
+          />
+        </li>
+      ))
+    }
+  </ul>
+</WidgetWrapper>

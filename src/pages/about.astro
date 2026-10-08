@@ -1,0 +1,137 @@
+---
+// About (plan T3a). Copy: handover 3.3 (wording fixes only: "their range",
+// sentence-case product names), 3.2 intro line, 3.1 address via CONTACT.
+// No years, accreditations or client names (handover 4.2, client question Q1).
+import PageLayout from '../layouts/PageLayout.astro';
+import WidgetWrapper from '../components/ui/WidgetWrapper.astro';
+import Headline from '../components/ui/Headline.astro';
+import Content from '../components/widgets/Content.astro';
+import CallToAction from '../components/widgets/CallToAction.astro';
+import Icon from '../components/common/Icon.astro';
+import { CONTACT, getQuoteHref } from '../lib/config';
+import q7 from '../assets/images/legacy/gallery/q7.jpg';
+
+// "We also supply" (handover 3.3). No pages exist for these yet, so each is a quote enquiry.
+const alsoSupply = [
+  'Air intake and extract silencers',
+  'Steam vent silencers',
+  'Box silencers',
+  'Acoustic doors and canopies',
+  'Catalytic converters',
+  'Particulate/DPF filters',
+  'SCR systems',
+  'Site survey and installation',
+];
+
+const companyName = CONTACT.address[0];
+---
+
+<PageLayout
+  title="About Peco Silencers"
+  description="Peco Silencers Ltd manufactures and supplies exhaust gas, spark arrestor, intake, extract and steam vent silencers from Bromborough, Wirral, with site survey and installation."
+>
+  <div class="border-b border-steel-200 bg-paper-2">
+    <WidgetWrapper classes={{ container: 'py-12 md:py-16' }}>
+      <Headline
+        as="h1"
+        title="About Peco Silencers"
+        subtitle="Exhaust gas silencers, spark arrestors and custom silencers designed to your project specification."
+        classes={{ container: 'max-w-3xl mb-0! md:mb-0!', title: 'text-4xl md:text-5xl' }}
+      />
+    </WidgetWrapper>
+  </div>
+
+  <Content image={{ src: q7, alt: 'A group of cylindrical steel silencers standing upright, each with a flanged opening and perforated inner tube' }}>
+    <p>
+      Peco Silencers manufacture and supply a comprehensive range of{' '}
+      <a href="/products" class="link">exhaust gas silencers</a>,{' '}
+      <a href="/products/spark-arrestors" class="link">spark arrestor silencers</a>, air intake and extract silencers,
+      steam vent silencers, box silencers, acoustic doors and canopies capable of handling the most stringent of
+      environmental demands.
+    </p>
+    <p>
+      Combine this with a full site survey and installation service, and Peco Silencers can offer the complete turnkey
+      option.
+    </p>
+    <p>
+      Peco Silencers can also offer emission reductions and solutions through their range of catalytic converters,
+      particulate/DPF filters and SCR systems.
+    </p>
+    <p>
+      Peco Silencers Ltd has a wide range of exhaust silencers that covers all applications and engine sizes, and
+      specialises in the design of custom-made exhaust silencers based on specific project specifications.
+    </p>
+  </Content>
+
+  <WidgetWrapper id="also-supply" classes={{ container: 'pt-0 md:pt-0 lg:pt-0' }}>
+    <Headline
+      title="We also supply"
+      subtitle="These products and services do not have their own pages yet. Choose one to send us an enquiry by email."
+    />
+    <ul class="grid border-t border-l border-steel-200 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        alsoSupply.map((item) => (
+          <li class="border-r border-b border-steel-200">
+            <a
+              href={getQuoteHref({ body: `Enquiry: ${item}` })}
+              class="supply-link group flex h-full min-h-20 items-start justify-between gap-4 p-5 font-semibold"
+            >
+              <span>
+                {item}
+                <span class="mt-1 block text-sm font-normal text-steel-600 group-hover:text-ink">
+                  Enquire<span class="sr-only"> about {item.toLowerCase()}</span>
+                </span>
+              </span>
+              <Icon name="mail" class="mt-0.5 size-5 text-steel-600 group-hover:text-ink" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </WidgetWrapper>
+
+  <WidgetWrapper id="location" classes={{ container: 'pt-0 md:pt-0 lg:pt-0' }}>
+    <div class="grid gap-6 border-t-2 border-ink pt-6 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] md:gap-12">
+      <h2 class="text-2xl font-semibold md:text-3xl">Where we are</h2>
+      <div>
+        <p class="text-lg text-steel-800">{companyName} is based in Bromborough, Wirral.</p>
+        <address class="mt-4 text-steel-800 not-italic">
+          {CONTACT.address.map((line) => <span class="block">{line}</span>)}
+        </address>
+        <ul class="mt-5 flex flex-col gap-3 sm:flex-row sm:gap-8">
+          <li>
+            <a href={CONTACT.mapUrl} class="link inline-flex min-h-11 items-center gap-2 font-semibold" rel="noopener noreferrer">
+              <Icon name="map-pin" class="size-5" />
+              Open in Google Maps
+            </a>
+          </li>
+          <li>
+            <a href={CONTACT.phoneHref} class="link inline-flex min-h-11 items-center gap-2 font-semibold tabular-nums">
+              <Icon name="phone" class="size-5" />
+              <span><span class="sr-only">Telephone: </span>{CONTACT.phoneDisplay}</span>
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${CONTACT.email}`} class="link inline-flex min-h-11 items-center gap-2 font-semibold break-all">
+              <Icon name="mail" class="size-5" />
+              <span><span class="sr-only">Email: </span>{CONTACT.email}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </WidgetWrapper>
+
+  <CallToAction title="Tell us your engine size and noise target." />
+</PageLayout>
+
+<style>
+  @reference "../styles/global.css";
+
+  .supply-link:hover {
+    background-color: var(--color-paper-2);
+  }
+  .supply-link:focus-visible {
+    outline-offset: -3px;
+  }
+</style>

@@ -1,0 +1,52 @@
+---
+/*
+ * Ported from AstroWind src/components/widgets/CallToAction.astro
+ * https://github.com/onwidget/astrowind/blob/14e1a691f80548dcc36370847b1a02c0d0b12821/src/components/widgets/CallToAction.astro
+ * MIT License, Copyright (c) 2023 onWidget. See CREDITS.md.
+ *
+ * Changes: left-aligned band with the actions beside the text instead of a
+ * centred card, fixed quote + call actions from site config, `tone` prop
+ * (light paper band or dark steel band), no set:html.
+ */
+import WidgetWrapper from '../ui/WidgetWrapper.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../common/Icon.astro';
+import { CONTACT, CTA, getQuoteHref } from '../../lib/config';
+
+export interface Props {
+  id?: string;
+  title: string;
+  subtitle?: string;
+  /** `dark` sits above the footer; `light` is for mid-page bands. */
+  tone?: 'light' | 'dark';
+  quoteHref?: string;
+  /** Heading level; defaults to h2. */
+  as?: 'h2' | 'h3';
+}
+
+const { id, title, subtitle, tone = 'dark', quoteHref = getQuoteHref(), as = 'h2' } = Astro.props;
+const Heading = as;
+const dark = tone === 'dark';
+---
+
+<div class:list={[dark ? 'on-dark bg-steel-900 text-paper' : 'border-y border-steel-200 bg-paper-2 text-ink']}>
+  <WidgetWrapper id={id} classes={{ container: 'py-12 md:py-14 lg:py-16' }}>
+    <div class="grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-12">
+      <div class:list={['max-w-2xl', dark ? 'border-l-2 border-paper pl-5 md:pl-6' : 'border-l-2 border-ink pl-5 md:pl-6']}>
+        <Heading class:list={['text-2xl font-semibold md:text-3xl', dark ? 'text-paper' : 'text-ink']}>{title}</Heading>
+        {
+          subtitle && (
+            <p class:list={['mt-3 text-lg', dark ? 'text-steel-300' : 'text-steel-600']}>{subtitle}</p>
+          )
+        }
+      </div>
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <Button variant="primary" href={quoteHref} text={CTA.quoteLabel} />
+        <a href={CONTACT.phoneHref} class="btn btn-secondary tabular-nums" aria-label={`Call ${CONTACT.phoneDisplay}`}>
+          <Icon name="phone" class="size-5" />
+          Call {CONTACT.phoneDisplay}
+        </a>
+      </div>
+    </div>
+  </WidgetWrapper>
+</div>

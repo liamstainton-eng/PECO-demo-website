@@ -1,0 +1,54 @@
+---
+/*
+ * Ported from AstroWind src/components/widgets/Content.astro
+ * https://github.com/onwidget/astrowind/blob/14e1a691f80548dcc36370847b1a02c0d0b12821/src/components/widgets/Content.astro
+ * MIT License, Copyright (c) 2023 onWidget. See CREDITS.md.
+ *
+ * Changes: prose comes from the default slot (no set:html), no items grid or
+ * call-to-action prop, the image is shown at no more than its intrinsic width
+ * (legacy photos are low resolution) inside a ruled frame, no animations.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import WidgetWrapper from '../ui/WidgetWrapper.astro';
+import type { WidgetProps } from '../ui/WidgetWrapper.astro';
+import Headline from '../ui/Headline.astro';
+import { capWidths } from '../../lib/images';
+
+export interface Props extends WidgetProps {
+  title?: string;
+  subtitle?: string;
+  image?: { src: ImageMetadata; alt: string };
+  isReversed?: boolean;
+}
+
+const { title, subtitle, image, isReversed = false, id, isDark, bg, classes } = Astro.props;
+---
+
+<WidgetWrapper id={id} isDark={isDark} bg={bg} classes={classes}>
+  <Headline title={title} subtitle={subtitle} />
+  <div
+    class:list={[
+      'grid gap-10 lg:gap-16',
+      image && 'md:grid-cols-[minmax(0,1fr)_auto] md:items-start',
+      isReversed && image && 'md:[&>*:first-child]:order-2',
+    ]}
+  >
+    <div class="content-prose max-w-[65ch] space-y-5 text-lg text-steel-800">
+      <slot />
+    </div>
+    {
+      image && (
+        <figure class="w-full border border-steel-200 bg-paper p-2" style={`max-width: ${image.src.width + 18}px`}>
+          <Image
+            src={image.src}
+            alt={image.alt}
+            widths={capWidths(image.src, [320, image.src.width])}
+            sizes={`(min-width: ${image.src.width}px) ${image.src.width}px, 100vw`}
+            class="h-auto w-full"
+          />
+        </figure>
+      )
+    }
+  </div>
+</WidgetWrapper>

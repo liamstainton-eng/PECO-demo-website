@@ -1,0 +1,93 @@
+---
+/*
+ * Adapted from AstroWind src/components/widgets/Features.astro
+ * https://github.com/onwidget/astrowind/blob/14e1a691f80548dcc36370847b1a02c0d0b12821/src/components/widgets/Features.astro
+ * MIT License, Copyright (c) 2023 onWidget. See CREDITS.md.
+ *
+ * Changes: linked cards with an image instead of icon items, ruled grid (shared
+ * borders like a drawing schedule) instead of separate cards, whole card
+ * clickable through the heading link, no set:html. Images are capped at their
+ * intrinsic width.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import WidgetWrapper from '../ui/WidgetWrapper.astro';
+import type { WidgetProps } from '../ui/WidgetWrapper.astro';
+import Headline from '../ui/Headline.astro';
+import Icon from '../common/Icon.astro';
+import { capWidths } from '../../lib/images';
+
+export interface CategoryCard {
+  name: string;
+  summary: string;
+  href: string;
+  image: ImageMetadata;
+  imageAlt: string;
+}
+
+export interface Props extends WidgetProps {
+  title?: string;
+  subtitle?: string;
+  items: CategoryCard[];
+  linkText?: string;
+}
+
+const { title, subtitle, items, linkText = 'View range', id, isDark, bg, classes } = Astro.props;
+---
+
+<WidgetWrapper id={id} isDark={isDark} bg={bg} classes={classes}>
+  <Headline title={title} subtitle={subtitle} classes={{ container: 'max-w-2xl' }} />
+  <ul class="grid border-t border-l border-steel-200 sm:grid-cols-2 lg:grid-cols-4">
+    {
+      items.map((item) => (
+        <li class="cat-card group relative flex flex-col border-r border-b border-steel-200 bg-paper p-5 md:p-6">
+          <div class="flex aspect-[4/3] items-center justify-center">
+            <Image
+              src={item.image}
+              alt={item.imageAlt}
+              widths={capWidths(item.image, [320, 480, 640])}
+              sizes={`(min-width: 64rem) 280px, (min-width: 40rem) 45vw, 92vw`}
+              class="h-full w-full object-contain mix-blend-multiply"
+              style={`max-width: ${item.image.width}px`}
+            />
+          </div>
+          <h3 class="mt-5 text-xl font-semibold">
+            <a href={item.href} class="cat-link">
+              {item.name}
+            </a>
+          </h3>
+          <p class="mt-2 text-steel-600">{item.summary}</p>
+          <p class="mt-auto inline-flex items-center gap-2 pt-5 font-semibold text-ink" aria-hidden="true">
+            <span class="underline decoration-1 underline-offset-4 group-hover:decoration-2">{linkText}</span>
+            <Icon name="arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
+          </p>
+        </li>
+      ))
+    }
+  </ul>
+</WidgetWrapper>
+
+<style>
+  @reference "../../styles/global.css";
+
+  /* The heading link covers the whole card. */
+  .cat-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .cat-link:focus-visible {
+    outline: none;
+  }
+  .cat-card:has(.cat-link:focus-visible) {
+    outline: 3px solid var(--color-focus);
+    outline-offset: -3px;
+  }
+  .cat-card:hover {
+    background-color: var(--color-paper-2);
+  }
+  .cat-card:hover .cat-link {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+</style>

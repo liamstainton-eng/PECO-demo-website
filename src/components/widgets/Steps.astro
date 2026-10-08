@@ -1,0 +1,74 @@
+---
+/*
+ * Ported from AstroWind src/components/widgets/Steps.astro
+ * https://github.com/onwidget/astrowind/blob/14e1a691f80548dcc36370847b1a02c0d0b12821/src/components/widgets/Steps.astro
+ * MIT License, Copyright (c) 2023 onWidget. See CREDITS.md.
+ *
+ * Changes: horizontal ordered list with drawing-style item balloons and a
+ * leader line instead of the vertical Timeline + image, no set:html, optional
+ * actions slot under the list.
+ */
+import WidgetWrapper from '../ui/WidgetWrapper.astro';
+import type { WidgetProps } from '../ui/WidgetWrapper.astro';
+import Headline from '../ui/Headline.astro';
+
+export interface Props extends WidgetProps {
+  title?: string;
+  subtitle?: string;
+  items: Array<{ title: string; description?: string }>;
+}
+
+const { title, subtitle, items, id, isDark, bg, classes } = Astro.props;
+---
+
+<WidgetWrapper id={id} isDark={isDark} bg={bg} classes={classes}>
+  <Headline title={title} subtitle={subtitle} />
+  <ol class="steps grid gap-8 md:grid-cols-3 md:gap-10">
+    {
+      items.map((item, i) => (
+        <li class="step relative pl-16 md:pl-0">
+          <span class="balloon" aria-hidden="true">
+            {i + 1}
+          </span>
+          <h3 class="text-lg font-semibold md:mt-6">
+            <span class="sr-only">Step {i + 1}: </span>
+            {item.title}
+          </h3>
+          {item.description && <p class="mt-2 max-w-[34ch] text-steel-600">{item.description}</p>}
+        </li>
+      ))
+    }
+  </ol>
+  {Astro.slots.has('default') && <div class="mt-10 flex flex-wrap gap-3 md:mt-12"><slot /></div>}
+</WidgetWrapper>
+
+<style>
+  @reference "../../styles/global.css";
+
+  .balloon {
+    @apply absolute top-0 left-0 z-[1] flex size-11 items-center justify-center rounded-full border-2 border-ink bg-paper text-lg font-semibold tabular-nums md:static;
+  }
+  .on-dark .balloon {
+    @apply border-paper bg-ink;
+  }
+
+  /* Leader line joining the balloons: vertical on mobile, horizontal from md. */
+  .step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: calc(1.375rem - 0.5px);
+    top: 2.75rem;
+    bottom: -2rem;
+    border-left: 1px solid var(--color-steel-400);
+  }
+  @media (width >= 48rem) {
+    .step:not(:last-child)::before {
+      left: 2.75rem;
+      right: -2.5rem;
+      top: 1.375rem;
+      bottom: auto;
+      border-left: 0;
+      border-top: 1px solid var(--color-steel-400);
+    }
+  }
+</style>
