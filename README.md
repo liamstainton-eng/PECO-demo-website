@@ -2,7 +2,7 @@
 
 Redesign of [pecoindustrial.co.uk](https://pecoindustrial.co.uk) for Peco Silencers Ltd, a UK manufacturer of industrial exhaust, spark arrestor and intake silencers. Built as a static site so every page leads to a quote and product specs are real HTML, not images.
 
-**Status:** Milestone 1 demo. Product size tables, category grouping and legal text are awaiting client confirmation (see `docs/client-questions.md`). Not yet live.
+**Status:** Milestone 1 demo. Product size tables, category grouping and legal text are awaiting client confirmation (kept in local-only internal docs). Not yet live.
 
 ## Stack
 
@@ -37,11 +37,16 @@ Builds without `LAUNCH=1` are staging: `noindex` headers and visible `TODO(clien
 
 ## Docs
 
-- `docs/handover.md`: original audit and brief
-- `docs/plan.md`: approved implementation plan and ADR
+- `docs/internal/` (local only, not published): original brief and audit, implementation plan, client questions, crawl data
 - `docs/decisions.md`: verified platform facts
-- `docs/client-questions.md`: open questions for Peco
 - `docs/old-urls.csv`: old URL inventory and redirect decisions
+- `docs/qa/`: Codex audit and triage, Lighthouse summary, redirect reports, screenshots
+
+## Release checks
+
+- `npm run verify:all`: fresh build, every check, Playwright + axe, link crawl
+- `npm run qa:lighthouse`: Lighthouse mobile median of 3 with the build identity
+- `npm run verify:launch`: fails until every launch blocker is cleared (client approvals, verified size tables, analytics token). Runs automatically when `LAUNCH=1`.
 
 ## Credits
 

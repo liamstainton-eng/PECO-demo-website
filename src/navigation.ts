@@ -43,7 +43,7 @@ export function cleanPath(pathname: string): string {
   return p === "" ? "/" : p;
 }
 
-/** Provisional mapping, client to confirm (docs/client-questions.md). */
+/** Provisional mapping, client to confirm (client questions, docs/internal/). */
 export const productCategories: NavLink[] = [
   {
     text: "Residential silencers",

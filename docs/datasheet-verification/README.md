@@ -3,7 +3,7 @@
 Legacy datasheet PNGs (`src/assets/images/legacy/`, git-ignored) are the only source for the
 size tables. This folder holds high-resolution crops of each sheet so the tables can be
 transcribed and verified by eye. **No table values have been transcribed yet** (gated on a
-client answer, see `docs/client-questions.md`).
+client answer, see the client questions in the local-only `docs/internal/`).
 
 ## How the crops were made
 
