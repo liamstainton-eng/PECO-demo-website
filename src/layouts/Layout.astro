@@ -1,11 +1,12 @@
 ---
-// Base document: head (metadata, font, favicon, JSON-LD slot) and skip link.
+// Base document: head (metadata, font, favicon, JSON-LD slot, analytics) and skip link.
 // Layout split adapted from AstroWind src/layouts/Layout.astro (MIT, see CREDITS.md).
 import { Font } from 'astro:assets';
 import '../styles/global.css';
 import Metadata from '../components/common/Metadata.astro';
 import type { MetaProps } from '../components/common/Metadata.astro';
 import JsonLd from '../components/common/JsonLd.astro';
+import Analytics from '../components/common/Analytics.astro';
 import { localBusinessLd, organizationLd } from '../lib/jsonld';
 
 export interface Props extends MetaProps {}
@@ -24,10 +25,10 @@ const props = Astro.props;
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <meta name="theme-color" content="#1a1d21" />
     <meta name="format-detection" content="telephone=no" />
-    <meta name="generator" content={Astro.generator} />
     <JsonLd data={[organizationLd(), localBusinessLd()]} />
     <!-- Per-page JSON-LD (breadcrumbs, product) and other head content -->
     <slot name="head" />
+    <Analytics />
   </head>
   <body class="bg-paper text-ink antialiased">
     <a href="#main" class="skip-link">Skip to main content</a>

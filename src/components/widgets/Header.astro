@@ -300,29 +300,74 @@ const quoteHref = getQuoteHref();
     });
   }
 
-  // Mobile menu
+  // Mobile menu: a full-screen overlay below the header bar, so it behaves as a
+  // modal. While open, everything outside the header is inert, Tab and
+  // Shift+Tab cycle through the toggle and the panel, and every close path
+  // (toggle, Escape, link activation, widening to desktop) undoes all of it.
+  const header = document.getElementById('site-header');
   const menuButton = document.getElementById('mobile-menu-button');
   const mobileNav = document.getElementById('mobile-nav');
+  const FOCUSABLE = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
+  let inertTargets: HTMLElement[] = [];
+  let savedScrollY = 0;
+
+  const menuOpen = () => menuButton?.getAttribute('aria-expanded') === 'true';
+  const trapItems = (): HTMLElement[] =>
+    mobileNav && menuButton
+      ? [menuButton, ...Array.from(mobileNav.querySelectorAll<HTMLElement>(FOCUSABLE))]
+      : [];
 
   function setMenu(open: boolean, returnFocus = false) {
-    if (!menuButton || !mobileNav) return;
+    if (!header || !menuButton || !mobileNav) return;
+    if (open === menuOpen()) return;
     menuButton.setAttribute('aria-expanded', String(open));
     mobileNav.hidden = !open;
     menuButton.querySelector('.menu-open-icon')?.classList.toggle('hidden', open);
     menuButton.querySelector('.menu-close-icon')?.classList.toggle('hidden', !open);
-    document.documentElement.classList.toggle('overflow-hidden', open);
-    if (!open && returnFocus) menuButton.focus();
+    if (open) {
+      savedScrollY = window.scrollY;
+      // Skip link, main, footer, mobile CTA bar: every sibling of the header.
+      inertTargets = Array.from(document.body.children).filter(
+        (el): el is HTMLElement => el instanceof HTMLElement && el !== header && !el.inert,
+      );
+      inertTargets.forEach((el) => (el.inert = true));
+      document.documentElement.classList.add('overflow-hidden');
+      // preventScroll: html scroll-padding-top (sticky header) would otherwise
+      // scroll the page under the overlay to "reveal" the focused control.
+      mobileNav.querySelector<HTMLElement>(FOCUSABLE)?.focus({ preventScroll: true });
+    } else {
+      inertTargets.forEach((el) => (el.inert = false));
+      inertTargets = [];
+      document.documentElement.classList.remove('overflow-hidden');
+      if (returnFocus) menuButton.focus({ preventScroll: true });
+      if (window.scrollY !== savedScrollY) window.scrollTo(0, savedScrollY);
+    }
   }
 
-  if (menuButton && mobileNav) {
-    menuButton.addEventListener('click', () => {
-      setMenu(menuButton.getAttribute('aria-expanded') !== 'true');
-    });
+  if (header && menuButton && mobileNav) {
+    menuButton.addEventListener('click', () => setMenu(!menuOpen(), true));
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !mobileNav.hidden) setMenu(false, true);
+      if (!menuOpen()) return;
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setMenu(false, true);
+      } else if (e.key === 'Tab') {
+        const items = trapItems();
+        const at = items.indexOf(document.activeElement as HTMLElement);
+        const next = at === -1 ? 0 : (at + (e.shiftKey ? -1 : 1) + items.length) % items.length;
+        e.preventDefault();
+        // The toggle (index 0) is in the sticky header: never scroll for it.
+        // Panel items may scroll the panel itself to come into view.
+        items[next]?.focus({ preventScroll: next === 0 });
+      }
+    });
+    // Links navigate away (or open the dialler/mail client): close first.
+    mobileNav.addEventListener('click', (e) => {
+      if ((e.target as Element).closest('a')) setMenu(false, true);
     });
     window.matchMedia('(width >= 64rem)').addEventListener('change', (e) => {
-      if (e.matches) setMenu(false);
+      // The toggle is display:none at desktop width, so focus cannot return to it.
+      if (e.matches) setMenu(false, true);
     });
   }
 </script>

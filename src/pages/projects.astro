@@ -1,4 +1,7 @@
 ---
+// Neutral wording: the photos have no confirmed captions, sector, product or
+// outcome yet (null in projects.json until the client supplies them), so the page
+// presents them as photos, not as evidence of project results.
 import { getCollection } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import WidgetWrapper from '../components/ui/WidgetWrapper.astro';
@@ -17,14 +20,14 @@ const items = projects.map((p) => ({
 ---
 
 <PageLayout
-  title="Project photos"
-  description="A selection of silencers designed and manufactured by Peco Silencers Ltd, shown in the workshop and installed on site."
+  title="Workshop and installation photos"
+  description="Photos of exhaust silencers in the workshop and installed on site, from Peco Silencers Ltd."
 >
   <WidgetWrapper>
     <Headline
       as="h1"
-      title="Project photos"
-      subtitle="A selection of silencers designed and manufactured by Peco."
+      title="Workshop and installation photos"
+      subtitle="Silencers photographed in the workshop and on site. Ask us about a similar application."
       classes={{ title: 'text-4xl md:text-5xl' }}
     />
     <Gallery items={items} />

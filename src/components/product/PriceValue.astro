@@ -25,8 +25,8 @@ const text = formatFrom(price);
   text ? (
     <span class:list={['font-semibold whitespace-nowrap text-ink tabular-nums', className]}>{text}</span>
   ) : !LAUNCH ? (
-    <span class:list={['whitespace-nowrap', className]}>
-      From £ <mark class={TODO_MARK_CLASS} title={TODO_MARKER}>{TODO_MARKER}</mark>
+    <span class={className}>
+      <span class="whitespace-nowrap">From £</span> <mark class={TODO_MARK_CLASS} title={TODO_MARKER}>{TODO_MARKER}</mark>
     </span>
   ) : fallback === 'ask' ? (
     <TodoValue model={model} slug={slug} context={context} class={className} />

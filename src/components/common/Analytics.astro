@@ -1,0 +1,13 @@
+---
+// Cloudflare Web Analytics beacon (D5: cookieless, so no consent banner).
+// Rendered only in a LAUNCH build with provider 'cloudflare' and a non-empty
+// token, so staging and preview builds never count visits. The token comes
+// from Peco's Cloudflare account at launch (src/config.yaml analytics.token).
+import { ANALYTICS, LAUNCH } from '../../lib/config';
+
+const token = ANALYTICS.token.trim();
+const enabled = LAUNCH && ANALYTICS.provider === 'cloudflare' && token !== '';
+const beacon = JSON.stringify({ token });
+---
+
+{enabled && <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={beacon} />}

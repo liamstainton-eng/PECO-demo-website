@@ -11,7 +11,7 @@ import Icon from '../components/common/Icon.astro';
 import { CONTACT, getQuoteHref } from '../lib/config';
 import q7 from '../assets/images/legacy/gallery/q7.jpg';
 
-// "We also supply" (handover 3.3). No pages exist for these yet, so each is a quote enquiry.
+// "We also supply" (handover 3.3). Each is an email enquiry (no pages for these in Phase 1).
 const alsoSupply = [
   'Air intake and extract silencers',
   'Steam vent silencers',
@@ -66,7 +66,7 @@ const companyName = CONTACT.address[0];
   <WidgetWrapper id="also-supply" classes={{ container: 'pt-0 md:pt-0 lg:pt-0' }}>
     <Headline
       title="We also supply"
-      subtitle="These products and services do not have their own pages yet. Choose one to send us an enquiry by email."
+      subtitle="Ask us about these additional products and services. Choose one to send us an enquiry by email."
     />
     <ul class="grid border-t border-l border-steel-200 sm:grid-cols-2 lg:grid-cols-4">
       {

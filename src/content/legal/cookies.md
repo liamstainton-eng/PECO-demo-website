@@ -28,6 +28,8 @@ Strictly necessary cookies do not need your consent.
 
 We use Cloudflare Web Analytics to count visits to the site. Cloudflare describes it as cookieless and says it does not collect personal data. Because it sets no cookies, we do not ask for your consent. See our [privacy notice](/privacy) for more.
 
+TODO(client): the analytics token is set at launch from Peco's Cloudflare account; until then this site does not load Cloudflare Web Analytics.
+
 ## Advertising and tracking
 
 This site sets no advertising or tracking cookies. Google Maps is a plain link to another site, not an embed, so this site sets no Google cookies. If you follow the link, Google's own cookie policy applies.

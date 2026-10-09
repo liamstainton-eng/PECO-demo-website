@@ -35,6 +35,8 @@ Peco Silencers Ltd is the controller of your personal information.
 
 We also use Cloudflare Web Analytics to count visits. Cloudflare describes this service as cookieless and says it does not collect personal data. See our [cookies page](/cookies) for more.
 
+TODO(client): the analytics token is set at launch from Peco's Cloudflare account; until then this site does not load Cloudflare Web Analytics.
+
 This website has no contact form at the moment. Enquiries are made by email or phone, using the links on the site.
 
 ## Why we use it, and our lawful basis

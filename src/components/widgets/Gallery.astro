@@ -2,6 +2,12 @@
 // Photo grid with a native <dialog> lightbox.
 // Without JS each thumbnail is a plain link to the larger image file; the script
 // swaps each link for a <button> that opens the dialog.
+// Screen-reader output in the dialog, each said once:
+// - on open: the dialog name, then its description (the caption, via aria-describedby);
+// - on Previous/Next/arrow keys: only the polite live region, "Photo n of N: <alt>".
+// The dialog image carries the active photo's alt. The visible caption repeats that
+// alt, so it is aria-hidden (aria-describedby still reads hidden content) to stop
+// it being read a second time when browsing the dialog.
 import { Image, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { capWidths } from '../../lib/images';
@@ -28,6 +34,7 @@ const entries = await Promise.all(
     return { ...item, full: full.src };
   }),
 );
+const first = entries[0];
 ---
 
 <ul class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4" data-gallery>
@@ -57,17 +64,36 @@ const entries = await Promise.all(
   }
 </ul>
 
-<dialog class="gallery-dialog" aria-label="Project photo viewer" data-gallery-dialog>
+<dialog
+  class="gallery-dialog"
+  aria-label="Photo viewer"
+  aria-describedby="gallery-caption"
+  data-gallery-dialog
+>
   <div class="gallery-panel">
     <div class="gallery-stage">
-      <img src="" alt="" class="gallery-img" data-gallery-img />
+      {/* Starts as the first photo (real src and alt); the script swaps both on open and on navigation.
+          loading="lazy": the closed dialog is not rendered, so nothing downloads until it opens. */}
+      {
+        first && (
+          <img
+            src={first.full}
+            alt={first.alt}
+            class="gallery-img"
+            loading="lazy"
+            decoding="async"
+            data-gallery-img
+          />
+        )
+      }
     </div>
-    <p class="gallery-caption" data-gallery-caption></p>
+    <p id="gallery-caption" class="gallery-caption" aria-hidden="true" data-gallery-caption>{first?.alt}</p>
+    <p class="sr-only" aria-live="polite" data-gallery-status></p>
     <div class="gallery-controls">
       <button type="button" class="gallery-btn" data-gallery-prev aria-label="Previous photo">
         <Icon name="arrow-right" class="size-5 rotate-180" />
       </button>
-      <p class="gallery-count tabular-nums" data-gallery-count aria-live="polite"></p>
+      <p class="gallery-count tabular-nums" aria-hidden="true" data-gallery-count>{first && `1 of ${entries.length}`}</p>
       <button type="button" class="gallery-btn" data-gallery-next aria-label="Next photo">
         <Icon name="arrow-right" class="size-5" />
       </button>
@@ -85,16 +111,22 @@ const entries = await Promise.all(
     const img = dialog.querySelector<HTMLImageElement>('[data-gallery-img]')!;
     const caption = dialog.querySelector<HTMLElement>('[data-gallery-caption]')!;
     const count = dialog.querySelector<HTMLElement>('[data-gallery-count]')!;
+    const status = dialog.querySelector<HTMLElement>('[data-gallery-status]')!;
     const thumbs: HTMLButtonElement[] = [];
     let current = 0;
     let opener: HTMLElement | null = null;
 
-    const show = (i: number) => {
+    // announce: false on open (the dialog's description already says it),
+    // true on navigation (the live region is the only thing that speaks).
+    const show = (i: number, announce: boolean) => {
       current = (i + thumbs.length) % thumbs.length;
       const t = thumbs[current];
+      const alt = t.dataset.alt ?? '';
       img.src = t.dataset.full ?? '';
-      caption.textContent = t.dataset.alt ?? '';
+      img.alt = alt;
+      caption.textContent = alt;
       count.textContent = `${current + 1} of ${thumbs.length}`;
+      status.textContent = announce ? `Photo ${current + 1} of ${thumbs.length}: ${alt}` : '';
     };
 
     // Swap each fallback link for a button that carries the same content.
@@ -108,25 +140,26 @@ const entries = await Promise.all(
       b.append(...Array.from(a.childNodes));
       b.addEventListener('click', () => {
         opener = b;
-        show(i);
+        show(i, false);
         dialog.showModal();
       });
       a.replaceWith(b);
       thumbs.push(b);
     });
 
-    dialog.querySelector('[data-gallery-prev]')!.addEventListener('click', () => show(current - 1));
-    dialog.querySelector('[data-gallery-next]')!.addEventListener('click', () => show(current + 1));
+    dialog.querySelector('[data-gallery-prev]')!.addEventListener('click', () => show(current - 1, true));
+    dialog.querySelector('[data-gallery-next]')!.addEventListener('click', () => show(current + 1, true));
     dialog.querySelector('[data-gallery-close]')!.addEventListener('click', () => dialog.close());
     // A click on the backdrop (the dialog element itself) closes.
     dialog.addEventListener('click', (e) => {
       if (e.target === dialog) dialog.close();
     });
     dialog.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') show(current - 1);
-      else if (e.key === 'ArrowRight') show(current + 1);
+      if (e.key === 'ArrowLeft') show(current - 1, true);
+      else if (e.key === 'ArrowRight') show(current + 1, true);
     });
     dialog.addEventListener('close', () => {
+      status.textContent = '';
       (opener ?? thumbs[current])?.focus();
     });
   }
