@@ -1,8 +1,9 @@
 ---
 // Title, description, canonical, robots and Open Graph basics.
 // Replaces AstroWind's @astrolib/seo usage with plain tags.
-import { METADATA, SITE } from '../../lib/config';
+import { LAUNCH, METADATA, SITE } from '../../lib/config';
 import { cleanPath } from '../../navigation';
+import { stripBase, url } from '../../lib/url';
 
 const DEFAULT_OG_IMAGE = '/og-default.jpg';
 // public/og-default.jpg is the workshop silencer photo.
@@ -12,7 +13,7 @@ export interface MetaProps {
   /** Page title without the site suffix. Omit on the home page to use the default title. */
   title?: string;
   description?: string;
-  /** Defaults to index, follow. */
+  /** Defaults to index, follow. Every non-launch build is noindex,nofollow regardless. */
   robots?: { index?: boolean; follow?: boolean };
   /** Absolute or site-relative image URL for og:image. */
   ogImage?: string;
@@ -31,10 +32,17 @@ const {
 } = Astro.props as MetaProps;
 
 const fullTitle = title ? METADATA.title.template.replace('%s', title) : METADATA.title.default;
-const canonical = new URL(cleanPath(Astro.url.pathname), SITE.site).href;
-const robotsContent = `${robots.index === false ? 'noindex' : 'index'},${robots.follow === false ? 'nofollow' : 'follow'}`;
+// Canonical and og:url always name the real domain (SITE.site) and the site path,
+// without the build's base: a demo copy (GitHub Pages) is never canonical.
+const canonical = new URL(cleanPath(stripBase(Astro.url.pathname)), SITE.site).href;
+// Staging and demo builds (LAUNCH unset) are never indexed or followed; a launch
+// build keeps the page's own robots (e.g. legal drafts noindex,follow).
+const index = LAUNCH && robots.index !== false;
+const follow = LAUNCH && robots.follow !== false;
+const robotsContent = `${index ? 'index' : 'noindex'},${follow ? 'follow' : 'nofollow'}`;
+// og:image is a file in this build, so it uses the build's own site and base.
 // Dimensions are only known for the default image (public/og-default.jpg).
-const ogImageUrl = new URL(ogImage ?? DEFAULT_OG_IMAGE, SITE.site).href;
+const ogImageUrl = new URL(url(ogImage ?? DEFAULT_OG_IMAGE), Astro.site ?? SITE.site).href;
 // A page-specific image takes its own alt; without one, no alt is better than the default's.
 const ogImageAltText = ogImage ? ogImageAlt : DEFAULT_OG_IMAGE_ALT;
 ---

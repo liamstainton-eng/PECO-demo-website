@@ -6,8 +6,9 @@ import logo from '../../assets/images/legacy/peco_blk_.png';
 import Icon from '../common/Icon.astro';
 import { headerData, cleanPath } from '../../navigation';
 import { CONTACT, CTA, getQuoteHref } from '../../lib/config';
+import { stripBase, url } from '../../lib/url';
 
-const current = cleanPath(Astro.url.pathname);
+const current = cleanPath(stripBase(Astro.url.pathname));
 const isCurrent = (href: string) => cleanPath(href) === current;
 const products = headerData.links.find((l) => l.links);
 const others = headerData.links.filter((l) => !l.links);
@@ -17,7 +18,7 @@ const quoteHref = getQuoteHref();
 
 <header id="site-header" class="sticky top-0 z-50 border-b border-steel-200 bg-paper">
   <div class="container-peco flex h-16 items-center justify-between gap-2 lg:h-18 lg:gap-6">
-    <a href="/" class="flex shrink-0 items-center gap-3" aria-current={current === '/' ? 'page' : undefined}>
+    <a href={url('/')} class="flex shrink-0 items-center gap-3" aria-current={current === '/' ? 'page' : undefined}>
       <Image
         src={logo}
         alt="Peco Silencers"
@@ -61,7 +62,7 @@ const quoteHref = getQuoteHref();
                       Compare models, attenuation and sizes across the full range.
                     </p>
                     <a
-                      href={products.href}
+                      href={url(products.href)}
                       class="link mt-4 inline-flex items-center gap-2 font-semibold"
                       aria-current={isCurrent(products.href) ? 'page' : undefined}
                     >
@@ -73,7 +74,7 @@ const quoteHref = getQuoteHref();
                     {products.links.map((cat) => (
                       <li>
                         <a
-                          href={cat.href}
+                          href={url(cat.href)}
                           class="mega-cat"
                           aria-current={isCurrent(cat.href) ? 'page' : undefined}
                         >
@@ -84,7 +85,7 @@ const quoteHref = getQuoteHref();
                             {cat.links.map((m) => (
                               <li>
                                 <a
-                                  href={m.href}
+                                  href={url(m.href)}
                                   class="mega-model"
                                   aria-current={isCurrent(m.href) ? 'page' : undefined}
                                 >
@@ -105,7 +106,7 @@ const quoteHref = getQuoteHref();
         {
           others.map((l) => (
             <li>
-              <a href={l.href} class="nav-item" aria-current={isCurrent(l.href) ? 'page' : undefined}>
+              <a href={url(l.href)} class="nav-item" aria-current={isCurrent(l.href) ? 'page' : undefined}>
                 {l.text}
               </a>
             </li>
@@ -130,7 +131,7 @@ const quoteHref = getQuoteHref();
       >
         <Icon name="phone" class="size-5" />
       </a>
-      <a href={quoteHref} class="btn btn-primary px-3 text-sm sm:px-5 sm:text-base">{CTA.quoteLabel}</a>
+      <a href={url(quoteHref)} class="btn btn-primary px-3 text-sm sm:px-5 sm:text-base">{CTA.quoteLabel}</a>
       <button
         type="button"
         id="mobile-menu-button"
@@ -160,7 +161,7 @@ const quoteHref = getQuoteHref();
               {products.text}
             </h2>
             <a
-              href={products.href}
+              href={url(products.href)}
               class="mt-2 flex min-h-11 items-center text-lg font-semibold"
               aria-current={isCurrent(products.href) ? 'page' : undefined}
             >
@@ -170,7 +171,7 @@ const quoteHref = getQuoteHref();
               {products.links.map((cat) => (
                 <li>
                   <a
-                    href={cat.href}
+                    href={url(cat.href)}
                     class="flex min-h-11 items-center font-semibold"
                     aria-current={isCurrent(cat.href) ? 'page' : undefined}
                   >
@@ -181,7 +182,7 @@ const quoteHref = getQuoteHref();
                       {cat.links.map((m) => (
                         <li>
                           <a
-                            href={m.href}
+                            href={url(m.href)}
                             class="model-chip"
                             aria-current={isCurrent(m.href) ? 'page' : undefined}
                           >
@@ -202,7 +203,7 @@ const quoteHref = getQuoteHref();
           others.map((l) => (
             <li>
               <a
-                href={l.href}
+                href={url(l.href)}
                 class="flex min-h-12 items-center text-lg font-semibold"
                 aria-current={isCurrent(l.href) ? 'page' : undefined}
               >
@@ -217,7 +218,7 @@ const quoteHref = getQuoteHref();
           <Icon name="phone" class="size-5" />
           Call {CONTACT.phoneDisplay}
         </a>
-        <a href={quoteHref} class="btn btn-primary">{CTA.quoteLabel}</a>
+        <a href={url(quoteHref)} class="btn btn-primary">{CTA.quoteLabel}</a>
       </div>
     </div>
   </nav>

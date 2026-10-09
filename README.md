@@ -26,7 +26,16 @@ Redesign of [pecoindustrial.co.uk](https://pecoindustrial.co.uk) for Peco Silenc
 | `npm run verify`                            | All of the above except e2e                                                                     |
 | `node scripts/check-redirects.mjs --static` | Validate the old-URL redirect map                                                               |
 
-Builds without `LAUNCH=1` are staging: `noindex` headers and visible `TODO(client)` markers. Set `LAUNCH=1` only in the production environment.
+Builds without `LAUNCH=1` are staging: `noindex` headers, a `noindex,nofollow` robots meta tag on every page and visible `TODO(client)` markers. Set `LAUNCH=1` only in the production environment.
+
+## Demo hosting
+
+A view-only demo for review is published to GitHub Pages at <https://liamstainton-eng.github.io/PECO-demo-website/> by `.github/workflows/pages.yml` on every push to `main` (or a manual run). It is built with `DEPLOY_TARGET=gh-pages`, which serves the site under the `/PECO-demo-website` base; internal links and public assets go through `url()` in `src/lib/url.ts`.
+
+- The demo is noindexed: every page has `<meta name="robots" content="noindex,nofollow">` (GitHub Pages ignores `_headers`, so the `X-Robots-Tag` header does not apply there), and canonicals point at `https://www.pecoindustrial.co.uk`.
+- Cloudflare Pages remains the production target: the default build (no `DEPLOY_TARGET`) is unchanged, with base `/`.
+- Check a demo build locally: `DEPLOY_TARGET=gh-pages npx astro build --outDir dist-gh` then `node scripts/check-dist.mjs --dir dist-gh --base /PECO-demo-website`.
+- The repo's Pages source must be set to "GitHub Actions" (Settings > Pages).
 
 ## Editing content
 

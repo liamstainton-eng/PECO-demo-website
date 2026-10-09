@@ -10,6 +10,7 @@ import CallToAction from '../components/widgets/CallToAction.astro';
 import Icon from '../components/common/Icon.astro';
 import { CONTACT, getQuoteHref } from '../lib/config';
 import q7 from '../assets/images/legacy/gallery/q7.jpg';
+import { url } from '../lib/url';
 
 // "We also supply" (handover 3.3). Each is an email enquiry (no pages for these in Phase 1).
 const alsoSupply = [
@@ -44,8 +45,8 @@ const companyName = CONTACT.address[0];
   <Content image={{ src: q7, alt: 'A group of cylindrical steel silencers standing upright, each with a flanged opening and perforated inner tube' }}>
     <p>
       Peco Silencers manufacture and supply a comprehensive range of{' '}
-      <a href="/products" class="link">exhaust gas silencers</a>,{' '}
-      <a href="/products/spark-arrestors" class="link">spark arrestor silencers</a>, air intake and extract silencers,
+      <a href={url('/products')} class="link">exhaust gas silencers</a>,{' '}
+      <a href={url('/products/spark-arrestors')} class="link">spark arrestor silencers</a>, air intake and extract silencers,
       steam vent silencers, box silencers, acoustic doors and canopies capable of handling the most stringent of
       environmental demands.
     </p>
@@ -73,7 +74,7 @@ const companyName = CONTACT.address[0];
         alsoSupply.map((item) => (
           <li class="border-r border-b border-steel-200">
             <a
-              href={getQuoteHref({ body: `Enquiry: ${item}` })}
+              href={url(getQuoteHref({ body: `Enquiry: ${item}` }))}
               class="supply-link group flex h-full min-h-20 items-start justify-between gap-4 p-5 font-semibold"
             >
               <span>

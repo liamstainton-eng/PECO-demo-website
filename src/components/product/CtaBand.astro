@@ -4,6 +4,7 @@
 import WidgetWrapper from '../ui/WidgetWrapper.astro';
 import Icon from '../common/Icon.astro';
 import { CONTACT, CTA, getQuoteHref } from '../../lib/config';
+import { url } from '../../lib/url';
 
 export interface Props {
   title?: string;
@@ -29,14 +30,14 @@ const {
       <p class="mt-3 max-w-[60ch] text-steel-300">{text}</p>
     </div>
     <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-      <a href={getQuoteHref()} class="btn btn-primary">{CTA.quoteLabel}</a>
+      <a href={url(getQuoteHref())} class="btn btn-primary">{CTA.quoteLabel}</a>
       <a href={CONTACT.phoneHref} class="btn btn-secondary tabular-nums">
         <Icon name="phone" class="size-5" />
         <span><span class="sr-only">Call </span>{CONTACT.phoneDisplay}</span>
       </a>
       {
         pricingHref && (
-          <a href={pricingHref} class="btn btn-secondary">
+          <a href={url(pricingHref)} class="btn btn-secondary">
             See pricing{pricingContext && <span class="sr-only"> {pricingContext}</span>}
           </a>
         )

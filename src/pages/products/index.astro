@@ -15,6 +15,7 @@ import {
   productsIn,
   summariseBore,
 } from '../../components/product/catalog';
+import { url } from '../../lib/url';
 
 const categories = await getCategories();
 const products = await getProducts(categories);
@@ -84,7 +85,7 @@ const intro =
           <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3 border-b border-steel-300 pb-4">
             <div>
               <h2 id={`cat-${category.id}-heading`} class="text-2xl md:text-3xl">
-                <a href={productHref(category.id)} class="hover:underline hover:decoration-2 hover:underline-offset-4">
+                <a href={url(productHref(category.id))} class="hover:underline hover:decoration-2 hover:underline-offset-4">
                   {category.data.name}
                 </a>
               </h2>

@@ -6,6 +6,7 @@ import AttenuationBadge from './AttenuationBadge.astro';
 import { capWidths } from '../../lib/images';
 import { cropAlt, drawingCrop, productHref } from './catalog';
 import type { BoreSummary, Product } from './catalog';
+import { url } from '../../lib/url';
 
 export interface Props {
   product: Product;
@@ -36,7 +37,7 @@ const crop = drawingCrop(product.id);
     }
   </div>
   <Heading class="text-lg font-semibold">
-    <a href={productHref(product.id)} class="after:absolute after:inset-0 group-hover:underline group-hover:decoration-1 group-hover:underline-offset-4">
+    <a href={url(productHref(product.id))} class="after:absolute after:inset-0 group-hover:underline group-hover:decoration-1 group-hover:underline-offset-4">
       {p.name}
     </a>
   </Heading>

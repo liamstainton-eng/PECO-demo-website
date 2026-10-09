@@ -6,6 +6,7 @@ import Headline from '../components/ui/Headline.astro';
 import Button from '../components/ui/Button.astro';
 import Icon from '../components/common/Icon.astro';
 import { CONTACT, CTA, getQuoteHref } from '../lib/config';
+import { url } from '../lib/url';
 
 const destinations = [
   { text: 'Products', href: '/products', note: 'Exhaust gas silencers and spark arrestors, with sizes' },
@@ -31,7 +32,7 @@ const destinations = [
       {
         destinations.map((d) => (
           <li class="border-b border-steel-200 md:border-t-2 md:border-b-0 md:border-t-ink md:pr-6">
-            <a href={d.href} class="group flex items-start justify-between gap-4 py-5">
+            <a href={url(d.href)} class="group flex items-start justify-between gap-4 py-5">
               <span>
                 <span class="block text-xl font-semibold group-hover:underline">{d.text}</span>
                 <span class="mt-1 block text-steel-600">{d.note}</span>

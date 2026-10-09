@@ -6,6 +6,7 @@ import logo from '../../assets/images/legacy/peco_blk_.png';
 import Icon from '../common/Icon.astro';
 import { footerData } from '../../navigation';
 import { CONTACT, SITE } from '../../lib/config';
+import { url } from '../../lib/url';
 
 const year = new Date().getFullYear();
 
@@ -83,7 +84,7 @@ const applications = [
             <ul class="grid gap-x-6 gap-y-1 sm:grid-cols-2">
               {col.links.map((l) => (
                 <li>
-                  <a href={l.href} class="footer-link inline-flex min-h-8 items-center">
+                  <a href={url(l.href)} class="footer-link inline-flex min-h-8 items-center">
                     {l.text}
                   </a>
                 </li>
@@ -103,7 +104,7 @@ const applications = [
           {
             footerData.secondaryLinks.map((l) => (
               <li>
-                <a href={l.href} class="footer-link inline-flex min-h-6 items-center">
+                <a href={url(l.href)} class="footer-link inline-flex min-h-6 items-center">
                   {l.text}
                 </a>
               </li>

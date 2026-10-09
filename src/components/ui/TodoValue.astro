@@ -3,6 +3,7 @@
 // quote target. Staging (LAUNCH unset) adds a dashed outline and a TODO(client)
 // title so gaps are easy to spot; launch output never contains that marker.
 import { LAUNCH, getQuoteHref } from '../../lib/config';
+import { url } from '../../lib/url';
 
 export interface Props {
   /** Visible text. */
@@ -22,7 +23,7 @@ const target = href ?? getQuoteHref({ model, slug, size });
 ---
 
 <a
-  href={target}
+  href={url(target)}
   class:list={['todo-value', { 'todo-value--staging': !LAUNCH }, className]}
   title={LAUNCH ? undefined : 'TODO(client)'}
 >{label}{context && <span class="sr-only"> {context}</span>}</a>

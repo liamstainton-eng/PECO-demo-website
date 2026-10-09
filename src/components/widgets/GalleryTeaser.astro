@@ -9,6 +9,7 @@ import type { WidgetProps } from '../ui/WidgetWrapper.astro';
 import Headline from '../ui/Headline.astro';
 import Icon from '../common/Icon.astro';
 import { capWidths } from '../../lib/images';
+import { url } from '../../lib/url';
 
 export interface Props extends WidgetProps {
   title?: string;
@@ -22,7 +23,7 @@ const { title, items, link, id, isDark, bg, classes } = Astro.props;
 <WidgetWrapper id={id} isDark={isDark} bg={bg} classes={classes}>
   <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between md:mb-10">
     <Headline title={title} classes={{ container: 'max-w-2xl mb-0! md:mb-0!' }} />
-    <a href={link.href} class="link inline-flex min-h-11 items-center gap-2 font-semibold">
+    <a href={url(link.href)} class="link inline-flex min-h-11 items-center gap-2 font-semibold">
       {link.text}
       <Icon name="arrow-right" class="size-4" />
     </a>

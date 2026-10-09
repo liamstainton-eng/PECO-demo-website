@@ -11,6 +11,7 @@
 import type { HTMLAttributes } from 'astro/types';
 import Icon from '../common/Icon.astro';
 import type { IconName } from '../common/Icon.astro';
+import { url } from '../../lib/url';
 
 type Variant = 'primary' | 'secondary' | 'link';
 
@@ -52,7 +53,7 @@ const attrs = rest as HTMLAttributes<'a'> & HTMLAttributes<'button'>;
 
 {
   href ? (
-    <a href={href} class={classes} {...external} {...attrs}>
+    <a href={url(href)} class={classes} {...external} {...attrs}>
       {icon && iconPosition === 'start' && <Icon name={icon} class="size-5" />}
       {text ?? <slot />}
       {icon && iconPosition === 'end' && <Icon name={icon} class="size-5" />}

@@ -4,6 +4,7 @@
 // and focused elements clear of it (WCAG 2.4.11).
 import Icon from '../common/Icon.astro';
 import { CONTACT, CTA, getQuoteHref } from '../../lib/config';
+import { url } from '../../lib/url';
 ---
 
 <nav
@@ -18,7 +19,7 @@ import { CONTACT, CTA, getQuoteHref } from '../../lib/config';
     <Icon name="phone" class="size-5" />
     Call
   </a>
-  <a href={getQuoteHref()} class="flex items-center justify-center focus-visible:outline-paper focus-visible:outline-offset-[-5px] bg-accent font-semibold text-paper hover:bg-accent-hover">
+  <a href={url(getQuoteHref())} class="flex items-center justify-center focus-visible:outline-paper focus-visible:outline-offset-[-5px] bg-accent font-semibold text-paper hover:bg-accent-hover">
     {CTA.quoteLabel}
   </a>
 </nav>

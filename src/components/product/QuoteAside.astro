@@ -5,6 +5,7 @@
 import Icon from '../common/Icon.astro';
 import { CONTACT, CTA, getQuoteHref } from '../../lib/config';
 import { PRICING_LIVE } from '../../lib/pricing';
+import { url } from '../../lib/url';
 
 export interface Props {
   model: string;
@@ -34,7 +35,7 @@ const Tag = variant === 'aside' ? 'aside' : 'section';
     </p>
   </div>
   <div class:list={['flex flex-col gap-3', variant === 'aside' ? 'mt-5' : 'mt-5 sm:flex-row sm:flex-wrap md:mt-0 md:shrink-0']}>
-    <a href={quoteHref} class="btn btn-primary">{CTA.quoteLabel}</a>
+    <a href={url(quoteHref)} class="btn btn-primary">{CTA.quoteLabel}</a>
     {
       PRICING_LIVE && (
         <a href="#pricing" class="btn btn-secondary">
