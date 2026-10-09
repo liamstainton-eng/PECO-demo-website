@@ -1,15 +1,20 @@
 // T5d: validate docs/old-urls.csv and the generated public/_redirects.
 //
-// Usage: node scripts/check-redirects.mjs [baseUrl] [--static]
+// Usage: node scripts/check-redirects.mjs [baseUrl ...] [--static]
 //   (always)  CSV integrity: header, valid action, redirect rows have a target,
 //             gone rows have none, every target is a frozen new-site route.
 //   --static  every redirect row appears in public/_redirects with the same
 //             target and 301; no _redirects source equals a frozen route.
-//   baseUrl   live mode: redirect rows must answer 301 with Location path ==
-//             target and the target must be 200; gone rows must be 404.
-//             Also probes `<product url>?rCH=2` and `/index.php?option=com_content`
-//             and reports the actual behaviour (informational).
-import { readFileSync, existsSync } from "node:fs";
+//   baseUrl   live mode, once per base URL (pass both apex and www):
+//             redirect rows must answer 301 with Location path == target and the
+//             target must be 200; gone rows must be 404. Query-string cases are
+//             assertions too: `<product url>?rCH=2` must 301 to that product, and
+//             `/index.php?option=com_content` must 301 to the CSV target of
+//             `/index.php` (Cloudflare matches paths, not query strings).
+//             A leading cross-host 301/308 with the same path (apex -> www) is
+//             followed first. Each base writes docs/qa/redirects-<host>.json.
+import { readFileSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { FROZEN_ROUTES, parseCsv, redirectSource } from "./discover-urls.mjs";
@@ -21,7 +26,17 @@ const EXPECTED_HEADER = ["url", "action", "target", "source", "note"];
 
 const argv = process.argv.slice(2);
 const staticMode = argv.includes("--static");
-const baseUrl = argv.find((a) => !a.startsWith("--"))?.replace(/\/+$/, "");
+const baseUrls = argv
+  .filter((a) => !a.startsWith("--"))
+  .map((a) => a.replace(/\/+$/, ""));
+for (const b of baseUrls) {
+  try {
+    new URL(b);
+  } catch {
+    console.error(`Not a URL: ${b}`);
+    process.exit(1);
+  }
+}
 
 const frozen = new Set(FROZEN_ROUTES);
 const failures = [];
@@ -136,85 +151,171 @@ if (staticMode) {
 }
 
 // ----------------------------------------------------------------- live
-const live = { redirectOk: 0, goneOk: 0, probes: [] };
-async function liveChecks() {
-  const get = (path) =>
-    fetch(baseUrl + path, {
-      redirect: "manual",
-      headers: { "User-Agent": "PecoRedesignAudit/1.0 check-redirects" },
-    });
-  const isLocal = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])/.test(baseUrl);
-  const pause = () => new Promise((r) => setTimeout(r, isLocal ? 0 : 250));
-  const targetStatus = new Map();
+const UA = { "User-Agent": "PecoRedesignAudit/1.0 check-redirects" };
+const HOST_HOPS = 2;
 
-  for (const r of redirectRows) {
-    const where = `${r.url} -> ${r.target}`;
-    try {
-      const res = await get(
-        redirectSource(r.url) +
-          (r.url.includes("?") ? "?" + r.url.split("?")[1] : ""),
-      );
-      await res.body?.cancel();
-      const loc = res.headers.get("location");
-      const locPath = loc ? new URL(loc, baseUrl + "/").pathname : null;
-      if (res.status !== 301)
-        fail(`live ${where}: expected 301, got ${res.status}`);
-      else if (locPath !== r.target)
-        fail(`live ${where}: Location path ${locPath} != ${r.target}`);
-      else {
-        live.redirectOk++;
-        if (!targetStatus.has(r.target)) {
-          await pause();
-          const t = await get(r.target);
-          await t.body?.cancel();
-          targetStatus.set(r.target, t.status);
-          if (t.status !== 200)
-            fail(`live target ${r.target}: expected 200, got ${t.status}`);
-        }
-      }
-    } catch (e) {
-      fail(`live ${where}: ${e.message}`);
-    }
-    await pause();
-  }
-  for (const r of goneRows) {
-    try {
-      const res = await get(redirectSource(r.url));
-      await res.body?.cancel();
-      if (res.status !== 404)
-        fail(`live gone ${r.url}: expected 404, got ${res.status}`);
-      else live.goneOk++;
-    } catch (e) {
-      fail(`live gone ${r.url}: ${e.message}`);
-    }
-    await pause();
-  }
-
-  // Informational probes: query-string behaviour.
-  const product = redirectRows.find(
-    (r) =>
-      /^\/index\.php\/exhaust-gas-silencers\/[^/]+\/[^/]+$/.test(r.url) &&
-      r.target.startsWith("/products/"),
-  );
-  const probes = [];
-  if (product) probes.push(product.url + "?rCH=2");
-  probes.push("/index.php?option=com_content");
-  for (const p of probes) {
-    try {
-      const res = await get(p);
-      await res.body?.cancel();
-      live.probes.push(
-        `${p} -> ${res.status} Location: ${res.headers.get("location") ?? "(none)"}`,
-      );
-    } catch (e) {
-      live.probes.push(`${p} -> error ${e.message}`);
-    }
-    await pause();
+/**
+ * Request `path` on `base` without following redirects, except leading
+ * cross-host hops that keep the path (apex -> www canonicalisation).
+ * Returns { status, location, locationUrl, hops } where hops lists the host hops.
+ */
+async function request(base, path) {
+  let url = new URL(path, base + "/");
+  const hops = [];
+  for (let i = 0; ; i++) {
+    const res = await fetch(url, { redirect: "manual", headers: UA });
+    await res.body?.cancel();
+    const location = res.headers.get("location");
+    const locationUrl = location ? new URL(location, url) : null;
+    const hostHop =
+      locationUrl &&
+      (res.status === 301 || res.status === 308) &&
+      locationUrl.origin !== url.origin &&
+      locationUrl.pathname === url.pathname &&
+      i < HOST_HOPS;
+    if (!hostHop) return { status: res.status, location, locationUrl, hops };
+    hops.push(`${res.status} ${url.origin} -> ${locationUrl.origin}`);
+    url = locationUrl;
   }
 }
 
-if (baseUrl && failures.length === 0) await liveChecks();
-else if (baseUrl)
+async function liveChecks(base) {
+  const isLocal = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])/.test(base);
+  const pause = () => new Promise((r) => setTimeout(r, isLocal ? 0 : 250));
+  const report = {
+    baseUrl: base,
+    checkedAt: new Date().toISOString(),
+    gitSha: (() => {
+      try {
+        return execFileSync("git", ["rev-parse", "HEAD"], {
+          cwd: ROOT,
+          encoding: "utf8",
+        }).trim();
+      } catch {
+        return null;
+      }
+    })(),
+    counts: { redirectOk: 0, redirect: 0, goneOk: 0, gone: 0, probeOk: 0, probe: 0 },
+    failures: [],
+    redirects: [],
+    gone: [],
+    probes: [],
+  };
+  const lfail = (msg) => {
+    report.failures.push(msg);
+    fail(`[${base}] ${msg}`);
+  };
+  const targetStatus = new Map();
+
+  /** Assert `path` 301s to `target` (path compared; query ignored) and the target is 200. */
+  async function expectRedirect(path, target, label) {
+    const entry = { url: path, expected: `301 -> ${target} -> 200`, ok: false };
+    try {
+      const r = await request(base, path);
+      Object.assign(entry, {
+        status: r.status,
+        location: r.location,
+        hostHops: r.hops,
+      });
+      const locPath = r.locationUrl?.pathname ?? null;
+      if (r.status !== 301)
+        lfail(`${label} ${path} -> ${target}: expected 301, got ${r.status}`);
+      else if (locPath !== target)
+        lfail(`${label} ${path}: Location path ${locPath} != ${target}`);
+      else {
+        const key = r.locationUrl.origin + target;
+        if (!targetStatus.has(key)) {
+          await pause();
+          const t = await fetch(new URL(target, r.locationUrl), {
+            redirect: "manual",
+            headers: UA,
+          });
+          await t.body?.cancel();
+          targetStatus.set(key, t.status);
+        }
+        entry.targetStatus = targetStatus.get(key);
+        if (entry.targetStatus !== 200)
+          lfail(`${label} target ${key}: expected 200, got ${entry.targetStatus}`);
+        else entry.ok = true;
+      }
+    } catch (e) {
+      entry.error = e.message;
+      lfail(`${label} ${path}: ${e.message}`);
+    }
+    await pause();
+    return entry;
+  }
+
+  for (const r of redirectRows) {
+    const path =
+      redirectSource(r.url) +
+      (r.url.includes("?") ? "?" + r.url.split("?")[1] : "");
+    const entry = await expectRedirect(path, r.target, "redirect");
+    report.redirects.push(entry);
+    report.counts.redirect++;
+    if (entry.ok) report.counts.redirectOk++;
+  }
+
+  for (const r of goneRows) {
+    const path = redirectSource(r.url);
+    const entry = { url: path, expected: "404", ok: false };
+    try {
+      const res = await request(base, path);
+      Object.assign(entry, {
+        status: res.status,
+        location: res.location,
+        hostHops: res.hops,
+      });
+      if (res.status !== 404)
+        lfail(`gone ${r.url}: expected 404, got ${res.status}`);
+      else entry.ok = true;
+    } catch (e) {
+      entry.error = e.message;
+      lfail(`gone ${r.url}: ${e.message}`);
+    }
+    report.gone.push(entry);
+    report.counts.gone++;
+    if (entry.ok) report.counts.goneOk++;
+    await pause();
+  }
+
+  // Query-string cases (assertions).
+  const probes = [];
+  const product = redirectRows.find(
+    (r) =>
+      /^\/index\.php\/exhaust-gas-silencers\/[^/?]+\/[^/?]+$/.test(r.url) &&
+      r.target.startsWith("/products/"),
+  );
+  if (product) probes.push([product.url + "?rCH=2", product.target]);
+  else lfail("probe: no old product URL row found for the ?rCH=2 case");
+  const indexRow = redirectRows.find((r) => r.url === "/index.php");
+  if (indexRow) probes.push(["/index.php?option=com_content", indexRow.target]);
+  else lfail("probe: no /index.php redirect row found for the com_content case");
+  for (const [path, target] of probes) {
+    const entry = await expectRedirect(path, target, "probe");
+    report.probes.push(entry);
+    report.counts.probe++;
+    if (entry.ok) report.counts.probeOk++;
+  }
+  return report;
+}
+
+const reports = [];
+if (baseUrls.length && failures.length === 0) {
+  const outDir = join(ROOT, "docs", "qa");
+  mkdirSync(outDir, { recursive: true });
+  for (const base of baseUrls) {
+    const report = await liveChecks(base);
+    const host = new URL(base).host.replace(/[^A-Za-z0-9.-]/g, "_");
+    report.file = `docs/qa/redirects-${host}.json`;
+    writeFileSync(
+      join(ROOT, report.file),
+      JSON.stringify({ ...report, pass: report.failures.length === 0 }, null, 2) +
+        "\n",
+    );
+    reports.push(report);
+  }
+} else if (baseUrls.length)
   console.error("Skipping live checks: CSV/static checks failed first.");
 
 // --------------------------------------------------------------- report
@@ -222,11 +323,15 @@ console.log(
   `Rows: ${rows.length} (redirect ${redirectRows.length}, gone ${goneRows.length})`,
 );
 if (staticMode) console.log(`_redirects rules: ${ruleCount}`);
-if (baseUrl) {
+for (const r of reports) {
+  const c = r.counts;
   console.log(
-    `Live ${baseUrl}: ${live.redirectOk}/${redirectRows.length} redirects OK, ${live.goneOk}/${goneRows.length} gone OK`,
+    `Live ${r.baseUrl}: ${c.redirectOk}/${c.redirect} redirects OK, ${c.goneOk}/${c.gone} gone OK, ${c.probeOk}/${c.probe} query-string probes OK -> ${r.file}`,
   );
-  for (const p of live.probes) console.log(`  probe: ${p}`);
+  for (const p of r.probes)
+    console.log(
+      `  probe: ${p.url} -> ${p.status ?? "error"} Location: ${p.location ?? "(none)"}${p.targetStatus ? ` (target ${p.targetStatus})` : ""} ${p.ok ? "OK" : "FAIL"}`,
+    );
 }
 if (failures.length) {
   console.error(`\nFAIL: ${failures.length} problem(s)`);

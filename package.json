@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/check-launch.mjs --if-launch",
     "build": "astro build",
     "postbuild": "node scripts/write-headers.mjs",
     "preview": "astro preview",
@@ -16,7 +17,10 @@
     "e2e": "playwright test",
     "verify:data": "node scripts/check-products.mjs",
     "verify:dist": "node scripts/check-dist.mjs && node scripts/check-contrast.mjs",
-    "verify": "npm run check && npm run test && npm run verify:data && npm run build && npm run verify:dist"
+    "verify:launch": "node scripts/check-launch.mjs",
+    "verify": "npm run check && npm run test && npm run verify:data && npm run build && npm run verify:dist && node scripts/check-jsonld.mjs --strict && node scripts/check-redirects.mjs --static",
+    "verify:all": "node scripts/verify-all.mjs",
+    "qa:lighthouse": "npm run build && node scripts/run-lighthouse.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

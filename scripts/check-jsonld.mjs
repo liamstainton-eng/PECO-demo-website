@@ -10,24 +10,16 @@
 // Missing product/category pages are warnings unless --strict.
 import { readdirSync, readFileSync, existsSync, statSync } from "node:fs";
 import { join, relative, sep, resolve } from "node:path";
+import { CATEGORY_SLUGS, PRODUCT_SLUGS } from "../src/content/slugs.ts";
 
 const args = process.argv.slice(2);
 const dirIdx = args.indexOf("--dir");
 const DIST = resolve(dirIdx >= 0 ? args[dirIdx + 1] : "dist");
 const STRICT = args.includes("--strict");
 const ORIGIN = "https://www.pecoindustrial.co.uk";
-const PRODUCTS = [
-  "sea",
-  "se20",
-  "se30",
-  "se30-abs",
-  "se40",
-  "se50",
-  "sls",
-  "sa1",
-  "sa2",
-];
-const CATEGORIES = ["residential", "critical", "industrial", "spark-arrestors"];
+// Frozen slugs from src/content/slugs.ts (Node type stripping), not a copy.
+const PRODUCTS = PRODUCT_SLUGS;
+const CATEGORIES = CATEGORY_SLUGS;
 const FORBIDDEN = ["offers", "aggregateRating"];
 
 if (!existsSync(DIST)) {

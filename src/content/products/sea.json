@@ -93,13 +93,10 @@
     "TODO(client): column G on the 1 in and 1¼ in sizes is printed as a fraction with a decimal second value (3/4\" 0.75, 7/8\" 0.88) instead of mm; confirm."
   ],
   "sizes": "sea",
+  "raw2Columns": ["G"],
   "sizesStatus": "fixture",
   "verification": null,
-  "related": [
-    "se30",
-    "se30-abs",
-    "se40"
-  ],
+  "related": ["se30", "se30-abs", "se40"],
   "seo": {
     "title": "SEA exhaust gas silencer, 24 dB(A)",
     "description": "SEA compact reactive/absorptive exhaust silencer, 24 dB(A), for medium-speed diesel and petrol engines. Sizes, options and quotes from Peco."

@@ -15,6 +15,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { CATEGORY_SLUGS, PRODUCT_SLUGS } from "../src/content/slugs.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const RAW_DIR = join(ROOT, "docs", "old-urls-raw");
@@ -28,22 +29,13 @@ const MAX_PAGES = 300;
 const MAX_REDIRECT_HOPS = 5;
 const MIN_INTERVAL_MS = 1100; // a little over 1 req/s
 
+// New-site routes that redirects may target, derived from the frozen slug list
+// in src/content/slugs.ts (Node type stripping) so a slug change cannot drift.
 export const FROZEN_ROUTES = [
   "/",
   "/products",
-  "/products/residential",
-  "/products/critical",
-  "/products/industrial",
-  "/products/spark-arrestors",
-  "/products/sea",
-  "/products/se20",
-  "/products/se30",
-  "/products/se30-abs",
-  "/products/se40",
-  "/products/se50",
-  "/products/sls",
-  "/products/sa1",
-  "/products/sa2",
+  ...CATEGORY_SLUGS.map((s) => `/products/${s}`),
+  ...PRODUCT_SLUGS.map((s) => `/products/${s}`),
   "/projects",
   "/about",
   "/contact",

@@ -1,4 +1,4 @@
 partNo,fig,markers,bore_in,bore_mm,A_in,A_mm,B_in,B_mm,C_in,C_mm,D_in,D_mm,G_in,G_mm,Hmin_in,Hmin_mm,Hmax_in,Hmax_mm,M_in,M_mm,N_count,N_dia,N_mm,P_in,P_mm,R_size,R_mm,wt_lbs,wt_kg,note
-SEA 101,1,,1,25,15,381,12.5,318,1.25,32,4,102,3/4,raw2:0.75,*,*,*,*,*,*,*,*,*,*,*,*,*,4,1.8,# FIXTURE: first 3 rows of the SEA datasheet only; full table pending transcription
-SEA 102,1,,1.25,32,18.5,470,16,406,1.25,32,4,102,7/8,raw2:0.88,*,*,*,*,*,*,*,*,*,*,*,*,*,5,2.3,# FIXTURE: first 3 rows of the SEA datasheet only; full table pending transcription
-SEA 103,1,,1.5,38,22,559,19.5,495,1.25,32,5,127,1.00,25,1.5,38,5,127,*,*,*,*,*,*,*,*,*,8,3.6,# FIXTURE: first 3 rows of the SEA datasheet only; full table pending transcription
+SEA 101,1,,1,25,15,381,12.5,318,1.25,32,4,102,3/4,raw2:0.75,*,*,*,*,*,*,*,*,*,*,*,*,*,4,1.8,anomaly:fixture # FIXTURE: first 3 rows of the SEA datasheet only; full table pending transcription
+SEA 102,1,,1.25,32,18.5,470,16,406,1.25,32,4,102,7/8,raw2:0.88,*,*,*,*,*,*,*,*,*,*,*,*,*,5,2.3,anomaly:fixture # FIXTURE: first 3 rows of the SEA datasheet only; full table pending transcription
+SEA 103,1,,1.5,38,22,559,19.5,495,1.25,32,5,127,1.00,25,1.5,38,5,127,*,*,*,*,*,*,*,*,*,8,3.6,anomaly:fixture # FIXTURE: first 3 rows of the SEA datasheet only; full table pending transcription

@@ -1,0 +1,2183 @@
+{
+  "baseUrl": "http://localhost:8788",
+  "checkedAt": "2026-10-09T07:40:40.214Z",
+  "gitSha": "1c2fb002283531a59924182810f5226eba402dc3",
+  "counts": {
+    "redirectOk": 119,
+    "redirect": 119,
+    "goneOk": 134,
+    "gone": 134,
+    "probeOk": 2,
+    "probe": 2
+  },
+  "failures": [],
+  "redirects": [
+    {
+      "url": "/blog",
+      "expected": "301 -> /projects -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/projects",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/blog/92-information",
+      "expected": "301 -> /projects -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/projects",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/blog/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/blog/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/blog/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/component/content/article/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/component/content/article/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/component/content/article/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers",
+      "expected": "301 -> /products -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/critical-silencers",
+      "expected": "301 -> /products/critical -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/critical",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/critical-silencers/se50-critical-silencer",
+      "expected": "301 -> /products/se50 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se50",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/industrial-silencers",
+      "expected": "301 -> /products/industrial -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/industrial",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer",
+      "expected": "301 -> /products/se20 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se20",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer",
+      "expected": "301 -> /products/sls -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/sls",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers",
+      "expected": "301 -> /products/residential -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/residential",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer",
+      "expected": "301 -> /products/se30-abs -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se30-abs",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer",
+      "expected": "301 -> /products/se30 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se30",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/se40-residential-silencer",
+      "expected": "301 -> /products/se40 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se40",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer",
+      "expected": "301 -> /products/sea -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/sea",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/spark-arrestors",
+      "expected": "301 -> /products/spark-arrestors -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/spark-arrestors",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer",
+      "expected": "301 -> /products/sa1 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/sa1",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/images/Peco_SA1_SPARK_ARRESOR.png",
+      "expected": "301 -> /products/sa1 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/sa1",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/images/PECO-SEA-.png",
+      "expected": "301 -> /products/sea -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/sea",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/images/PECO%20SE20-.png",
+      "expected": "301 -> /products/se20 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se20",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/images/PECO%20SE30-.png",
+      "expected": "301 -> /products/se30 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se30",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/images/PECO%20SE40-.png",
+      "expected": "301 -> /products/se40 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se40",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/images/PECO%20SE50-.png",
+      "expected": "301 -> /products/se50 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se50",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/images/PECO%20SLS-.png",
+      "expected": "301 -> /products/sls -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/sls",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php",
+      "expected": "301 -> / -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/",
+      "expected": "301 -> / -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/about",
+      "expected": "301 -> /about -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/about",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/about/",
+      "expected": "301 -> /about -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/about",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/blog",
+      "expected": "301 -> /projects -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/projects",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/blog?format=feed&type=atom",
+      "expected": "301 -> /projects -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/projects?format=feed&type=atom",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/blog?format=feed&type=rss",
+      "expected": "301 -> /projects -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/projects?format=feed&type=rss",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/blog/",
+      "expected": "301 -> /projects -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/projects",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/blog/92-information",
+      "expected": "301 -> /projects -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/projects",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/blog/92-information?format=feed&type=atom",
+      "expected": "301 -> /projects -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/projects?format=feed&type=atom",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/blog/92-information?format=feed&type=rss",
+      "expected": "301 -> /projects -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/projects?format=feed&type=rss",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/blog/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/blog/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/blog/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/component/content/article/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/component/content/article/92-information/87-gdpr-privacy-policy-notice?Itemid=437",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy?Itemid=437",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/component/content/article/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/component/content/article/92-information/88-terms-and-conditions?Itemid=437",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms?Itemid=437",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/component/content/article/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/component/content/article/92-information/89-cookie-policy?Itemid=437",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies?Itemid=437",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/contact",
+      "expected": "301 -> /contact -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/contact",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/contact/",
+      "expected": "301 -> /contact -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/contact",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers",
+      "expected": "301 -> /products -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/critical-silencers",
+      "expected": "301 -> /products/critical -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/critical",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer",
+      "expected": "301 -> /products/se50 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se50",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/",
+      "expected": "301 -> /products/se50 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se50",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/industrial-silencers",
+      "expected": "301 -> /products/industrial -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/industrial",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer",
+      "expected": "301 -> /products/se20 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se20",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/",
+      "expected": "301 -> /products/se20 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se20",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/industrial-silencers/se20-industrial-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer",
+      "expected": "301 -> /products/sls -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/sls",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/",
+      "expected": "301 -> /products/sls -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/sls",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/industrial-silencers/sls-industrial-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers",
+      "expected": "301 -> /products/residential -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/residential",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer",
+      "expected": "301 -> /products/se30-abs -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se30-abs",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/",
+      "expected": "301 -> /products/se30-abs -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se30-abs",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/se30-abs-residential-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer",
+      "expected": "301 -> /products/se30 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se30",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/",
+      "expected": "301 -> /products/se30 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se30",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/se30-semi-residential-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/se40-residential-silencer",
+      "expected": "301 -> /products/se40 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se40",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/",
+      "expected": "301 -> /products/se40 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se40",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/se40-residential-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer",
+      "expected": "301 -> /products/sea -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/sea",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/",
+      "expected": "301 -> /products/sea -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/sea",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/residential-silencers/sea-semi-residential-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/spark-arrestors",
+      "expected": "301 -> /products/spark-arrestors -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/spark-arrestors",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer",
+      "expected": "301 -> /products/sa1 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/sa1",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/",
+      "expected": "301 -> /products/sa1 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/sa1",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/92-information/87-gdpr-privacy-policy-notice",
+      "expected": "301 -> /privacy -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/privacy",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/92-information/88-terms-and-conditions",
+      "expected": "301 -> /terms -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/terms",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php/exhaust-gas-silencers/spark-arrestors/sa1-spark-arrestor-silencer/92-information/89-cookie-policy",
+      "expected": "301 -> /cookies -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/cookies",
+      "hostHops": [],
+      "targetStatus": 200
+    }
+  ],
+  "gone": [
+    {
+      "url": "/administrator/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/administrator/templates/isis/css/template.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/administrator/templates/isis/favicon.ico",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/administrator/templates/isis/images/joomla.png",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/bin/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/cache/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/cli/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/components/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/components/com_k2/css/k2.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/37.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/4.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/90.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/91.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/port1.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/port2.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/port3.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/port5.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/port6.jpeg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/port7.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/port8.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/q7.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/s1.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/s2.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/s5.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/silencer4.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/silencer5.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/gallery/silencer7.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/hero1.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/hero2_1.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/hero3.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/peco_blk_.png",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/peco_blk_small.png",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/silencer000.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/images/slide1122.jpg",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/includes/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/index.php/component/search/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/language/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/layouts/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/libraries/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/libraries/quix/assets/css/animate.min.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/libraries/quix/assets/css/font-awesome.min.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/libraries/quix/assets/css/magnific-popup.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/libraries/quix/assets/css/quix.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/libraries/quix/assets/css/quixtrap.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/libraries/quix/assets/js/jquery.easing.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/libraries/quix/assets/js/jquery.magnific-popup.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/libraries/quix/assets/js/parallax.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/libraries/quix/assets/js/quix.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/libraries/quix/assets/js/wow.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/logs/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/com_uniterevolution2/assets/rs-plugin/css/dynamic-captions.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/com_uniterevolution2/assets/rs-plugin/css/settings.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/com_uniterevolution2/assets/rs-plugin/css/static-captions.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/com_uniterevolution2/assets/rs-plugin/js/jquery.themepunch.revolution.min.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/com_uniterevolution2/assets/rs-plugin/js/jquery.themepunch.tools.min.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/jui/js/bootstrap.min.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/jui/js/jquery-migrate.min.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/jui/js/jquery-noconflict.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/jui/js/jquery.min.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/k2/assets/js/k2.frontend.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/plg_system_sl_scrolltotop/js/scrolltotop_jq.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/quix/css/page1-va8648112-all.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/quix/css/page2-vfd2f2aa1-all.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/quix/css/page6-vda5f61ee-all.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/quix/js/page6-vda5f61ee-all.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/system/js/caption.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/system/js/core.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/system/js/html5fallback.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/media/system/js/keepalive.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/modules/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/plugins/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/plugins/system/cookiehint/css/bw.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/plugins/system/jce/css/content.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/presets/.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/css/bootstrap.min.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/css/default.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/css/font-awesome.min.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/css/frontend-edit.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/css/legacy.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/css/presets/preset4.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/css/template.css",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/images/favicon.ico",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/js/bootstrap.min.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/js/custom.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/js/frontend-edit.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/js/jquery.easing.min.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/js/jquery.sticky.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/js/main.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/js/scroll.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/templates/ltmuseum/js/wow.min.js",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    },
+    {
+      "url": "/tmp/",
+      "expected": "404",
+      "ok": true,
+      "status": 404,
+      "location": null,
+      "hostHops": []
+    }
+  ],
+  "probes": [
+    {
+      "url": "/index.php/exhaust-gas-silencers/critical-silencers/se50-critical-silencer?rCH=2",
+      "expected": "301 -> /products/se50 -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/products/se50?rCH=2",
+      "hostHops": [],
+      "targetStatus": 200
+    },
+    {
+      "url": "/index.php?option=com_content",
+      "expected": "301 -> / -> 200",
+      "ok": true,
+      "status": 301,
+      "location": "/?option=com_content",
+      "hostHops": [],
+      "targetStatus": 200
+    }
+  ],
+  "file": "docs/qa/redirects-localhost_8788.json",
+  "pass": true
+}

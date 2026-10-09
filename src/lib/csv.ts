@@ -9,17 +9,22 @@
  *     bolt  -> <key>_size,<key>_mm              ("3/8"" + 10     ->  3/8,10)
  *   then wt_lbs,wt_kg,note. The header must match exactly or loading fails.
  * - Inch cells (_in, _dia, _size) are stored as printed but WITHOUT the " symbol:
- *   "1 1/2", "3/4", "1.25", "10". SpecTable adds the unit.
+ *   "1 1/2", "3/4", "1.25", "10". SpecTable adds the unit. Values must be positive;
+ *   fractions must be proper with non-zero parts (no "0", "1/0", "0/4", "5/4").
+ * - mm, weight and hole-count values must be positive numbers (hole counts whole).
  * - "*"    = asterisk printed on the datasheet (meaning unknown; TODO(client)) -> {kind:"na"}.
  * - "TODO" = cell not read or not transcribed yet; give the reason in `note`   -> {kind:"todo"}.
  * - raw2: some datasheets print a second inch value in decimal instead of mm in a pair
  *   (SEA column G, small bores: 3/4" | 0.75). Encode the mm cell as `raw2:0.75`. It is
  *   stored as {kind:"pair", in:"3/4", mm:null, raw2:"0.75"} and rendered as printed.
- *   `raw2:` is only accepted in pair _mm cells.
+ *   `raw2:` is only accepted in the _mm cell of a pair column the product JSON lists in
+ *   `raw2Columns` (passed as `options.raw2Columns`).
  * - fig: datasheet figure number ("1", "2") or empty. markers: bore marker as printed
  *   ("S", "*") or empty; this "*" is a literal marker, not an n/a cell.
- * - note: free text. check-products.mjs requires it on any row that fails a sanity check.
- * - Fields containing a comma or quote are double-quoted, quotes doubled (RFC 4180).
+ * - note: free text plus optional anomaly tokens (`anomaly:mm-mismatch:Hmax`, ...).
+ *   check-products.mjs requires a token matching the rule and column of every sanity failure.
+ * - Fields containing a comma or quote are double-quoted, quotes doubled (RFC 4180);
+ *   nothing but a delimiter or line break may follow a closing quote.
  * - A UTF-8 BOM is stripped. Any invalid cell throws an Error naming line, column and value,
  *   so an Excel-mangled file (e.g. "3/4" turned into "03-Apr") fails the build.
  */
@@ -57,6 +62,32 @@ export const INCH_RE =
   /^\d+(\s\d+\/\d+)?$|^\d+\/\d+$|^\d+(\.\d+)?$|^\*$|^TODO$/;
 export const NUM_RE = /^\d+(\.\d+)?$|^\*$|^TODO$/;
 const RAW2_RE = /^raw2:(\d+(\.\d+)?)$/;
+const MIXED_RE = /^(\d+)\s(\d+)\/(\d+)$/;
+const FRACTION_RE = /^(\d+)\/(\d+)$/;
+
+export interface LoadOptions {
+  /** Column keys (product JSON `raw2Columns`) whose _mm cell may hold `raw2:`. Default: none. */
+  raw2Columns?: readonly string[];
+}
+
+/**
+ * Why an inch value as printed is not a valid positive measurement, or null if it is.
+ * Expects a value that matched INCH_RE and is not "*" or "TODO". Rejects zero, a zero
+ * denominator, a zero numerator and improper fractions (a datasheet prints 1 1/4,
+ * never 5/4 or 1 5/4).
+ */
+export function inchProblem(value: string): string | null {
+  const m = MIXED_RE.exec(value) ?? FRACTION_RE.exec(value);
+  if (m) {
+    const [num, den] = m.length === 4 ? [m[2], m[3]] : [m[1], m[2]];
+    if (Number(den) === 0) return "fraction with a zero denominator";
+    if (Number(num) === 0) return "fraction with a zero numerator";
+    if (Number(num) >= Number(den))
+      return "improper fraction (numerator >= denominator)";
+    return null;
+  }
+  return Number(value) > 0 ? null : "must be greater than zero";
+}
 const MARKERS_RE = /^[A-Za-z*]*$/;
 const FIG_RE = /^\d*$/;
 
@@ -92,6 +123,18 @@ export function parseCsv(text: string): { line: number; fields: string[] }[] {
           i++;
         } else {
           inQuotes = false;
+          // RFC 4180: only a delimiter, a line break or the end of input may follow a closing quote.
+          const next = src[i + 1];
+          if (
+            next !== undefined &&
+            next !== "," &&
+            next !== "\r" &&
+            next !== "\n"
+          ) {
+            throw new Error(
+              `CSV line ${line}: unexpected text after a closing quote`,
+            );
+          }
         }
       } else {
         if (ch === "\n") line++;
@@ -143,7 +186,9 @@ export function loadSizesCsv(
   text: string,
   columns: readonly Column[],
   source = "sizes CSV",
+  options: LoadOptions = {},
 ): SizeRow[] {
+  const raw2Columns = new Set(options.raw2Columns ?? []);
   const expected = expectedHeader(columns);
   const keys = new Set<string>();
   for (const c of columns) {
@@ -159,6 +204,12 @@ export function loadSizesCsv(
     if (keys.has(c.key))
       throw new Error(`${source}: duplicate column key "${c.key}"`);
     keys.add(c.key);
+  }
+  for (const key of raw2Columns) {
+    if (!columns.some((c) => c.key === key && c.kind === "pair"))
+      throw new Error(
+        `${source}: raw2Columns lists "${key}", which is not a pair column`,
+      );
   }
 
   const records = parseCsv(text);
@@ -186,13 +237,21 @@ export function loadSizesCsv(
       );
     };
     const inch = (col: string) => {
-      if (!INCH_RE.test(cell[col]))
+      const v = cell[col];
+      if (!INCH_RE.test(v))
         fail(col, 'expected inches like 1, 1.25, 3/4, 1 1/2, "*" or TODO');
-      return cell[col];
+      if (v !== "*" && v !== "TODO") {
+        const problem = inchProblem(v);
+        if (problem) fail(col, problem);
+      }
+      return v;
     };
     const num = (col: string) => {
-      if (!NUM_RE.test(cell[col])) fail(col, 'expected a number, "*" or TODO');
-      return cell[col];
+      const v = cell[col];
+      if (!NUM_RE.test(v)) fail(col, 'expected a number, "*" or TODO');
+      if (v !== "*" && v !== "TODO" && !(Number(v) > 0))
+        fail(col, "must be greater than zero");
+      return v;
     };
     // Shared rule: primary (inch/count) values decide the cell kind; a numeric mm
     // alongside a "*" or TODO primary is contradictory and rejected.
@@ -223,6 +282,13 @@ export function loadSizesCsv(
       const raw2 = RAW2_RE.exec(cell[mmCol]);
       const st = status([inCol], [inV]);
       if (raw2) {
+        if (!raw2Columns.has(key))
+          fail(
+            mmCol,
+            `raw2 is not allowed in column ${key} (add it to the product's raw2Columns only if the datasheet prints a second inch value there)`,
+          );
+        if (!(Number(raw2[1]) > 0))
+          fail(mmCol, "raw2 must be greater than zero");
         if (st !== "value")
           fail(mmCol, "raw2 given but the inch value is * or TODO");
         return { kind: "pair", in: inV, mm: null, raw2: raw2[1] };

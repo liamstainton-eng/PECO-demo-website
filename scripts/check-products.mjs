@@ -1,16 +1,32 @@
 #!/usr/bin/env node
 // Sanity checks for product data (npm run verify:data). No Astro dependency:
-// reuses src/lib/csv.ts and src/lib/dims.ts through Node's TypeScript type stripping.
+// reuses src/lib/csv.ts, src/lib/dims.ts and src/content/slugs.ts through Node's
+// TypeScript type stripping, and the pure rules in scripts/lib/product-rules.mjs.
 //
-// Hard failures: unknown slugs, missing files, broken references, wrong attenuation,
-// CSV parse/header errors, duplicate part numbers.
-// Row sanity failures (mm vs in, lbs vs kg, bore order) are allowed only when the row
-// has a non-empty `note` explaining them; otherwise they fail too.
+// Every problem is fatal:
+// - unknown slugs, missing files, broken references, wrong attenuation;
+// - status/file/verification/expectedRows/raw2Columns inconsistencies;
+// - CSV parse/header/cell errors (the loader rejects zero, invalid fractions and
+//   raw2 outside the product's raw2Columns);
+// - duplicate or unparseable part numbers, non-positive dimensions, counts, weights;
+// - a row count different from the product's expectedRows;
+// - sanity anomalies (mm vs in, lbs vs kg, bore order, part-number sequence per
+//   series) unless the row note carries the matching structured token, e.g.
+//   `anomaly:mm-mismatch:Hmax`. A token excuses only its own rule and column; unknown,
+//   malformed or unused tokens are errors too. Fixture tables must mark every row
+//   `anomaly:fixture`; other tables must not use it.
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { loadSizesCsv } from "../src/lib/csv.ts";
-import { lbsMatchesKg, mmMatchesInches, parseInches } from "../src/lib/dims.ts";
 import { CATEGORY_SLUGS, PRODUCT_SLUGS } from "../src/content/slugs.ts";
+import {
+  duplicatePartNos,
+  explainAnomalies,
+  hardProblems,
+  newSequenceState,
+  parseAnomalies,
+  rowAnomalies,
+} from "./lib/product-rules.mjs";
 
 const content = fileURLToPath(new URL("../src/content/", import.meta.url));
 const dir = (name) => `${content}${name}/`;
@@ -29,8 +45,8 @@ const ATTENUATION = {
 };
 
 const errors = [];
-const warnings = [];
 const fail = (msg) => errors.push(msg);
+let excused = 0;
 
 const listIds = (name, ext) =>
   existsSync(dir(name))
@@ -102,6 +118,21 @@ for (const id of productIds) {
     );
   if (p.sizesStatus !== "none" && !Array.isArray(p.columns))
     fail(`${where}: sizesStatus "${p.sizesStatus}" needs columns`);
+  if (p.sizesStatus === "verified") {
+    if (!p.verification)
+      fail(`${where}: sizesStatus "verified" needs a verification record`);
+    if (p.expectedRows === undefined)
+      fail(`${where}: sizesStatus "verified" needs expectedRows`);
+  }
+  if (
+    p.expectedRows !== undefined &&
+    !(Number.isInteger(p.expectedRows) && p.expectedRows > 0)
+  )
+    fail(`${where}: expectedRows must be a positive whole number`);
+  for (const key of p.raw2Columns ?? []) {
+    if (!(p.columns ?? []).some((c) => c.key === key && c.kind === "pair"))
+      fail(`${where}: raw2Columns "${key}" is not a pair column`);
+  }
 }
 
 // Size tables
@@ -123,6 +154,7 @@ for (const id of csvIds) {
       readFileSync(`${dir("sizes")}${id}.csv`, "utf-8"),
       p.columns,
       where,
+      { raw2Columns: p.raw2Columns ?? [] },
     );
   } catch (e) {
     fail(e.message);
@@ -130,64 +162,36 @@ for (const id of csvIds) {
   }
   rowCount += rows.length;
 
-  const seen = new Set();
-  let prev = null;
+  if (p.expectedRows !== undefined && rows.length !== p.expectedRows)
+    fail(
+      `${where}: ${rows.length} row(s), products/${id}.json expectedRows is ${p.expectedRows}`,
+    );
+  for (const d of duplicatePartNos(rows))
+    fail(`${where} ${d}: duplicate part number`);
+
+  const keys = p.columns.map((c) => c.key);
+  const isFixture = p.sizesStatus === "fixture";
+  const state = newSequenceState();
   for (const row of rows) {
-    if (seen.has(row.partNo))
-      fail(`${where} ${row.partNo}: duplicate part number`);
-    seen.add(row.partNo);
+    const at = `${where} ${row.partNo}`;
+    for (const h of hardProblems(row, p.columns)) fail(`${at}: ${h}`);
 
-    for (const c of p.columns) {
-      if (!(c.key in row.dims))
-        fail(`${where} ${row.partNo}: column ${c.key} missing`);
-    }
-
-    const problems = [];
-    const pairs = [
-      ["bore", row.bore],
-      ...p.columns
-        .filter((c) => c.kind === "pair")
-        .map((c) => [c.key, row.dims[c.key]]),
-    ];
-    for (const [key, cell] of pairs) {
-      if (cell.kind !== "pair" || cell.mm === null) continue; // skips na, todo and raw2
-      const inches = parseInches(cell.in);
-      if (inches === null) problems.push(`${key}: cannot parse "${cell.in}"`);
-      else if (!mmMatchesInches(inches, cell.mm)) {
-        problems.push(
-          `${key}: ${cell.in} in vs ${cell.mm} mm (expected ~${(inches * 25.4).toFixed(1)})`,
-        );
-      }
-    }
-    const { lbs, kg } = row.wt;
-    if (
-      lbs.kind === "num" &&
-      kg.kind === "num" &&
-      !lbsMatchesKg(lbs.value, kg.value)
-    ) {
-      problems.push(
-        `weight: ${lbs.value} lbs vs ${kg.value} kg (expected ~${(kg.value * 2.2046).toFixed(1)} lbs)`,
+    const { tokens, errors: tokenErrors } = parseAnomalies(row.note, keys);
+    for (const e of tokenErrors) fail(`${at}: ${e}`);
+    const fixtureToken = tokens.some((t) => t.rule === "fixture");
+    if (isFixture && !fixtureToken)
+      fail(`${at}: fixture table row must carry anomaly:fixture`);
+    if (!isFixture && fixtureToken)
+      fail(
+        `${at}: anomaly:fixture in a table whose sizesStatus is "${p.sizesStatus}"`,
       );
-    }
-    const bore = row.bore.kind === "pair" ? parseInches(row.bore.in) : null;
-    if (bore !== null && prev !== null) {
-      if (
-        bore < prev.bore ||
-        (bore === prev.bore && row.markers === prev.markers)
-      ) {
-        problems.push(
-          `bore ${row.bore.in} not after ${prev.partNo} (${prev.bore}${prev.markers ? ` ${prev.markers}` : ""})`,
-        );
-      }
-    }
-    if (bore !== null)
-      prev = { bore, markers: row.markers, partNo: row.partNo };
 
-    if (problems.length > 0) {
-      const msg = `${where} ${row.partNo}: ${problems.join("; ")}`;
-      if (row.note.trim() === "") fail(`${msg} (add a note explaining it)`);
-      else warnings.push(`${msg} [note: ${row.note}]`);
-    }
+    const anomalies = rowAnomalies(row, p.columns, state);
+    const { unexplained, unused } = explainAnomalies(anomalies, tokens);
+    excused += anomalies.length - unexplained.length;
+    for (const u of unexplained)
+      fail(`${at}: ${u} (fix the data or add the matching anomaly: token)`);
+    for (const u of unused) fail(`${at}: ${u} excuses nothing; remove it`);
   }
 }
 
@@ -205,12 +209,11 @@ if (existsSync(projectsFile)) {
   }
 }
 
-for (const w of warnings) console.warn(`warn: ${w}`);
 if (errors.length > 0) {
   for (const e of errors) console.error(`error: ${e}`);
   console.error(`check-products: ${errors.length} error(s)`);
   process.exit(1);
 }
 console.log(
-  `check-products: OK (${products.size} products, ${csvIds.length} size table(s), ${rowCount} rows, ${categoryIds.length} categories, ${warnings.length} noted anomalies)`,
+  `check-products: OK (${products.size} products, ${csvIds.length} size table(s), ${rowCount} rows, ${categoryIds.length} categories, ${excused} anomaly(ies) excused by token)`,
 );
