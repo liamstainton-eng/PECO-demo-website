@@ -37,3 +37,11 @@ dist-*/
 
 # raw Lighthouse runs (summary.json is kept)
 docs/qa/lighthouse/*-run*.json
+
+# internal docs kept locally, never published (handover, audit, plan, client questions, crawl data)
+docs/internal/
+docs/old-urls-raw/
+docs/handover.md
+docs/audit.md
+docs/plan.md
+docs/client-questions.md
