@@ -16,6 +16,7 @@ import type { WidgetProps } from '../ui/WidgetWrapper.astro';
 import Headline from '../ui/Headline.astro';
 import Icon from '../common/Icon.astro';
 import { capWidths } from '../../lib/images';
+import { url } from '../../lib/url';
 
 export interface CategoryCard {
   name: string;
@@ -52,7 +53,7 @@ const { title, subtitle, items, linkText = 'View range', id, isDark, bg, classes
             />
           </div>
           <h3 class="mt-5 text-xl font-semibold">
-            <a href={item.href} class="cat-link">
+            <a href={url(item.href)} class="cat-link">
               {item.name}
             </a>
           </h3>

@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 // Post-build checks over every HTML page in a dist dir (default dist/). No dependencies.
 //
-//   node scripts/check-dist.mjs [--dir <path>] [--skip-links]
+//   node scripts/check-dist.mjs [--dir <path>] [--base <path>] [--skip-links]
+//
+// --base: the build's Astro base (e.g. /PECO-demo-website for the GitHub Pages
+// demo). Internal links, the /quote CTA and local asset references must then
+// start with it; they are resolved against the dist dir with the base removed.
+// Canonicals stay on the real domain without the base in every build.
 //
 // Pages are tokenised into elements with an open-element stack (script/style
 // bodies and comments removed), so ancestry (hidden, aria-hidden) is known.
@@ -30,12 +35,18 @@ const args = process.argv.slice(2);
 const dirIdx = args.indexOf("--dir");
 const DIST = resolve(dirIdx >= 0 ? args[dirIdx + 1] : "dist");
 const SKIP_LINKS = args.includes("--skip-links");
+const baseIdx = args.indexOf("--base");
+// "" for the default build; "/PECO-demo-website" (leading, no trailing slash) otherwise.
+const BASE = (baseIdx >= 0 ? (args[baseIdx + 1] ?? "") : "")
+  .trim()
+  .replace(/\/+$/, "")
+  .replace(/^(?=[^/])/, "/");
 const LAUNCH = process.env.LAUNCH === "1";
 
 const ORIGIN = "https://www.pecoindustrial.co.uk";
 const TEL = "tel:01513430330";
 const QUOTE_MAILTO = "mailto:sales@pecoindustrial.co.uk";
-const QUOTE_PATH = "/quote";
+const QUOTE_PATH = `${BASE}/quote`;
 const QUOTE_TEXT = "get a quote";
 const BANNED = [
   "Adress",
@@ -145,6 +156,15 @@ const pageOf = (f) => "/" + relative(DIST, f).split(sep).join("/");
 /** URL path a page is served at: /products/sea.html -> /products/sea, /index.html -> /. */
 const urlPathOf = (page) =>
   page.replace(/\.html$/, "").replace(/(^|\/)index$/, "/") || "/";
+/**
+ * Dist path of a served pathname: strips BASE. Null when the pathname is
+ * outside BASE (a link or asset that would 404 under the base).
+ */
+function unbase(pathname) {
+  if (!BASE) return pathname;
+  if (pathname === BASE) return "/";
+  return pathname.startsWith(`${BASE}/`) ? pathname.slice(BASE.length) : null;
+}
 
 const failures = [];
 const warnings = [];
@@ -157,8 +177,8 @@ const assets = new Map(); // dist path -> first page referencing it
 const cssFiles = new Set();
 
 /**
- * Site-local path of a reference, resolved against the page URL; null for
- * external, data:, fragment-only and non-http references.
+ * Site-local path of a reference, resolved against the page URL (with BASE);
+ * null for external, data:, fragment-only and non-http references.
  */
 function localPath(ref, page) {
   const r = ref.trim();
@@ -166,7 +186,7 @@ function localPath(ref, page) {
     return null;
   let u;
   try {
-    u = new URL(r, ORIGIN + urlPathOf(page));
+    u = new URL(r, ORIGIN + BASE + urlPathOf(page));
   } catch {
     return undefined;
   }
@@ -186,8 +206,11 @@ function addAsset(page, ref, what) {
   const p = localPath(ref, page);
   if (p === undefined) return fail(page, `${what} is not a valid URL: ${ref}`);
   if (p === null) return;
-  if (!assets.has(p)) assets.set(p, `${page} (${what})`);
-  if (p.endsWith(".css")) cssFiles.add(p);
+  const d = unbase(p);
+  if (d === null)
+    return fail(page, `${what} is outside the base ${BASE}: ${ref}`);
+  if (!assets.has(d)) assets.set(d, `${page} (${what})`);
+  if (d.endsWith(".css")) cssFiles.add(d);
 }
 
 const srcsetUrls = (v) =>
@@ -358,8 +381,11 @@ for (const css of cssFiles) {
     const ref = m[2].trim();
     if (/^(data:|#|https?:\/\/(?!www\.pecoindustrial\.co\.uk))/i.test(ref))
       continue;
-    const p = decodeURIComponent(new URL(ref, ORIGIN + css).pathname);
-    if (!assets.has(p)) assets.set(p, `${css} (url())`);
+    const p = unbase(
+      decodeURIComponent(new URL(ref, ORIGIN + BASE + css).pathname),
+    );
+    if (p === null) fail(css, `url(${ref}) is outside the base ${BASE}`);
+    else if (!assets.has(p)) assets.set(p, `${css} (url())`);
   }
 }
 
@@ -375,12 +401,15 @@ if (!SKIP_LINKS) {
     if (seen.has(key)) continue;
     seen.add(key);
     checkedLinks++;
-    if (!resolves(href)) fail(page, `broken internal link ${href}`);
+    const path = unbase(href.split(/[?#]/)[0]);
+    if (path === null)
+      fail(page, `internal link ${href} is outside the base ${BASE}`);
+    else if (!resolves(path)) fail(page, `broken internal link ${href}`);
   }
 }
 
 console.log(
-  `check-dist: ${files.length} page(s) checked, ${assets.size} local asset(s) checked${SKIP_LINKS ? ", internal links skipped (--skip-links)" : `, ${checkedLinks} internal link(s) checked`}${LAUNCH ? ", LAUNCH mode" : ""}`,
+  `check-dist: ${files.length} page(s) checked${BASE ? ` (base ${BASE})` : ""}, ${assets.size} local asset(s) checked${SKIP_LINKS ? ", internal links skipped (--skip-links)" : `, ${checkedLinks} internal link(s) checked`}${LAUNCH ? ", LAUNCH mode" : ""}`,
 );
 if (todoCounts.length) {
   console.log("TODO(client) markers per page:");

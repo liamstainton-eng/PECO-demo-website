@@ -12,6 +12,7 @@ import { LAUNCH, getQuoteHref } from '../../lib/config';
 import { PRICING_LIVE } from '../../lib/pricing';
 import { applyTodoRuleToHtml, paragraphsToHtml, productHref, TODO_MARK_CLASS, TODO_MARKER } from './catalog';
 import type { BoreSummary, Category, Product } from './catalog';
+import { url } from '../../lib/url';
 
 export interface Props {
   category: Category;
@@ -23,7 +24,7 @@ const { category, items, others } = Astro.props;
 const c = category.data;
 
 const sourceHtml = category.rendered?.html ?? paragraphsToHtml(category.body ?? '');
-const introHtml = applyTodoRuleToHtml(sourceHtml, getQuoteHref());
+const introHtml = applyTodoRuleToHtml(sourceHtml, url(getQuoteHref()));
 
 const rows: RangeRow[] = items.map(({ product, bore }) => ({
   slug: product.id,
@@ -89,7 +90,7 @@ const rows: RangeRow[] = items.map(({ product, bore }) => ({
       <ul class="mt-6 grid gap-px border border-steel-200 bg-steel-200 sm:grid-cols-3">
         {others.map((o) => (
           <li class="bg-paper">
-            <a href={productHref(o.id)} class="group flex h-full min-h-11 flex-col gap-1 p-5 hover:bg-paper-2">
+            <a href={url(productHref(o.id))} class="group flex h-full min-h-11 flex-col gap-1 p-5 hover:bg-paper-2">
               <span class="font-semibold group-hover:underline group-hover:underline-offset-4">{o.data.name}</span>
               {o.data.attenuationLabel && <span class="text-sm text-steel-600 tabular-nums">{o.data.attenuationLabel}</span>}
             </a>

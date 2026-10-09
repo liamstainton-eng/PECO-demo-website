@@ -1,0 +1,74 @@
+# Shareable demo on GitHub Pages:
+#   https://liamstainton-eng.github.io/PECO-demo-website/
+# Viewing only. Every page carries <meta name="robots" content="noindex,nofollow">
+# (no LAUNCH=1 here) and its canonical points at https://www.pecoindustrial.co.uk.
+# Production stays on Cloudflare Pages (default build, base "/").
+#
+# One-time repo setting: Settings > Pages > Source: "GitHub Actions".
+name: Deploy demo to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      # npm may skip dependency install scripts (e.g. workerd for wrangler);
+      # the Astro build does not need them.
+      - run: npm ci
+
+      # DEPLOY_TARGET=gh-pages sets site and base (/PECO-demo-website) in
+      # astro.config.mjs. The postbuild _headers file is unused on Pages.
+      - name: Build
+        run: npm run build
+        env:
+          DEPLOY_TARGET: gh-pages
+
+      - name: Check build
+        run: node scripts/check-dist.mjs --base /PECO-demo-website
+
+      - name: Prepare Pages output
+        run: |
+          # Serve _astro/ and other underscore paths as-is (no Jekyll).
+          touch dist/.nojekyll
+          # /products is both products.html and the products/ directory. Pages
+          # serves products.html at /products; the copy also covers a redirect
+          # to /products/, so the link works either way.
+          for f in dist/*.html; do
+            d="${f%.html}"
+            if [ -d "$d" ] && [ ! -e "$d/index.html" ]; then cp "$f" "$d/index.html"; fi
+          done
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+          include-hidden-files: true
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

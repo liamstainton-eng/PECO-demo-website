@@ -13,6 +13,7 @@ import TodoValue from '../ui/TodoValue.astro';
 import { formatInches } from '../../lib/dims';
 import { getQuoteHref } from '../../lib/config';
 import type { Column, DimCell, NumCell, PairCell, SizeRow } from '../../lib/csv';
+import { url } from '../../lib/url';
 
 export interface Props {
   model: string;
@@ -115,7 +116,7 @@ const boreLabel = (b: PairCell): string =>
                     {boreLabel(row.bore)}
                   </span>
                 )}
-                <a class="quote-size" href={getQuoteHref({ model, slug, size: row.partNo })}>
+                <a class="quote-size" href={url(getQuoteHref({ model, slug, size: row.partNo }))}>
                   Quote<span class="sr-only"> {row.partNo}</span>
                 </a>
               </th>

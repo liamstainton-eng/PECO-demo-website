@@ -17,6 +17,7 @@ import { PRICING_LIVE } from '../../lib/pricing';
 import type { SizeRow } from '../../lib/csv';
 import { cropAlt, drawingCrop, hasTodo, productHref, TODO_MARK_CLASS, TODO_MARKER } from './catalog';
 import type { BoreSummary, Category, Product } from './catalog';
+import { url } from '../../lib/url';
 
 export interface Props {
   product: Product;
@@ -152,7 +153,7 @@ const showNotes = plainNotes.length > 0 || todoNotes.length > 0;
           <div class="space-y-6">
             <p class="border-l-4 border-ink bg-paper-2 px-5 py-4">
               Full size table coming soon.{' '}
-              <a href={quoteHref} class="link font-semibold">
+              <a href={url(quoteHref)} class="link font-semibold">
                 Ask us for dimensions<span class="sr-only"> for the {p.model}</span>
               </a>
             </p>
@@ -181,7 +182,7 @@ const showNotes = plainNotes.length > 0 || todoNotes.length > 0;
         status === 'none' && (
           <p class="border-l-4 border-ink bg-paper-2 px-5 py-4">
             Specifications on request.{' '}
-            <a href={quoteHref} class="link font-semibold">
+            <a href={url(quoteHref)} class="link font-semibold">
               Ask us about the {p.model}
             </a>
           </p>

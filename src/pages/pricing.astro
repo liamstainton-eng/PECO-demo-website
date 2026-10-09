@@ -16,6 +16,7 @@ import { getCategories, getProducts, hasTodo, productHref, productsIn } from '..
 import { LAUNCH } from '../lib/config';
 import { breadcrumbLd } from '../lib/jsonld';
 import { attenuationRange, bandCells, gradeTiers, PRICING, PRICING_LIVE } from '../lib/pricing';
+import { url } from '../lib/url';
 
 const categories = await getCategories();
 const products = await getProducts(categories);
@@ -122,7 +123,7 @@ const description = PRICING_LIVE
                   <ul class="mt-2 flex flex-wrap gap-2" role="list">
                     {models.map((m) => (
                       <li>
-                        <a href={productHref(m.id)} class="model-chip">
+                        <a href={url(productHref(m.id))} class="model-chip">
                           {m.data.model}
                         </a>
                       </li>
@@ -135,7 +136,7 @@ const description = PRICING_LIVE
                         <PriceValue price={price} />
                       </p>
                     </div>
-                    <a href={productHref(category.id)} class="link mt-3 inline-flex min-h-6 items-center text-sm">
+                    <a href={url(productHref(category.id))} class="link mt-3 inline-flex min-h-6 items-center text-sm">
                       About {category.data.name.toLowerCase()}
                     </a>
                   </div>
@@ -181,7 +182,7 @@ const description = PRICING_LIVE
                   {tableRows.map(({ product, grade, cells }) => (
                     <tr>
                       <th scope="row" class="model-col">
-                        <a href={productHref(product.id)} class="link font-semibold">
+                        <a href={url(productHref(product.id))} class="link font-semibold">
                           {product.data.model}
                         </a>
                         {grade && <span class="row-grade">{grade}</span>}

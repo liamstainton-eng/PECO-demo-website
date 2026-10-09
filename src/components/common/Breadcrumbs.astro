@@ -1,5 +1,7 @@
 ---
 // Breadcrumb trail: <nav aria-label="Breadcrumb"><ol>, last item is the current page.
+import { url } from '../../lib/url';
+
 export interface Crumb {
   name: string;
   href: string;
@@ -37,7 +39,7 @@ const last = items.length - 1;
               {item.name}
             </span>
           ) : (
-            <a href={item.href} class="link inline-flex min-h-6 items-center text-steel-700 hover:text-ink">
+            <a href={url(item.href)} class="link inline-flex min-h-6 items-center text-steel-700 hover:text-ink">
               {item.name}
             </a>
           )}

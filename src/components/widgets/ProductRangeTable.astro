@@ -4,6 +4,7 @@
 // Missing values render as TodoValue ("Ask us").
 import TodoValue from '../ui/TodoValue.astro';
 import type { BoreSummary } from '../product/catalog';
+import { url } from '../../lib/url';
 
 export interface RangeRow {
   slug: string;
@@ -53,7 +54,7 @@ const captionId = `${id}-caption`;
               {r.model}
             </th>
             {showCategory && (
-              <td>{r.category ? <a href={r.category.href} class="link">{r.category.name}</a> : <TodoValue model={r.model} slug={r.slug} context={`about the ${r.model} category`} />}</td>
+              <td>{r.category ? <a href={url(r.category.href)} class="link">{r.category.name}</a> : <TodoValue model={r.model} slug={r.slug} context={`about the ${r.model} category`} />}</td>
             )}
             <td class="text-right font-semibold tabular-nums">
               {r.attenuationDbA !== null ? r.attenuationDbA : <TodoValue model={r.model} slug={r.slug} context={`about the ${r.model} rating`} />}
@@ -71,7 +72,7 @@ const captionId = `${id}-caption`;
               )}
             </td>
             <td class="text-right whitespace-nowrap">
-              <a href={r.href} class="link font-semibold">
+              <a href={url(r.href)} class="link font-semibold">
                 View<span class="sr-only"> {r.name}</span>
               </a>
             </td>

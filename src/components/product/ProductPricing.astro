@@ -7,6 +7,7 @@ import TodoText from './TodoText.astro';
 import { LAUNCH, getQuoteHref } from '../../lib/config';
 import { PRICING, productTiers } from '../../lib/pricing';
 import { hasTodo } from './catalog';
+import { url } from '../../lib/url';
 
 export interface Props {
   model: string;
@@ -56,7 +57,7 @@ const cols: Record<number, string> = { 1: 'sm:grid-cols-1', 2: 'sm:grid-cols-2',
     )
   }
   <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
-    <a href={quoteHref} class="btn btn-primary">Get a quote for {model}</a>
-    <a href="/pricing" class="link inline-flex min-h-6 items-center font-semibold">Compare pricing across the range</a>
+    <a href={url(quoteHref)} class="btn btn-primary">Get a quote for {model}</a>
+    <a href={url('/pricing')} class="link inline-flex min-h-6 items-center font-semibold">Compare pricing across the range</a>
   </div>
 </section>

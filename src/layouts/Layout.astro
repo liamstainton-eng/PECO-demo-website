@@ -8,6 +8,7 @@ import type { MetaProps } from '../components/common/Metadata.astro';
 import JsonLd from '../components/common/JsonLd.astro';
 import Analytics from '../components/common/Analytics.astro';
 import { localBusinessLd, organizationLd } from '../lib/jsonld';
+import { url } from '../lib/url';
 
 export interface Props extends MetaProps {}
 
@@ -21,8 +22,8 @@ const props = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <Font cssVariable="--font-sans-plex" preload />
     <Metadata {...props} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+    <link rel="icon" href={url('/favicon.ico')} sizes="48x48" />
     <meta name="theme-color" content="#1a1d21" />
     <meta name="format-detection" content="telephone=no" />
     <JsonLd data={[organizationLd(), localBusinessLd()]} />

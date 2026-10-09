@@ -7,8 +7,15 @@ import { satteri } from "@astrojs/markdown-satteri";
 import { readFileSync } from "node:fs";
 import { parse as parseYaml } from "yaml";
 import { allTiers, hasAnyPrice } from "./src/lib/pricing-core.ts";
+import { stripBase, url } from "./src/lib/url.ts";
 
 const LAUNCH = process.env.LAUNCH === "1";
+
+// DEPLOY_TARGET=gh-pages: the shareable demo on GitHub Pages, a project site
+// served under /PECO-demo-website. Every other build (Cloudflare Pages) keeps
+// Astro's default base "/" and the real domain.
+const GH_PAGES = process.env.DEPLOY_TARGET === "gh-pages";
+const BASE = GH_PAGES ? "/PECO-demo-website" : "/";
 
 // Sitemap publication rules, read from the same sources the pages use:
 // - legal pages render noindex until their entry is approved: true;
@@ -59,9 +66,26 @@ const tableHeaderScope = {
 // /about), so URLs stay clean with no trailing slash. 'directory' would build
 // about/index.html, which Pages serves at /about/ and redirects /about to,
 // contradicting trailingSlash 'never' and the canonical URLs.
+// Root-relative links in Markdown (legal pages: /privacy, /cookies) get the
+// base. Only added to the GitHub Pages build; with base "/" it is a no-op.
+/** @type {import("satteri").HastPluginDefinition} */
+const baseLinks = {
+  name: "base-links",
+  element: {
+    filter: ["a"],
+    visit(node, ctx) {
+      const href = node.properties?.href;
+      if (typeof href === "string") ctx.setProperty(node, "href", url(href, BASE));
+    },
+  },
+};
+
+// GitHub Pages also serves about.html at /about (extensionless), so the same
+// 'file' format and trailingSlash 'never' work under the /PECO-demo-website base.
 // https://astro.build/config
 export default defineConfig({
-  site: "https://www.pecoindustrial.co.uk",
+  site: GH_PAGES ? "https://liamstainton-eng.github.io" : "https://www.pecoindustrial.co.uk",
+  ...(GH_PAGES ? { base: BASE } : {}),
   trailingSlash: "never",
   build: {
     format: "file",
@@ -84,13 +108,15 @@ export default defineConfig({
   },
 
   markdown: {
-    processor: satteri({ hastPlugins: [tableHeaderScope] }),
+    processor: satteri({
+      hastPlugins: [tableHeaderScope, ...(GH_PAGES ? [baseLinks] : [])],
+    }),
   },
 
   integrations: [
     sitemap({
       filter: (page) => {
-        const path = new URL(page).pathname
+        const path = stripBase(new URL(page).pathname, BASE)
           .replace(/\.html$/, "")
           .replace(/\/$/, "");
         return !unlisted.has(path) && !path.startsWith("/quote/thank-you");
